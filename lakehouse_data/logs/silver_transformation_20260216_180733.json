@@ -1,0 +1,30 @@
+{
+  "timestamp": "2026-02-16T18:07:33.084360",
+  "results": [
+    {
+      "status": "success",
+      "table": "app_events_silver",
+      "records": 1500,
+      "deduped": 0,
+      "invalid": "0",
+      "timestamp": "2026-02-16T18:07:32.185863"
+    },
+    {
+      "status": "success",
+      "table": "clickstream_silver",
+      "records": 800,
+      "timestamp": "2026-02-16T18:07:32.782731"
+    },
+    {
+      "status": "success",
+      "table": "users_silver",
+      "records": 477,
+      "active_users": 477,
+      "timestamp": "2026-02-16T18:07:33.083982"
+    }
+  ],
+  "summary": {
+    "total_records": 2777,
+    "successful": 3
+  }
+}

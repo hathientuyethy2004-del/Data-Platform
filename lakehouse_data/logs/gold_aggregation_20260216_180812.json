@@ -1,0 +1,34 @@
+{
+  "timestamp": "2026-02-16T18:08:12.164958",
+  "results": [
+    {
+      "status": "failed",
+      "error": "Invalid frequency: 1H. Failed to parse with error message: ValueError(\"Invalid frequency: H. Failed to parse with error message: KeyError('H'). Did you mean h?\")"
+    },
+    {
+      "status": "success",
+      "table": "user_segments_gold",
+      "records": 477,
+      "segments": {
+        "Active": "260",
+        "Regular": "185",
+        "VIP": "32"
+      },
+      "timestamp": "2026-02-16T18:08:12.076878"
+    },
+    {
+      "status": "success",
+      "table": "daily_summary_gold",
+      "records": 2,
+      "timestamp": "2026-02-16T18:08:12.139354"
+    },
+    {
+      "status": "failed",
+      "error": "Invalid frequency: 1H. Failed to parse with error message: ValueError(\"Invalid frequency: H. Failed to parse with error message: KeyError('H'). Did you mean h?\")"
+    }
+  ],
+  "summary": {
+    "total_records": 479,
+    "successful": 2
+  }
+}

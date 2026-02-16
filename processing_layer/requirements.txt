@@ -1,0 +1,16 @@
+# Processing Layer Requirements
+# Apache Spark + PySpark for data processing
+# Kafka client for stream consumption
+
+# Core dependencies
+pyspark==3.5.0
+python-snappy==0.6.1
+kafka-python==2.0.2
+
+# Data processing
+numpy>=1.24.0
+pandas>=2.0.0
+
+# Utilities
+python-dateutil>=2.8.0
+pytz>=2023.3

@@ -1,0 +1,38 @@
+{
+  "timestamp": "2026-02-16T18:08:41.570382",
+  "results": [
+    {
+      "status": "success",
+      "table": "event_metrics_gold",
+      "records": 423,
+      "timestamp": "2026-02-16T18:08:41.455542"
+    },
+    {
+      "status": "success",
+      "table": "user_segments_gold",
+      "records": 477,
+      "segments": {
+        "Active": "260",
+        "Regular": "185",
+        "VIP": "32"
+      },
+      "timestamp": "2026-02-16T18:08:41.483216"
+    },
+    {
+      "status": "success",
+      "table": "daily_summary_gold",
+      "records": 2,
+      "timestamp": "2026-02-16T18:08:41.514602"
+    },
+    {
+      "status": "success",
+      "table": "hourly_metrics_gold",
+      "records": 25,
+      "timestamp": "2026-02-16T18:08:41.569596"
+    }
+  ],
+  "summary": {
+    "total_records": 927,
+    "successful": 4
+  }
+}

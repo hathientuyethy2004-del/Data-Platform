@@ -15,7 +15,7 @@ services:
       kafka:
         condition: service_healthy
     environment:
-      KAFKA_BOOTSTRAP_SERVER: kafka:9092
+      KAFKA_BOOTSTRAP_SERVER: localhost:9092 
       CONSUMER_GROUP: app_events_consumer
       KAFKA_TOPICS: topic_app_events
       LOG_LEVEL: INFO
@@ -40,7 +40,7 @@ services:
       kafka:
         condition: service_healthy
     environment:
-      KAFKA_BOOTSTRAP_SERVER: kafka:9092
+      KAFKA_BOOTSTRAP_SERVER: localhost:9092 
       CONSUMER_GROUP: cdc_consumer
       KAFKA_TOPICS: topic_cdc_changes
       LOG_LEVEL: INFO
@@ -65,7 +65,7 @@ services:
       kafka:
         condition: service_healthy
     environment:
-      KAFKA_BOOTSTRAP_SERVER: kafka:9092
+      KAFKA_BOOTSTRAP_SERVER: localhost:9092 
       CONSUMER_GROUP: clickstream_consumer
       KAFKA_TOPICS: topic_clickstream
       LOG_LEVEL: INFO
@@ -90,7 +90,7 @@ services:
       kafka:
         condition: service_healthy
     environment:
-      KAFKA_BOOTSTRAP_SERVER: kafka:9092
+      KAFKA_BOOTSTRAP_SERVER: localhost:9092 
       CONSUMER_GROUP: external_data_consumer
       KAFKA_TOPICS: topic_external_data
       LOG_LEVEL: INFO
@@ -115,7 +115,7 @@ services:
       kafka:
         condition: service_healthy
     environment:
-      KAFKA_BOOTSTRAP_SERVER: kafka:9092
+      KAFKA_BOOTSTRAP_SERVER: localhost:9092 
       CONSUMER_GROUP: unified_consumer
       KAFKA_TOPICS: topic_app_events,topic_cdc_changes,topic_clickstream,topic_external_data
       LOG_LEVEL: INFO

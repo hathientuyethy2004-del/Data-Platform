@@ -21,8 +21,8 @@ class ConnectionConfig:
     bootstrap_servers: str
     
     # Retry settings
-    max_retries: int = 3
-    initial_retry_backoff_ms: int = 100
+    max_retries: int = 5
+    initial_retry_backoff_ms: int = 200
     max_retry_backoff_ms: int = 32000
     
     # Timeout settings
@@ -116,31 +116,54 @@ class KafkaConnectionPool:
         """Tạo producer với retry logic"""
         retry_count = 0
         backoff_ms = self.config.initial_retry_backoff_ms
+        # Try preferred compressions then fallback if codec not available
+        compression_candidates = ['snappy', 'gzip', None]
 
         while retry_count < self.config.max_retries:
             try:
                 logger.info(f"📤 Creating Kafka producer (attempt {retry_count + 1})...")
-                
-                self.producer = KafkaProducer(
-                    bootstrap_servers=self.config.bootstrap_servers,
-                    acks='all',
-                    retries=3,
-                    max_in_flight_requests_per_connection=1,
-                    request_timeout_ms=self.config.request_timeout_ms,
-                    linger_ms=self.config.linger_ms,
-                    batch_size=self.config.batch_size,
-                    compression_type='snappy',
-                    **self.config.extra
-                )
-                
-                logger.info("✅ Kafka producer created successfully")
-                self.health_checker.record_success()
-                return self.producer
+
+                for compression in compression_candidates:
+                    try:
+                        kwargs = dict(
+                            bootstrap_servers=self.config.bootstrap_servers,
+                            acks='all',
+                            retries=self.config.max_retries,
+                            max_in_flight_requests_per_connection=1,
+                            request_timeout_ms=self.config.request_timeout_ms,
+                            linger_ms=self.config.linger_ms,
+                            batch_size=self.config.batch_size,
+                            **self.config.extra
+                        )
+                        if compression is not None:
+                            kwargs['compression_type'] = compression
+
+                        logger.info(f"   Trying producer compression='{compression}'")
+                        producer = KafkaProducer(**kwargs)
+                        # ensure producer connected to bootstrap
+                        if hasattr(producer, 'bootstrap_connected') and producer.bootstrap_connected():
+                            self.producer = producer
+                            logger.info(f"✅ Kafka producer created successfully (compression={compression})")
+                            self.health_checker.record_success()
+                            return self.producer
+                        else:
+                            # close and continue trying
+                            try:
+                                producer.close()
+                            except Exception:
+                                pass
+
+                    except Exception as ce:
+                        logger.warning(f"   Compression {compression} failed: {ce}")
+                        # try next compression candidate
+
+                # If none of the compression candidates produced a working producer, raise
+                raise KafkaError("All compression attempts failed or producer not connected")
 
             except Exception as e:
                 retry_count += 1
                 self.health_checker.record_failure()
-                
+
                 if retry_count < self.config.max_retries:
                     logger.warning(
                         f"❌ Failed to create producer (attempt {retry_count}): {e}\n"
@@ -149,7 +172,7 @@ class KafkaConnectionPool:
                     time.sleep(backoff_ms / 1000)
                     backoff_ms = min(backoff_ms * 2, self.config.max_retry_backoff_ms)
                 else:
-                    logger.error(f"❌ Failed to create producer after {self.config.max_retries} attempts")
+                    logger.error(f"❌ Failed to create producer after {self.config.max_retries} attempts: {e}")
                     self.producer = None
                     return None
 

@@ -1,25 +1,27 @@
-# 🚀 Data Platform - Complete Data Ingestion Architecture
+# 🚀 Data Platform - Complete Data Ingestion & Processing Architecture
 
-> A comprehensive, production-ready data platform built with Kafka, Apache ecosystem, and modern Python.
+> A comprehensive, production-ready data platform built with Kafka, Apache Spark, and modern Python.
 
 ## 📋 Overview
 
-This is a **three-tier data platform** demonstrating complete data flow from sources to ingestion:
+This is a **four-tier data platform** demonstrating complete data flow from sources through real-time and batch processing:
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│  TIER 1: DATA SOURCES LAYER                                 │
-│  └─ 5 Data Simulators (Mobile, Web, CDC, Clickstream, etc)  │
-│          ↓ (produces ~100+ msgs/sec)                        │
-│  TIER 2: KAFKA CLUSTER                                      │
-│  └─ 4 Topics with Confluent Schema Registry                 │
-│          ↓ (consumes data)                                  │
-│  TIER 3: INGESTION LAYER ✨                                 │
-│  └─ 5 Parallel Consumers, Validators, Metrics               │
-│          ↓ (validated, enriched data)                       │
-│  TIER 4: Processing Layer (future)                          │
-│  └─ Spark Streaming, Airflow Orchestration                  │
-└─────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────┐
+│  TIER 1: DATA SOURCES LAYER                                  │
+│  └─ 5 Data Simulators (Mobile, Web, CDC, Clickstream, etc)   │
+│          ↓ (produces ~100+ msgs/sec)                         │
+│  TIER 2: KAFKA CLUSTER                                       │
+│  └─ 4 Topics with Event Streaming & Schema Registry          │
+│          ↓ (validated data in topics)                        │
+│  TIER 3: INGESTION LAYER ✨                                  │
+│  └─ 5 Consumers, Validators, Metrics, Health Checks          │
+│          ↓ (enriched & validated events)                     │
+│  TIER 4: PROCESSING LAYER ✨ NEW!                            │
+│  ├─ 🟡 Spark Streaming (real-time aggregation, enrichment)   │
+│  ├─ 🟢 Spark Batch (hourly/daily analytics)                  │
+│  └─ 📊 Parquet/Delta Output (scalable data lake)             │
+└──────────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -125,8 +127,25 @@ Data-Platform/
 │   ├── docker-compose.yml          # Containers
 │   ├── README.md                   # Full documentation
 │   ├── QUICK_START.md              # Quick setup guide
-│   ├── ARCHITECTURE.md             # Design details
-│   └── FILE_INDEX.md               # File reference
+│   └── ARCHITECTURE.md             # Design details
+│
+├── processing_layer/               # TIER 4: Processing Layer ✨ NEW!
+│   ├── orchestrator.py             # Job orchestrator
+│   ├── jobs/
+│   │   ├── streaming/              # Real-time Spark jobs
+│   │   │   ├── event_aggregation.py
+│   │   │   ├── clickstream_analysis.py
+│   │   │   ├── data_enrichment.py
+│   │   │   └── cdc_transformation.py
+│   │   └── batch/                  # Scheduled batch jobs
+│   │       ├── hourly_aggregate.py
+│   │       ├── daily_summary.py
+│   │       └── user_segmentation.py
+│   ├── configs/                    # Spark configuration
+│   ├── utils/                      # Spark & transformation utilities
+│   ├── docker-compose.yml          # Spark cluster setup
+│   ├── README.md                   # Full documentation
+│   └── QUICK_START.md              # Quick setup guide
 │
 └── README.md                       # This file
 ```

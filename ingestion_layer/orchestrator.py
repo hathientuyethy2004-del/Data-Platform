@@ -181,12 +181,31 @@ class IngestionLayerOrchestrator:
         logger.info(f"\n{'='*70}")
         logger.info(f"🚀 STARTING INGESTION LAYER")
         logger.info(f"{'='*70}\n")
-        # Initialize Kafka cluster manager and create topics (best-effort)
+        # Initialize Kafka cluster manager and wait for cluster readiness (best-effort)
         try:
             self.cluster_manager = create_cluster_manager(KAFKA_BOOTSTRAP_SERVER)
             if self.cluster_manager:
-                success, created = self.cluster_manager.create_topics(TOPICS_CONFIG)
-                logger.info(f"📦 Topic creation attempted: success={success}, created={created}")
+                # Wait for cluster to become healthy before attempting topic creation
+                def wait_for_cluster(timeout_sec: int = 60, interval_sec: int = 3) -> bool:
+                    start = time.time()
+                    while time.time() - start < timeout_sec:
+                        try:
+                            healthy = self.cluster_manager.health_check()
+                            if healthy:
+                                return True
+                        except Exception:
+                            pass
+                        time.sleep(interval_sec)
+                    return False
+
+                if wait_for_cluster(timeout_sec=60, interval_sec=3):
+                    try:
+                        success, created = self.cluster_manager.create_topics(TOPICS_CONFIG)
+                        logger.info(f"📦 Topic creation attempted: success={success}, created={created}")
+                    except Exception as e:
+                        logger.warning(f"⚠️  Exception creating topics: {e}")
+                else:
+                    logger.warning("⚠️  Kafka cluster not healthy within timeout; skipping topic creation")
             else:
                 logger.warning("⚠️  Kafka cluster manager not available; skipping topic creation")
         except Exception as e:

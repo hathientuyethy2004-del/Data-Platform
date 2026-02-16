@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  # ============================================================================
+  # LAKEHOUSE API SERVER
+  # ============================================================================
+  lakehouse-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: lakehouse-api
+    ports:
+      - "8888:8888"
+    environment:
+      SPARK_MASTER: spark://spark-master:7077
+      LAKEHOUSE_BASE_PATH: /var/lib/lakehouse
+      BRONZE_PATH: /var/lib/lakehouse/bronze
+      SILVER_PATH: /var/lib/lakehouse/silver
+      GOLD_PATH: /var/lib/lakehouse/gold
+      STAGING_PATH: /var/lib/lakehouse/staging
+      ARCHIVE_PATH: /var/lib/lakehouse/archive
+      LOG_LEVEL: INFO
+      LOGS_DIR: /var/lib/lakehouse/logs
+      PROCESSING_LAYER_OUTPUTS: /workspaces/Data-Platform/processing_layer/outputs
+    volumes:
+      - lakehouse-bronze:/var/lib/lakehouse/bronze
+      - lakehouse-silver:/var/lib/lakehouse/silver
+      - lakehouse-gold:/var/lib/lakehouse/gold
+      - lakehouse-staging:/var/lib/lakehouse/staging
+      - lakehouse-archive:/var/lib/lakehouse/archive
+      - lakehouse-logs:/var/lib/lakehouse/logs
+      - lakehouse-catalog:/var/lib/lakehouse/catalog
+    depends_on:
+      - spark-master
+    networks:
+      - data-platform
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8888/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  data-platform:
+    external: true
+
+volumes:
+  lakehouse-bronze:
+  lakehouse-silver:
+  lakehouse-gold:
+  lakehouse-staging:
+  lakehouse-archive:
+  lakehouse-logs:
+  lakehouse-catalog:

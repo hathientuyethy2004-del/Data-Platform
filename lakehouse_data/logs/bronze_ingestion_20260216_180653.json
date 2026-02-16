@@ -1,0 +1,34 @@
+{
+  "timestamp": "2026-02-16T18:06:53.892015",
+  "results": [
+    {
+      "status": "success",
+      "table": "app_events_bronze",
+      "records": 1500,
+      "source": "/workspaces/Data-Platform/processing_layer/outputs/events_aggregated_realtime/data.parquet",
+      "target": "/workspaces/Data-Platform/lakehouse_data/bronze/app_events",
+      "timestamp": "2026-02-16T18:06:53.752810"
+    },
+    {
+      "status": "success",
+      "table": "clickstream_bronze",
+      "records": 800,
+      "source": "/workspaces/Data-Platform/processing_layer/outputs/clickstream_sessions/data.parquet",
+      "target": "/workspaces/Data-Platform/lakehouse_data/bronze/clickstream",
+      "timestamp": "2026-02-16T18:06:53.843864"
+    },
+    {
+      "status": "success",
+      "table": "cdc_changes_bronze",
+      "records": 300,
+      "source": "/workspaces/Data-Platform/processing_layer/outputs/cdc_transformed/data.parquet",
+      "target": "/workspaces/Data-Platform/lakehouse_data/bronze/cdc_changes",
+      "timestamp": "2026-02-16T18:06:53.888919"
+    }
+  ],
+  "summary": {
+    "total_records": 2600,
+    "successful": 3,
+    "failed": 0
+  }
+}
