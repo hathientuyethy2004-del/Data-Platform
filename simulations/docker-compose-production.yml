@@ -1,0 +1,370 @@
+version: '3.8'
+
+services:
+  # Zookeeper - Kafka coordination
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_SYNC_LIMIT: 5
+      ZOOKEEPER_INIT_LIMIT: 10
+    ports:
+      - "2181:2181"
+    networks:
+      - data-platform
+    healthcheck:
+      test: ["CMD", "echo", "ruok", "|", "nc", "localhost", "2181"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Apache Kafka - Event streaming platform
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    container_name: kafka
+    depends_on:
+      zookeeper:
+        condition: service_healthy
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_DELETE_TOPIC_ENABLE: "true"
+      KAFKA_LOG_RETENTION_HOURS: 168
+      KAFKA_LOG_SEGMENT_BYTES: 1073741824
+      KAFKA_COMPRESSION_TYPE: snappy
+      KAFKA_NUM_PARTITIONS: 6
+      KAFKA_DEFAULT_REPLICATION_FACTOR: 1
+      KAFKA_LOG4J_ROOT_LOGLEVEL: WARN
+    ports:
+      - "9092:9092"
+      - "29092:29092"
+    networks:
+      - data-platform
+    healthcheck:
+      test: ["CMD", "kafka-topics", "--bootstrap-server", "kafka:9092", "--list"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+    volumes:
+      - kafka-data:/var/lib/kafka/data
+
+  # Schema Registry - Avro schema management
+  schema-registry:
+    image: confluentinc/cp-schema-registry:7.5.0
+    container_name: schema-registry
+    depends_on:
+      kafka:
+        condition: service_healthy
+    environment:
+      SCHEMA_REGISTRY_HOST_NAME: schema-registry
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: kafka:9092
+      SCHEMA_REGISTRY_KAFKASTORE_SECURITY_PROTOCOL: PLAINTEXT
+      SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
+      SCHEMA_REGISTRY_DEBUG: "false"
+      SCHEMA_REGISTRY_LOG4J_ROOT_LOGLEVEL: WARN
+    ports:
+      - "8081:8081"
+    networks:
+      - data-platform
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/subjects"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # Kafka UI - Monitoring and management
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: kafka-ui
+    depends_on:
+      kafka:
+        condition: service_healthy
+    environment:
+      KAFKA_CLUSTERS_0_NAME: data-platform
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+      KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
+      KAFKA_CLUSTERS_0_SCHEMAREGISTRY: http://schema-registry:8081
+    ports:
+      - "8080:8080"
+    networks:
+      - data-platform
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8080"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # FastAPI Application Data Gateway
+  api:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile
+    container_name: api-gateway
+    depends_on:
+      kafka:
+        condition: service_healthy
+    environment:
+      KAFKA_BROKER: kafka:9092
+      LOG_LEVEL: INFO
+    ports:
+      - "8000:8000"
+    networks:
+      - data-platform
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    restart: unless-stopped
+
+  # Mobile App Simulator
+  mobile-simulator:
+    build:
+      context: ./apps/mobile
+      dockerfile: Dockerfile
+    container_name: mobile-simulator
+    depends_on:
+      - api
+    environment:
+      API_URL: http://api:8000
+    networks:
+      - data-platform
+    restart: unless-stopped
+
+  # Web App Simulator
+  web-simulator:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile
+    container_name: web-simulator
+    depends_on:
+      - api
+    environment:
+      API_URL: http://api:8000
+    networks:
+      - data-platform
+    restart: unless-stopped
+
+  # PostgreSQL with CDC enabled
+  postgres:
+    image: postgres:15-alpine
+    container_name: postgres
+    environment:
+      POSTGRES_USER: dbuser
+      POSTGRES_PASSWORD: dbpassword
+      POSTGRES_DB: travel_booking
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./postgres_cdc/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - data-platform
+    command:
+      - "postgres"
+      - "-c"
+      - "wal_level=logical"
+      - "-c"
+      - "max_wal_senders=10"
+      - "-c"
+      - "max_replication_slots=10"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dbuser"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # CDC Simulator (simulates Debezium)
+  cdc-simulator:
+    build:
+      context: ./postgres_cdc
+      dockerfile: Dockerfile
+    container_name: cdc-simulator
+    depends_on:
+      kafka:
+        condition: service_healthy
+    environment:
+      KAFKA_BROKER: kafka:9092
+      POSTGRES_HOST: postgres
+    networks:
+      - data-platform
+    restart: unless-stopped
+
+  # Spark Master
+  spark-master:
+    image: bitnami/spark:3.5.0
+    container_name: spark-master
+    environment:
+      SPARK_MODE: master
+      SPARK_RPC_AUTHENTICATION_ENABLED: "no"
+      SPARK_RPC_ENCRYPTION_ENABLED: "no"
+      SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED: "no"
+      SPARK_SSL_ENABLED: "no"
+    ports:
+      - "8181:8080"
+      - "7077:7077"
+    networks:
+      - data-platform
+    volumes:
+      - spark-data:/opt/spark-apps
+
+  # Spark Worker
+  spark-worker:
+    image: bitnami/spark:3.5.0
+    container_name: spark-worker
+    depends_on:
+      - spark-master
+    environment:
+      SPARK_MODE: worker
+      SPARK_MASTER_URL: spark://spark-master:7077
+      SPARK_WORKER_MEMORY: 2G
+      SPARK_WORKER_CORES: 2
+    networks:
+      - data-platform
+    volumes:
+      - spark-data:/opt/spark-apps
+
+  # Streaming Jobs Container
+  streaming-jobs:
+    image: bitnami/spark:3.5.0
+    container_name: streaming-jobs
+    depends_on:
+      - spark-master
+      - kafka
+    environment:
+      SPARK_MASTER_URL: spark://spark-master:7077
+    networks:
+      - data-platform
+    command: spark-submit --master spark://spark-master:7077 /app/streaming_jobs.py
+    volumes:
+      - ./spark_streaming:/app
+
+  # PostgreSQL for Airflow metadata
+  airflow-postgres:
+    image: postgres:15-alpine
+    container_name: airflow-postgres
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    ports:
+      - "5433:5432"
+    volumes:
+      - airflow-postgres-data:/var/lib/postgresql/data
+    networks:
+      - data-platform
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U airflow"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Apache Airflow Web Server
+  airflow-webserver:
+    image: apache/airflow:2.7.3-python3.11
+    container_name: airflow-webserver
+    depends_on:
+      airflow-postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    environment:
+      AIRFLOW_HOME: /airflow
+      AIRFLOW__CORE__DAGS_FOLDER: /airflow/dags
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql://airflow:airflow@airflow-postgres:5432/airflow
+      AIRFLOW__CORE__FERNET_KEY: Z0Z0Z0Z0Z0Z0Z0Z0Z0Z0Z0Z0Z0Z0Z0Z0=
+      AIRFLOW__CORE__LOAD_EXAMPLES: "False"
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__WEBSERVER__EXPOSE_CONFIG: "False"
+    ports:
+      - "8888:8080"
+    volumes:
+      - ./airflow/dags:/airflow/dags
+      - ./airflow/logs:/airflow/logs
+      - ./airflow/plugins:/airflow/plugins
+    networks:
+      - data-platform
+    command: webserver
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    restart: unless-stopped
+
+  # Apache Airflow Scheduler
+  airflow-scheduler:
+    image: apache/airflow:2.7.3-python3.11
+    container_name: airflow-scheduler
+    depends_on:
+      airflow-postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    environment:
+      AIRFLOW_HOME: /airflow
+      AIRFLOW__CORE__DAGS_FOLDER: /airflow/dags
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql://airflow:airflow@airflow-postgres:5432/airflow
+      AIRFLOW__CORE__FERNET_KEY: Z0Z0Z0Z0Z0Z0Z0Z0Z0Z0Z0Z0Z0Z0Z0Z0=
+      AIRFLOW__CORE__LOAD_EXAMPLES: "False"
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__WEBSERVER__EXPOSE_CONFIG: "False"
+    volumes:
+      - ./airflow/dags:/airflow/dags
+      - ./airflow/logs:/airflow/logs
+      - ./airflow/plugins:/airflow/plugins
+    networks:
+      - data-platform
+    command: scheduler
+    restart: unless-stopped
+
+  # Clickstream Simulator
+  clickstream-simulator:
+    image: python:3.11-slim
+    container_name: clickstream-simulator
+    depends_on:
+      kafka:
+        condition: service_healthy
+    environment:
+      KAFKA_BROKER: kafka:9092
+    networks:
+      - data-platform
+    volumes:
+      - ./clickstream:/app
+    working_dir: /app
+    command: python simulator.py
+    restart: unless-stopped
+
+  # External Data Simulator
+  external-data-simulator:
+    image: python:3.11-slim
+    container_name: external-data-simulator
+    depends_on:
+      kafka:
+        condition: service_healthy
+    environment:
+      KAFKA_BROKER: kafka:9092
+    networks:
+      - data-platform
+    volumes:
+      - ./external_data:/app
+    working_dir: /app
+    command: python simulator.py
+    restart: unless-stopped
+
+networks:
+  data-platform:
+    driver: bridge
+
+volumes:
+  kafka-data:
+  postgres-data:
+  airflow-postgres-data:
+  spark-data:

@@ -1,0 +1,74 @@
+{
+  "namespace": "com.dataplatform.cdc",
+  "name": "CDCChange",
+  "type": "record",
+  "fields": [
+    {
+      "name": "change_id",
+      "type": "string",
+      "doc": "Unique change identifier"
+    },
+    {
+      "name": "table_name",
+      "type": "string",
+      "doc": "Source table name"
+    },
+    {
+      "name": "operation",
+      "type": {
+        "type": "enum",
+        "name": "Operation",
+        "symbols": ["INSERT", "UPDATE", "DELETE"]
+      },
+      "doc": "Database operation"
+    },
+    {
+      "name": "primary_key",
+      "type": {
+        "type": "map",
+        "values": "string"
+      },
+      "doc": "Primary key fields"
+    },
+    {
+      "name": "before_values",
+      "type": [
+        "null",
+        {
+          "type": "map",
+          "values": "string"
+        }
+      ],
+      "default": null,
+      "doc": "Values before change (for UPDATE/DELETE)"
+    },
+    {
+      "name": "after_values",
+      "type": [
+        "null",
+        {
+          "type": "map",
+          "values": "string"
+        }
+      ],
+      "default": null,
+      "doc": "Values after change (for INSERT/UPDATE)"
+    },
+    {
+      "name": "timestamp",
+      "type": "long",
+      "logicalType": "timestamp-millis",
+      "doc": "Change capture timestamp"
+    },
+    {
+      "name": "source_database",
+      "type": {
+        "type": "enum",
+        "name": "Database",
+        "symbols": ["PostgreSQL", "MySQL", "MongoDB"]
+      },
+      "doc": "Source database type"
+    }
+  ],
+  "doc": "CDC change captured from source database"
+}

@@ -1,0 +1,52 @@
+{
+  "namespace": "com.dataplatform.events",
+  "name": "AppEvent",
+  "type": "record",
+  "fields": [
+    {
+      "name": "event_id",
+      "type": "string",
+      "doc": "Unique event identifier"
+    },
+    {
+      "name": "event_type",
+      "type": "string",
+      "doc": "Type of event (page_view, click, search, etc.)"
+    },
+    {
+      "name": "user_id",
+      "type": "string",
+      "doc": "User identifier"
+    },
+    {
+      "name": "session_id",
+      "type": "string",
+      "doc": "Session identifier"
+    },
+    {
+      "name": "app_type",
+      "type": {
+        "type": "enum",
+        "name": "AppType",
+        "symbols": ["mobile", "web", "api"]
+      },
+      "doc": "Application type"
+    },
+    {
+      "name": "timestamp",
+      "type": "long",
+      "logicalType": "timestamp-millis",
+      "doc": "Event timestamp in milliseconds"
+    },
+    {
+      "name": "properties",
+      "type": {
+        "type": "map",
+        "values": "string"
+      },
+      "doc": "Additional event properties",
+      "default": {}
+    }
+  ],
+  "doc": "Application event from mobile/web apps"
+}

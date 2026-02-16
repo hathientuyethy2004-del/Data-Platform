@@ -1,0 +1,49 @@
+{
+  "namespace": "com.dataplatform.streaming",
+  "name": "AppLog",
+  "type": "record",
+  "fields": [
+    {
+      "name": "log_id",
+      "type": "string",
+      "doc": "Unique log identifier"
+    },
+    {
+      "name": "service_name",
+      "type": "string",
+      "doc": "Service name"
+    },
+    {
+      "name": "log_level",
+      "type": {
+        "type": "enum",
+        "name": "LogLevel",
+        "symbols": ["DEBUG", "INFO", "WARN", "ERROR", "FATAL"]
+      },
+      "doc": "Log level"
+    },
+    {
+      "name": "message",
+      "type": "string",
+      "doc": "Log message"
+    },
+    {
+      "name": "timestamp",
+      "type": "long",
+      "logicalType": "timestamp-millis",
+      "doc": "Log timestamp"
+    },
+    {
+      "name": "source_host",
+      "type": "string",
+      "doc": "Source host/pod"
+    },
+    {
+      "name": "stack_trace",
+      "type": ["null", "string"],
+      "default": null,
+      "doc": "Stack trace if error"
+    }
+  ],
+  "doc": "Application log event"
+}

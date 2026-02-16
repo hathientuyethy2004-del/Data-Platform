@@ -1,0 +1,58 @@
+{
+  "namespace": "com.dataplatform.streaming",
+  "name": "Clickstream",
+  "type": "record",
+  "fields": [
+    {
+      "name": "click_id",
+      "type": "string",
+      "doc": "Unique click identifier"
+    },
+    {
+      "name": "user_id",
+      "type": "string",
+      "doc": "User identifier"
+    },
+    {
+      "name": "session_id",
+      "type": "string",
+      "doc": "Session identifier"
+    },
+    {
+      "name": "page_url",
+      "type": "string",
+      "doc": "Page URL"
+    },
+    {
+      "name": "element_id",
+      "type": "string",
+      "doc": "Clicked element identifier"
+    },
+    {
+      "name": "x_coordinate",
+      "type": "int",
+      "doc": "Click X coordinate"
+    },
+    {
+      "name": "y_coordinate",
+      "type": "int",
+      "doc": "Click Y coordinate"
+    },
+    {
+      "name": "timestamp",
+      "type": "long",
+      "logicalType": "timestamp-millis",
+      "doc": "Click timestamp"
+    },
+    {
+      "name": "device_type",
+      "type": {
+        "type": "enum",
+        "name": "DeviceType",
+        "symbols": ["mobile", "tablet", "desktop"]
+      },
+      "doc": "Device type"
+    }
+  ],
+  "doc": "Clickstream event"
+}
