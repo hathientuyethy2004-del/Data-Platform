@@ -1,0 +1,135 @@
+version: '3.8'
+
+services:
+  # ============================================================================
+  # INGESTION LAYER - Consume từ DATA SOURCES LAYER
+  # ============================================================================
+
+  # App Events Ingestion Consumer
+  ingestion-app-events:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ingestion-app-events
+    depends_on:
+      kafka:
+        condition: service_healthy
+    environment:
+      KAFKA_BOOTSTRAP_SERVER: kafka:9092
+      CONSUMER_GROUP: app_events_consumer
+      KAFKA_TOPICS: topic_app_events
+      LOG_LEVEL: INFO
+    networks:
+      - data-platform
+    volumes:
+      - ./logs:/var/log/ingestion_layer
+    healthcheck:
+      test: ["CMD", "python", "-c", "import sys; sys.exit(0)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+  # CDC Changes Ingestion Consumer
+  ingestion-cdc-changes:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ingestion-cdc-changes
+    depends_on:
+      kafka:
+        condition: service_healthy
+    environment:
+      KAFKA_BOOTSTRAP_SERVER: kafka:9092
+      CONSUMER_GROUP: cdc_consumer
+      KAFKA_TOPICS: topic_cdc_changes
+      LOG_LEVEL: INFO
+    networks:
+      - data-platform
+    volumes:
+      - ./logs:/var/log/ingestion_layer
+    healthcheck:
+      test: ["CMD", "python", "-c", "import sys; sys.exit(0)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+  # Clickstream Ingestion Consumer
+  ingestion-clickstream:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ingestion-clickstream
+    depends_on:
+      kafka:
+        condition: service_healthy
+    environment:
+      KAFKA_BOOTSTRAP_SERVER: kafka:9092
+      CONSUMER_GROUP: clickstream_consumer
+      KAFKA_TOPICS: topic_clickstream
+      LOG_LEVEL: INFO
+    networks:
+      - data-platform
+    volumes:
+      - ./logs:/var/log/ingestion_layer
+    healthcheck:
+      test: ["CMD", "python", "-c", "import sys; sys.exit(0)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+  # External Data Ingestion Consumer
+  ingestion-external-data:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ingestion-external-data
+    depends_on:
+      kafka:
+        condition: service_healthy
+    environment:
+      KAFKA_BOOTSTRAP_SERVER: kafka:9092
+      CONSUMER_GROUP: external_data_consumer
+      KAFKA_TOPICS: topic_external_data
+      LOG_LEVEL: INFO
+    networks:
+      - data-platform
+    volumes:
+      - ./logs:/var/log/ingestion_layer
+    healthcheck:
+      test: ["CMD", "python", "-c", "import sys; sys.exit(0)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+  # Unified Ingestion Consumer (consume tất cả topics)
+  ingestion-unified:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ingestion-unified
+    depends_on:
+      kafka:
+        condition: service_healthy
+    environment:
+      KAFKA_BOOTSTRAP_SERVER: kafka:9092
+      CONSUMER_GROUP: unified_consumer
+      KAFKA_TOPICS: topic_app_events,topic_cdc_changes,topic_clickstream,topic_external_data
+      LOG_LEVEL: INFO
+    networks:
+      - data-platform
+    volumes:
+      - ./logs:/var/log/ingestion_layer
+    healthcheck:
+      test: ["CMD", "python", "-c", "import sys; sys.exit(0)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+networks:
+  data-platform:
+    external: true

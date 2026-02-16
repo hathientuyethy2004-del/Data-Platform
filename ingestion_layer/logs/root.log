@@ -1,0 +1,307 @@
+2026-02-16 12:55:17 [INFO] ingestion_layer.kafka_cluster.kafka_manager: 🔧 Initializing KafkaClusterManager
+2026-02-16 12:55:17 [INFO] ingestion_layer.kafka_cluster.kafka_manager:    Bootstrap servers: ['localhost:9092']
+2026-02-16 12:55:17 [INFO] ingestion_layer.kafka_cluster.kafka_manager:    Request timeout: 10000ms
+2026-02-16 12:55:17 [INFO] ingestion_layer.kafka_cluster.kafka_manager: 📡 Connecting to Kafka cluster...
+2026-02-16 12:55:17 [ERROR] ingestion_layer.kafka_cluster.kafka_manager: ❌ Failed to connect to Kafka: KafkaConfigurationError: Unrecognized configs: {'retries'}
+2026-02-16 12:55:34 [INFO] ingestion_layer.kafka_cluster.kafka_manager: 🔧 Initializing KafkaClusterManager
+2026-02-16 12:55:34 [INFO] ingestion_layer.kafka_cluster.kafka_manager:    Bootstrap servers: ['localhost:9092']
+2026-02-16 12:55:34 [INFO] ingestion_layer.kafka_cluster.kafka_manager:    Request timeout: 10000ms
+2026-02-16 12:55:34 [INFO] ingestion_layer.kafka_cluster.kafka_manager: 📡 Connecting to Kafka cluster...
+2026-02-16 12:55:34 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.3.0, node_id=bootstrap-0 host=localhost:9092 <connecting> [IPv6 ('::1', 9092, 0, 0)]>: connecting to localhost:9092 [('::1', 9092, 0, 0) IPv6]
+2026-02-16 12:55:34 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.3.0, node_id=bootstrap-0 host=localhost:9092 <checking_api_versions_recv> [IPv6 ('::1', 9092, 0, 0)]>: Broker version identified as 2.6
+2026-02-16 12:55:34 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.3.0, node_id=bootstrap-0 host=localhost:9092 <connected> [IPv6 ('::1', 9092, 0, 0)]>: Connection complete.
+2026-02-16 12:55:34 [WARNING] kafka.conn: DNS lookup failed for kafka:9092, exception was [Errno -2] Name or service not known. Is your advertised.listeners (called advertised.host.name before Kafka 9) correct and resolvable?
+2026-02-16 12:55:34 [ERROR] kafka.conn: <BrokerConnection client_id=kafka-python-2.3.0, node_id=1 host=kafka:9092 <connecting> [unspecified None]>: DNS lookup failed for kafka:9092 (0)
+2026-02-16 12:55:34 [ERROR] kafka.conn: <BrokerConnection client_id=kafka-python-2.3.0, node_id=1 host=kafka:9092 <connecting> [unspecified None]>: Closing connection. KafkaConnectionError: DNS failure
+2026-02-16 12:55:34 [WARNING] kafka.client: Node 1 connection failed -- refreshing metadata
+2026-02-16 12:55:34 [ERROR] ingestion_layer.kafka_cluster.kafka_manager: ❌ Failed to connect to Kafka: NodeNotReadyError: Connection failed to 1
+2026-02-16 12:58:25 [INFO] ingestion_layer.kafka_cluster.kafka_manager: 🔧 Initializing KafkaClusterManager
+2026-02-16 12:58:25 [INFO] ingestion_layer.kafka_cluster.kafka_manager:    Bootstrap servers: ['localhost:29092']
+2026-02-16 12:58:25 [INFO] ingestion_layer.kafka_cluster.kafka_manager:    Request timeout: 10000ms
+2026-02-16 12:58:25 [INFO] ingestion_layer.kafka_cluster.kafka_manager: 📡 Connecting to Kafka cluster...
+2026-02-16 12:58:25 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.3.0, node_id=bootstrap-0 host=localhost:29092 <connecting> [IPv6 ('::1', 29092, 0, 0)]>: connecting to localhost:29092 [('::1', 29092, 0, 0) IPv6]
+2026-02-16 12:58:26 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.3.0, node_id=bootstrap-0 host=localhost:29092 <checking_api_versions_recv> [IPv6 ('::1', 29092, 0, 0)]>: Broker version identified as 2.6
+2026-02-16 12:58:26 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.3.0, node_id=bootstrap-0 host=localhost:29092 <connected> [IPv6 ('::1', 29092, 0, 0)]>: Connection complete.
+2026-02-16 12:58:26 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.3.0, node_id=1 host=localhost:29092 <connecting> [IPv6 ('::1', 29092, 0, 0)]>: connecting to localhost:29092 [('::1', 29092, 0, 0) IPv6]
+2026-02-16 12:58:26 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.3.0, node_id=1 host=localhost:29092 <connected> [IPv6 ('::1', 29092, 0, 0)]>: Connection complete.
+2026-02-16 12:58:26 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.3.0, node_id=bootstrap-0 host=localhost:29092 <connected> [IPv6 ('::1', 29092, 0, 0)]>: Closing connection. 
+2026-02-16 12:58:26 [ERROR] ingestion_layer.kafka_cluster.kafka_manager: ❌ Failed to connect to Kafka: 'KafkaAdminClient' object has no attribute 'cluster_metadata'
+2026-02-16 13:00:13 [INFO] ingestion_layer.kafka_cluster.kafka_manager: 🔧 Initializing KafkaClusterManager
+2026-02-16 13:00:13 [INFO] ingestion_layer.kafka_cluster.kafka_manager:    Bootstrap servers: ['localhost:29092']
+2026-02-16 13:00:13 [INFO] ingestion_layer.kafka_cluster.kafka_manager:    Request timeout: 10000ms
+2026-02-16 13:00:13 [INFO] ingestion_layer.kafka_cluster.kafka_manager: 📡 Connecting to Kafka cluster...
+2026-02-16 13:00:13 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.3.0, node_id=bootstrap-0 host=localhost:29092 <connecting> [IPv6 ('::1', 29092, 0, 0)]>: connecting to localhost:29092 [('::1', 29092, 0, 0) IPv6]
+2026-02-16 13:00:13 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.3.0, node_id=bootstrap-0 host=localhost:29092 <checking_api_versions_recv> [IPv6 ('::1', 29092, 0, 0)]>: Broker version identified as 2.6
+2026-02-16 13:00:13 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.3.0, node_id=bootstrap-0 host=localhost:29092 <connected> [IPv6 ('::1', 29092, 0, 0)]>: Connection complete.
+2026-02-16 13:00:13 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.3.0, node_id=1 host=localhost:29092 <connecting> [IPv6 ('::1', 29092, 0, 0)]>: connecting to localhost:29092 [('::1', 29092, 0, 0) IPv6]
+2026-02-16 13:00:13 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.3.0, node_id=1 host=localhost:29092 <connected> [IPv6 ('::1', 29092, 0, 0)]>: Connection complete.
+2026-02-16 13:00:13 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.3.0, node_id=bootstrap-0 host=localhost:29092 <connected> [IPv6 ('::1', 29092, 0, 0)]>: Closing connection. 
+2026-02-16 13:00:13 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.3.0, node_id=bootstrap-0 host=localhost:29092 <connecting> [IPv6 ('::1', 29092, 0, 0)]>: connecting to localhost:29092 [('::1', 29092, 0, 0) IPv6]
+2026-02-16 13:00:13 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.3.0, node_id=bootstrap-0 host=localhost:29092 <checking_api_versions_recv> [IPv6 ('::1', 29092, 0, 0)]>: Broker version identified as 2.6
+2026-02-16 13:00:13 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.3.0, node_id=bootstrap-0 host=localhost:29092 <connected> [IPv6 ('::1', 29092, 0, 0)]>: Connection complete.
+2026-02-16 13:00:13 [WARNING] kafka.coordinator.consumer: group_id is None: disabling auto-commit.
+2026-02-16 13:00:13 [INFO] ingestion_layer.kafka_cluster.kafka_manager: ✅ Connected to Kafka cluster
+2026-02-16 13:00:13 [INFO] ingestion_layer.kafka_cluster.kafka_manager:    Brokers: 1
+2026-02-16 13:00:13 [INFO] ingestion_layer.kafka_cluster.kafka_manager:    Topics: 4
+2026-02-16 13:00:14 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.3.0, node_id=1 host=localhost:29092 <connecting> [IPv6 ('::1', 29092, 0, 0)]>: connecting to localhost:29092 [('::1', 29092, 0, 0) IPv6]
+2026-02-16 13:00:14 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.3.0, node_id=1 host=localhost:29092 <connected> [IPv6 ('::1', 29092, 0, 0)]>: Connection complete.
+2026-02-16 13:00:14 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.3.0, node_id=bootstrap-0 host=localhost:29092 <connected> [IPv6 ('::1', 29092, 0, 0)]>: Closing connection. 
+2026-02-16 13:00:14 [ERROR] ingestion_layer.kafka_cluster.kafka_manager: ❌ Health check failed: name 'brokers' is not defined
+2026-02-16 13:00:14 [INFO] ingestion_layer.kafka_cluster.kafka_manager: 📋 Total topics: 4
+2026-02-16 13:00:14 [INFO] ingestion_layer.kafka_cluster.kafka_manager: 🖥️  1 brokers found
+2026-02-16 13:00:14 [INFO] ingestion_layer.kafka_cluster.kafka_manager:    Broker 1: localhost:29092
+2026-02-16 13:00:14 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.3.0, node_id=1 host=localhost:29092 <connected> [IPv6 ('::1', 29092, 0, 0)]>: Closing connection. 
+2026-02-16 13:00:14 [INFO] ingestion_layer.kafka_cluster.kafka_manager: ✅ Kafka cluster manager closed
+2026-02-16 13:00:42 [INFO] ingestion_layer.kafka_cluster.kafka_manager: 🔧 Initializing KafkaClusterManager
+2026-02-16 13:00:42 [INFO] ingestion_layer.kafka_cluster.kafka_manager:    Bootstrap servers: ['localhost:29092']
+2026-02-16 13:00:42 [INFO] ingestion_layer.kafka_cluster.kafka_manager:    Request timeout: 10000ms
+2026-02-16 13:00:42 [INFO] ingestion_layer.kafka_cluster.kafka_manager: 📡 Connecting to Kafka cluster...
+2026-02-16 13:00:42 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.3.0, node_id=bootstrap-0 host=localhost:29092 <connecting> [IPv6 ('::1', 29092, 0, 0)]>: connecting to localhost:29092 [('::1', 29092, 0, 0) IPv6]
+2026-02-16 13:00:42 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.3.0, node_id=bootstrap-0 host=localhost:29092 <checking_api_versions_recv> [IPv6 ('::1', 29092, 0, 0)]>: Broker version identified as 2.6
+2026-02-16 13:00:42 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.3.0, node_id=bootstrap-0 host=localhost:29092 <connected> [IPv6 ('::1', 29092, 0, 0)]>: Connection complete.
+2026-02-16 13:00:42 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.3.0, node_id=1 host=localhost:29092 <connecting> [IPv6 ('::1', 29092, 0, 0)]>: connecting to localhost:29092 [('::1', 29092, 0, 0) IPv6]
+2026-02-16 13:00:42 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.3.0, node_id=1 host=localhost:29092 <connected> [IPv6 ('::1', 29092, 0, 0)]>: Connection complete.
+2026-02-16 13:00:42 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.3.0, node_id=bootstrap-0 host=localhost:29092 <connected> [IPv6 ('::1', 29092, 0, 0)]>: Closing connection. 
+2026-02-16 13:00:42 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.3.0, node_id=bootstrap-0 host=localhost:29092 <connecting> [IPv6 ('::1', 29092, 0, 0)]>: connecting to localhost:29092 [('::1', 29092, 0, 0) IPv6]
+2026-02-16 13:00:42 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.3.0, node_id=bootstrap-0 host=localhost:29092 <checking_api_versions_recv> [IPv6 ('::1', 29092, 0, 0)]>: Broker version identified as 2.6
+2026-02-16 13:00:42 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.3.0, node_id=bootstrap-0 host=localhost:29092 <connected> [IPv6 ('::1', 29092, 0, 0)]>: Connection complete.
+2026-02-16 13:00:42 [WARNING] kafka.coordinator.consumer: group_id is None: disabling auto-commit.
+2026-02-16 13:00:42 [INFO] ingestion_layer.kafka_cluster.kafka_manager: ✅ Connected to Kafka cluster
+2026-02-16 13:00:42 [INFO] ingestion_layer.kafka_cluster.kafka_manager:    Brokers: 1
+2026-02-16 13:00:42 [INFO] ingestion_layer.kafka_cluster.kafka_manager:    Topics: 4
+2026-02-16 13:00:42 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.3.0, node_id=1 host=localhost:29092 <connecting> [IPv6 ('::1', 29092, 0, 0)]>: connecting to localhost:29092 [('::1', 29092, 0, 0) IPv6]
+2026-02-16 13:00:42 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.3.0, node_id=1 host=localhost:29092 <connected> [IPv6 ('::1', 29092, 0, 0)]>: Connection complete.
+2026-02-16 13:00:42 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.3.0, node_id=bootstrap-0 host=localhost:29092 <connected> [IPv6 ('::1', 29092, 0, 0)]>: Closing connection. 
+2026-02-16 13:00:42 [INFO] ingestion_layer.kafka_cluster.kafka_manager: ❤️  Kafka Health: healthy (1 brokers, 4 topics)
+2026-02-16 13:00:42 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.3.0, node_id=1 host=localhost:29092 <connected> [IPv6 ('::1', 29092, 0, 0)]>: Closing connection. 
+2026-02-16 13:00:42 [INFO] ingestion_layer.kafka_cluster.kafka_manager: ✅ Kafka cluster manager closed
+2026-02-16 13:00:53 [INFO] __main__: 🚀 Initializing INGESTION LAYER ORCHESTRATOR
+2026-02-16 13:00:53 [INFO] __main__: 📋 Consumer groups to start: ['app_events_consumer', 'cdc_consumer', 'clickstream_consumer', 'external_data_consumer', 'unified_consumer']
+2026-02-16 13:00:53 [INFO] __main__: 
+======================================================================
+2026-02-16 13:00:53 [INFO] __main__: 🚀 STARTING INGESTION LAYER
+2026-02-16 13:00:53 [INFO] __main__: ======================================================================
+
+2026-02-16 13:00:53 [INFO] kafka_cluster.kafka_manager: 🔧 Initializing KafkaClusterManager
+2026-02-16 13:00:53 [INFO] kafka_cluster.kafka_manager:    Bootstrap servers: ['localhost:9092']
+2026-02-16 13:00:53 [INFO] kafka_cluster.kafka_manager:    Request timeout: 10000ms
+2026-02-16 13:00:53 [INFO] kafka_cluster.kafka_manager: 📡 Connecting to Kafka cluster...
+2026-02-16 13:00:53 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.3.0, node_id=bootstrap-0 host=localhost:9092 <connecting> [IPv6 ('::1', 9092, 0, 0)]>: connecting to localhost:9092 [('::1', 9092, 0, 0) IPv6]
+2026-02-16 13:00:53 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.3.0, node_id=bootstrap-0 host=localhost:9092 <checking_api_versions_recv> [IPv6 ('::1', 9092, 0, 0)]>: Broker version identified as 2.6
+2026-02-16 13:00:53 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.3.0, node_id=bootstrap-0 host=localhost:9092 <connected> [IPv6 ('::1', 9092, 0, 0)]>: Connection complete.
+2026-02-16 13:00:53 [WARNING] kafka.conn: DNS lookup failed for kafka:9092, exception was [Errno -2] Name or service not known. Is your advertised.listeners (called advertised.host.name before Kafka 9) correct and resolvable?
+2026-02-16 13:00:53 [ERROR] kafka.conn: <BrokerConnection client_id=kafka-python-2.3.0, node_id=1 host=kafka:9092 <connecting> [unspecified None]>: DNS lookup failed for kafka:9092 (0)
+2026-02-16 13:00:53 [ERROR] kafka.conn: <BrokerConnection client_id=kafka-python-2.3.0, node_id=1 host=kafka:9092 <connecting> [unspecified None]>: Closing connection. KafkaConnectionError: DNS failure
+2026-02-16 13:00:53 [WARNING] kafka.client: Node 1 connection failed -- refreshing metadata
+2026-02-16 13:00:53 [ERROR] kafka_cluster.kafka_manager: ❌ Failed to connect to Kafka: NodeNotReadyError: Connection failed to 1
+2026-02-16 13:00:53 [WARNING] __main__: ⚠️  Kafka cluster manager not available; skipping topic creation
+2026-02-16 13:00:53 [INFO] __main__: 
+📌 Initializing consumer group: app_events_consumer
+2026-02-16 13:00:53 [INFO] __main__:    Description: Consume application user events from mobile/web
+2026-02-16 13:00:53 [INFO] __main__:    Topics: ['topic_app_events']
+2026-02-16 13:00:53 [INFO] kafka_cluster.connection_pool: 🔌 Initializing Kafka Connection Pool
+2026-02-16 13:00:53 [INFO] kafka_cluster.connection_pool:    Bootstrap servers: localhost:9092
+2026-02-16 13:00:53 [INFO] kafka_cluster.connection_pool:    Max retries: 3
+2026-02-16 13:00:53 [INFO] kafka_cluster.connection_pool:    Request timeout: 10000ms
+2026-02-16 13:00:53 [INFO] kafka_cluster.connection_pool: 📤 Creating Kafka producer (attempt 1)...
+2026-02-16 13:00:53 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-1, node_id=bootstrap-0 host=localhost:9092 <connecting> [IPv6 ('::1', 9092, 0, 0)]>: connecting to localhost:9092 [('::1', 9092, 0, 0) IPv6]
+2026-02-16 13:00:53 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-1, node_id=bootstrap-0 host=localhost:9092 <checking_api_versions_recv> [IPv6 ('::1', 9092, 0, 0)]>: Broker version identified as 2.6
+2026-02-16 13:00:53 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-1, node_id=bootstrap-0 host=localhost:9092 <connected> [IPv6 ('::1', 9092, 0, 0)]>: Connection complete.
+2026-02-16 13:00:53 [WARNING] kafka_cluster.connection_pool: ❌ Failed to create producer (attempt 1): Libraries for snappy compression codec not found
+   Retrying in 100ms...
+2026-02-16 13:00:53 [INFO] kafka_cluster.connection_pool: 📤 Creating Kafka producer (attempt 2)...
+2026-02-16 13:00:53 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-2, node_id=bootstrap-0 host=localhost:9092 <connecting> [IPv6 ('::1', 9092, 0, 0)]>: connecting to localhost:9092 [('::1', 9092, 0, 0) IPv6]
+2026-02-16 13:00:53 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-2, node_id=bootstrap-0 host=localhost:9092 <checking_api_versions_recv> [IPv6 ('::1', 9092, 0, 0)]>: Broker version identified as 2.6
+2026-02-16 13:00:53 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-2, node_id=bootstrap-0 host=localhost:9092 <connected> [IPv6 ('::1', 9092, 0, 0)]>: Connection complete.
+2026-02-16 13:00:53 [WARNING] kafka_cluster.connection_pool: ❌ Failed to create producer (attempt 2): Libraries for snappy compression codec not found
+   Retrying in 200ms...
+2026-02-16 13:00:54 [INFO] kafka_cluster.connection_pool: 📤 Creating Kafka producer (attempt 3)...
+2026-02-16 13:00:54 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-3, node_id=bootstrap-0 host=localhost:9092 <connecting> [IPv6 ('::1', 9092, 0, 0)]>: connecting to localhost:9092 [('::1', 9092, 0, 0) IPv6]
+2026-02-16 13:00:54 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-3, node_id=bootstrap-0 host=localhost:9092 <checking_api_versions_recv> [IPv6 ('::1', 9092, 0, 0)]>: Broker version identified as 2.6
+2026-02-16 13:00:54 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-3, node_id=bootstrap-0 host=localhost:9092 <connected> [IPv6 ('::1', 9092, 0, 0)]>: Connection complete.
+2026-02-16 13:00:54 [WARNING] kafka_cluster.connection_pool: ⚠️  Connection health degraded (3/3 failures)
+2026-02-16 13:00:54 [ERROR] kafka_cluster.connection_pool: ❌ Failed to create producer after 3 attempts
+2026-02-16 13:00:54 [ERROR] consumers.kafka_consumer: ❌ Failed to initialize consumer: Cannot initialize Kafka connection pool
+2026-02-16 13:00:54 [ERROR] __main__: ❌ Failed to initialize consumer group 'app_events_consumer': Cannot initialize Kafka connection pool
+2026-02-16 13:00:54 [INFO] __main__: 
+📌 Initializing consumer group: cdc_consumer
+2026-02-16 13:00:54 [INFO] __main__:    Description: Consume PostgreSQL CDC change events
+2026-02-16 13:00:54 [INFO] __main__:    Topics: ['topic_cdc_changes']
+2026-02-16 13:00:54 [INFO] kafka_cluster.connection_pool: 🔌 Initializing Kafka Connection Pool
+2026-02-16 13:00:54 [INFO] kafka_cluster.connection_pool:    Bootstrap servers: localhost:9092
+2026-02-16 13:00:54 [INFO] kafka_cluster.connection_pool:    Max retries: 3
+2026-02-16 13:00:54 [INFO] kafka_cluster.connection_pool:    Request timeout: 10000ms
+2026-02-16 13:00:54 [INFO] kafka_cluster.connection_pool: 📤 Creating Kafka producer (attempt 1)...
+2026-02-16 13:00:54 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-4, node_id=bootstrap-0 host=localhost:9092 <connecting> [IPv6 ('::1', 9092, 0, 0)]>: connecting to localhost:9092 [('::1', 9092, 0, 0) IPv6]
+2026-02-16 13:00:54 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-4, node_id=bootstrap-0 host=localhost:9092 <checking_api_versions_recv> [IPv6 ('::1', 9092, 0, 0)]>: Broker version identified as 2.6
+2026-02-16 13:00:54 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-4, node_id=bootstrap-0 host=localhost:9092 <connected> [IPv6 ('::1', 9092, 0, 0)]>: Connection complete.
+2026-02-16 13:00:54 [WARNING] kafka_cluster.connection_pool: ❌ Failed to create producer (attempt 1): Libraries for snappy compression codec not found
+   Retrying in 100ms...
+2026-02-16 13:00:54 [INFO] kafka_cluster.connection_pool: 📤 Creating Kafka producer (attempt 2)...
+2026-02-16 13:00:54 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-5, node_id=bootstrap-0 host=localhost:9092 <connecting> [IPv6 ('::1', 9092, 0, 0)]>: connecting to localhost:9092 [('::1', 9092, 0, 0) IPv6]
+2026-02-16 13:00:54 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-5, node_id=bootstrap-0 host=localhost:9092 <checking_api_versions_recv> [IPv6 ('::1', 9092, 0, 0)]>: Broker version identified as 2.6
+2026-02-16 13:00:54 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-5, node_id=bootstrap-0 host=localhost:9092 <connected> [IPv6 ('::1', 9092, 0, 0)]>: Connection complete.
+2026-02-16 13:00:54 [WARNING] kafka_cluster.connection_pool: ❌ Failed to create producer (attempt 2): Libraries for snappy compression codec not found
+   Retrying in 200ms...
+2026-02-16 13:00:54 [INFO] kafka_cluster.connection_pool: 📤 Creating Kafka producer (attempt 3)...
+2026-02-16 13:00:54 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-6, node_id=bootstrap-0 host=localhost:9092 <connecting> [IPv6 ('::1', 9092, 0, 0)]>: connecting to localhost:9092 [('::1', 9092, 0, 0) IPv6]
+2026-02-16 13:00:54 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-6, node_id=bootstrap-0 host=localhost:9092 <checking_api_versions_recv> [IPv6 ('::1', 9092, 0, 0)]>: Broker version identified as 2.6
+2026-02-16 13:00:54 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-6, node_id=bootstrap-0 host=localhost:9092 <connected> [IPv6 ('::1', 9092, 0, 0)]>: Connection complete.
+2026-02-16 13:00:54 [WARNING] kafka_cluster.connection_pool: ⚠️  Connection health degraded (3/3 failures)
+2026-02-16 13:00:54 [ERROR] kafka_cluster.connection_pool: ❌ Failed to create producer after 3 attempts
+2026-02-16 13:00:54 [ERROR] consumers.kafka_consumer: ❌ Failed to initialize consumer: Cannot initialize Kafka connection pool
+2026-02-16 13:00:54 [ERROR] __main__: ❌ Failed to initialize consumer group 'cdc_consumer': Cannot initialize Kafka connection pool
+2026-02-16 13:00:54 [INFO] __main__: 
+📌 Initializing consumer group: clickstream_consumer
+2026-02-16 13:00:54 [INFO] __main__:    Description: Consume clickstream/navigation events
+2026-02-16 13:00:54 [INFO] __main__:    Topics: ['topic_clickstream']
+2026-02-16 13:00:54 [INFO] kafka_cluster.connection_pool: 🔌 Initializing Kafka Connection Pool
+2026-02-16 13:00:54 [INFO] kafka_cluster.connection_pool:    Bootstrap servers: localhost:9092
+2026-02-16 13:00:54 [INFO] kafka_cluster.connection_pool:    Max retries: 3
+2026-02-16 13:00:54 [INFO] kafka_cluster.connection_pool:    Request timeout: 10000ms
+2026-02-16 13:00:54 [INFO] kafka_cluster.connection_pool: 📤 Creating Kafka producer (attempt 1)...
+2026-02-16 13:00:54 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-7, node_id=bootstrap-0 host=localhost:9092 <connecting> [IPv6 ('::1', 9092, 0, 0)]>: connecting to localhost:9092 [('::1', 9092, 0, 0) IPv6]
+2026-02-16 13:00:54 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-7, node_id=bootstrap-0 host=localhost:9092 <checking_api_versions_recv> [IPv6 ('::1', 9092, 0, 0)]>: Broker version identified as 2.6
+2026-02-16 13:00:54 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-7, node_id=bootstrap-0 host=localhost:9092 <connected> [IPv6 ('::1', 9092, 0, 0)]>: Connection complete.
+2026-02-16 13:00:54 [WARNING] kafka_cluster.connection_pool: ❌ Failed to create producer (attempt 1): Libraries for snappy compression codec not found
+   Retrying in 100ms...
+2026-02-16 13:00:54 [INFO] kafka_cluster.connection_pool: 📤 Creating Kafka producer (attempt 2)...
+2026-02-16 13:00:54 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-8, node_id=bootstrap-0 host=localhost:9092 <connecting> [IPv6 ('::1', 9092, 0, 0)]>: connecting to localhost:9092 [('::1', 9092, 0, 0) IPv6]
+2026-02-16 13:00:54 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-8, node_id=bootstrap-0 host=localhost:9092 <checking_api_versions_recv> [IPv6 ('::1', 9092, 0, 0)]>: Broker version identified as 2.6
+2026-02-16 13:00:54 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-8, node_id=bootstrap-0 host=localhost:9092 <connected> [IPv6 ('::1', 9092, 0, 0)]>: Connection complete.
+2026-02-16 13:00:54 [WARNING] kafka_cluster.connection_pool: ❌ Failed to create producer (attempt 2): Libraries for snappy compression codec not found
+   Retrying in 200ms...
+2026-02-16 13:00:54 [INFO] kafka_cluster.connection_pool: 📤 Creating Kafka producer (attempt 3)...
+2026-02-16 13:00:54 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-9, node_id=bootstrap-0 host=localhost:9092 <connecting> [IPv6 ('::1', 9092, 0, 0)]>: connecting to localhost:9092 [('::1', 9092, 0, 0) IPv6]
+2026-02-16 13:00:54 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-9, node_id=bootstrap-0 host=localhost:9092 <checking_api_versions_recv> [IPv6 ('::1', 9092, 0, 0)]>: Broker version identified as 2.6
+2026-02-16 13:00:54 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-9, node_id=bootstrap-0 host=localhost:9092 <connected> [IPv6 ('::1', 9092, 0, 0)]>: Connection complete.
+2026-02-16 13:00:54 [WARNING] kafka_cluster.connection_pool: ⚠️  Connection health degraded (3/3 failures)
+2026-02-16 13:00:54 [ERROR] kafka_cluster.connection_pool: ❌ Failed to create producer after 3 attempts
+2026-02-16 13:00:54 [ERROR] consumers.kafka_consumer: ❌ Failed to initialize consumer: Cannot initialize Kafka connection pool
+2026-02-16 13:00:54 [ERROR] __main__: ❌ Failed to initialize consumer group 'clickstream_consumer': Cannot initialize Kafka connection pool
+2026-02-16 13:00:54 [INFO] __main__: 
+📌 Initializing consumer group: external_data_consumer
+2026-02-16 13:00:54 [INFO] __main__:    Description: Consume external data sources (weather, maps, etc)
+2026-02-16 13:00:54 [INFO] __main__:    Topics: ['topic_external_data']
+2026-02-16 13:00:54 [INFO] kafka_cluster.connection_pool: 🔌 Initializing Kafka Connection Pool
+2026-02-16 13:00:54 [INFO] kafka_cluster.connection_pool:    Bootstrap servers: localhost:9092
+2026-02-16 13:00:54 [INFO] kafka_cluster.connection_pool:    Max retries: 3
+2026-02-16 13:00:54 [INFO] kafka_cluster.connection_pool:    Request timeout: 10000ms
+2026-02-16 13:00:54 [INFO] kafka_cluster.connection_pool: 📤 Creating Kafka producer (attempt 1)...
+2026-02-16 13:00:54 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-10, node_id=bootstrap-0 host=localhost:9092 <connecting> [IPv6 ('::1', 9092, 0, 0)]>: connecting to localhost:9092 [('::1', 9092, 0, 0) IPv6]
+2026-02-16 13:00:54 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-10, node_id=bootstrap-0 host=localhost:9092 <checking_api_versions_recv> [IPv6 ('::1', 9092, 0, 0)]>: Broker version identified as 2.6
+2026-02-16 13:00:54 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-10, node_id=bootstrap-0 host=localhost:9092 <connected> [IPv6 ('::1', 9092, 0, 0)]>: Connection complete.
+2026-02-16 13:00:54 [WARNING] kafka_cluster.connection_pool: ❌ Failed to create producer (attempt 1): Libraries for snappy compression codec not found
+   Retrying in 100ms...
+2026-02-16 13:00:54 [INFO] kafka_cluster.connection_pool: 📤 Creating Kafka producer (attempt 2)...
+2026-02-16 13:00:54 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-11, node_id=bootstrap-0 host=localhost:9092 <connecting> [IPv6 ('::1', 9092, 0, 0)]>: connecting to localhost:9092 [('::1', 9092, 0, 0) IPv6]
+2026-02-16 13:00:54 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-11, node_id=bootstrap-0 host=localhost:9092 <checking_api_versions_recv> [IPv6 ('::1', 9092, 0, 0)]>: Broker version identified as 2.6
+2026-02-16 13:00:54 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-11, node_id=bootstrap-0 host=localhost:9092 <connected> [IPv6 ('::1', 9092, 0, 0)]>: Connection complete.
+2026-02-16 13:00:54 [WARNING] kafka_cluster.connection_pool: ❌ Failed to create producer (attempt 2): Libraries for snappy compression codec not found
+   Retrying in 200ms...
+2026-02-16 13:00:55 [INFO] kafka_cluster.connection_pool: 📤 Creating Kafka producer (attempt 3)...
+2026-02-16 13:00:55 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-12, node_id=bootstrap-0 host=localhost:9092 <connecting> [IPv6 ('::1', 9092, 0, 0)]>: connecting to localhost:9092 [('::1', 9092, 0, 0) IPv6]
+2026-02-16 13:00:55 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-12, node_id=bootstrap-0 host=localhost:9092 <checking_api_versions_recv> [IPv6 ('::1', 9092, 0, 0)]>: Broker version identified as 2.6
+2026-02-16 13:00:55 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-12, node_id=bootstrap-0 host=localhost:9092 <connected> [IPv6 ('::1', 9092, 0, 0)]>: Connection complete.
+2026-02-16 13:00:55 [WARNING] kafka_cluster.connection_pool: ⚠️  Connection health degraded (3/3 failures)
+2026-02-16 13:00:55 [ERROR] kafka_cluster.connection_pool: ❌ Failed to create producer after 3 attempts
+2026-02-16 13:00:55 [ERROR] consumers.kafka_consumer: ❌ Failed to initialize consumer: Cannot initialize Kafka connection pool
+2026-02-16 13:00:55 [ERROR] __main__: ❌ Failed to initialize consumer group 'external_data_consumer': Cannot initialize Kafka connection pool
+2026-02-16 13:00:55 [INFO] __main__: 
+📌 Initializing consumer group: unified_consumer
+2026-02-16 13:00:55 [INFO] __main__:    Description: Consume all data sources for unified processing
+2026-02-16 13:00:55 [INFO] __main__:    Topics: ['topic_app_events', 'topic_cdc_changes', 'topic_clickstream', 'topic_external_data']
+2026-02-16 13:00:55 [INFO] kafka_cluster.connection_pool: 🔌 Initializing Kafka Connection Pool
+2026-02-16 13:00:55 [INFO] kafka_cluster.connection_pool:    Bootstrap servers: localhost:9092
+2026-02-16 13:00:55 [INFO] kafka_cluster.connection_pool:    Max retries: 3
+2026-02-16 13:00:55 [INFO] kafka_cluster.connection_pool:    Request timeout: 10000ms
+2026-02-16 13:00:55 [INFO] kafka_cluster.connection_pool: 📤 Creating Kafka producer (attempt 1)...
+2026-02-16 13:00:55 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-13, node_id=bootstrap-0 host=localhost:9092 <connecting> [IPv6 ('::1', 9092, 0, 0)]>: connecting to localhost:9092 [('::1', 9092, 0, 0) IPv6]
+2026-02-16 13:00:55 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-13, node_id=bootstrap-0 host=localhost:9092 <checking_api_versions_recv> [IPv6 ('::1', 9092, 0, 0)]>: Broker version identified as 2.6
+2026-02-16 13:00:55 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-13, node_id=bootstrap-0 host=localhost:9092 <connected> [IPv6 ('::1', 9092, 0, 0)]>: Connection complete.
+2026-02-16 13:00:55 [WARNING] kafka_cluster.connection_pool: ❌ Failed to create producer (attempt 1): Libraries for snappy compression codec not found
+   Retrying in 100ms...
+2026-02-16 13:00:55 [INFO] kafka_cluster.connection_pool: 📤 Creating Kafka producer (attempt 2)...
+2026-02-16 13:00:55 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-14, node_id=bootstrap-0 host=localhost:9092 <connecting> [IPv6 ('::1', 9092, 0, 0)]>: connecting to localhost:9092 [('::1', 9092, 0, 0) IPv6]
+2026-02-16 13:00:55 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-14, node_id=bootstrap-0 host=localhost:9092 <checking_api_versions_recv> [IPv6 ('::1', 9092, 0, 0)]>: Broker version identified as 2.6
+2026-02-16 13:00:55 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-14, node_id=bootstrap-0 host=localhost:9092 <connected> [IPv6 ('::1', 9092, 0, 0)]>: Connection complete.
+2026-02-16 13:00:55 [WARNING] kafka_cluster.connection_pool: ❌ Failed to create producer (attempt 2): Libraries for snappy compression codec not found
+   Retrying in 200ms...
+2026-02-16 13:00:55 [INFO] kafka_cluster.connection_pool: 📤 Creating Kafka producer (attempt 3)...
+2026-02-16 13:00:55 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-15, node_id=bootstrap-0 host=localhost:9092 <connecting> [IPv6 ('::1', 9092, 0, 0)]>: connecting to localhost:9092 [('::1', 9092, 0, 0) IPv6]
+2026-02-16 13:00:55 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-15, node_id=bootstrap-0 host=localhost:9092 <checking_api_versions_recv> [IPv6 ('::1', 9092, 0, 0)]>: Broker version identified as 2.6
+2026-02-16 13:00:55 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-15, node_id=bootstrap-0 host=localhost:9092 <connected> [IPv6 ('::1', 9092, 0, 0)]>: Connection complete.
+2026-02-16 13:00:55 [WARNING] kafka_cluster.connection_pool: ⚠️  Connection health degraded (3/3 failures)
+2026-02-16 13:00:55 [ERROR] kafka_cluster.connection_pool: ❌ Failed to create producer after 3 attempts
+2026-02-16 13:00:55 [ERROR] consumers.kafka_consumer: ❌ Failed to initialize consumer: Cannot initialize Kafka connection pool
+2026-02-16 13:00:55 [ERROR] __main__: ❌ Failed to initialize consumer group 'unified_consumer': Cannot initialize Kafka connection pool
+2026-02-16 13:00:55 [INFO] __main__: ✅ Initialized 0/5 consumer groups
+
+2026-02-16 13:00:55 [INFO] __main__: ✅ All consumer groups started!
+
+2026-02-16 13:01:09 [INFO] __main__: 
+📬 Received signal 2, shutting down gracefully...
+2026-02-16 13:01:09 [INFO] __main__: 
+======================================================================
+2026-02-16 13:01:09 [INFO] __main__: ⏹️  STOPPING INGESTION LAYER
+2026-02-16 13:01:09 [INFO] __main__: ======================================================================
+
+2026-02-16 13:01:09 [INFO] __main__: Waiting for all threads to finish...
+2026-02-16 13:01:14 [INFO] __main__: ✅ Thread monitor finished
+2026-02-16 13:01:14 [INFO] __main__: 
+======================================================================
+2026-02-16 13:01:14 [INFO] __main__: 📊 FINAL STATISTICS
+2026-02-16 13:01:14 [INFO] __main__: ======================================================================
+2026-02-16 13:01:14 [INFO] __main__: Uptime: 21 seconds
+2026-02-16 13:01:14 [INFO] __main__: Total messages processed: 0
+2026-02-16 13:01:14 [INFO] __main__: Total errors: 0
+2026-02-16 13:01:14 [INFO] __main__: Overall throughput: 0.00 messages/sec
+2026-02-16 13:01:14 [INFO] __main__: 
+By consumer group:
+2026-02-16 13:01:14 [INFO] monitoring.metrics: 
+📊 INGESTION LAYER METRICS:
+Timestamp: 2026-02-16T13:01:14.187078
+
+⚡ Throughput (messages/sec):
+
+2026-02-16 13:01:14 [INFO] monitoring.metrics: 
+⏱️  Latency (ms):
+
+2026-02-16 13:01:14 [INFO] monitoring.metrics: 
+❌ Error Rate:
+
+2026-02-16 13:01:14 [INFO] monitoring.metrics: 
+📦 Message Size (bytes):
+
+2026-02-16 13:01:14 [INFO] monitoring.metrics: 
+📈 Cumulative Metrics:
+
+2026-02-16 13:01:14 [INFO] monitoring.metrics:   start_time: 2026-02-16T13:00:53.529686
+2026-02-16 13:01:14 [INFO] monitoring.metrics:   uptime_seconds: 20.66
+2026-02-16 13:01:14 [INFO] monitoring.metrics:   total_messages_processed: 0
+2026-02-16 13:01:14 [INFO] monitoring.metrics:   total_errors: 0
+2026-02-16 13:01:14 [INFO] monitoring.metrics:   overall_throughput_msgs_per_sec: 0.00
+2026-02-16 13:01:14 [INFO] monitoring.metrics:   overall_avg_latency_ms: 0
+2026-02-16 13:01:14 [INFO] monitoring.metrics: 
+❤️  HEALTH CHECK: WARNING
+Summary: 3 checks, 0 unhealthy, 1 warnings
+
+2026-02-16 13:01:14 [INFO] monitoring.metrics: ✅ ERROR_RATE: Error rate: 0.00%
+2026-02-16 13:01:14 [INFO] monitoring.metrics: ✅ LATENCY: Max latency: 0ms, Avg: 0ms
+2026-02-16 13:01:14 [INFO] monitoring.metrics: ⚠️ THROUGHPUT: Throughput: 0.00 msgs/sec
+2026-02-16 13:01:14 [INFO] __main__: 
+======================================================================
+
+2026-02-16 13:02:36 [INFO] ingestion_layer.kafka_cluster.connection_pool: 🔌 Initializing Kafka Connection Pool
+2026-02-16 13:02:36 [INFO] ingestion_layer.kafka_cluster.connection_pool:    Bootstrap servers: localhost:29092
+2026-02-16 13:02:36 [INFO] ingestion_layer.kafka_cluster.connection_pool:    Max retries: 3
+2026-02-16 13:02:36 [INFO] ingestion_layer.kafka_cluster.connection_pool:    Request timeout: 10000ms
+2026-02-16 13:02:36 [INFO] ingestion_layer.kafka_cluster.connection_pool: 📤 Creating Kafka producer (attempt 1)...
+2026-02-16 13:02:36 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-1, node_id=bootstrap-0 host=localhost:29092 <connecting> [IPv6 ('::1', 29092, 0, 0)]>: connecting to localhost:29092 [('::1', 29092, 0, 0) IPv6]
+2026-02-16 13:02:36 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-1, node_id=bootstrap-0 host=localhost:29092 <checking_api_versions_recv> [IPv6 ('::1', 29092, 0, 0)]>: Broker version identified as 2.6
+2026-02-16 13:02:36 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-1, node_id=bootstrap-0 host=localhost:29092 <connected> [IPv6 ('::1', 29092, 0, 0)]>: Connection complete.
+2026-02-16 13:02:36 [INFO] ingestion_layer.kafka_cluster.connection_pool: ✅ Kafka producer created successfully
+2026-02-16 13:02:36 [INFO] kafka.producer.kafka: <KafkaProducer client_id=kafka-python-producer-1 transactional_id=None>: Closing the Kafka producer with 9223372036.0 secs timeout.
+2026-02-16 13:02:36 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-producer-1, node_id=bootstrap-0 host=localhost:29092 <connected> [IPv6 ('::1', 29092, 0, 0)]>: Closing connection. 
+2026-02-16 13:02:36 [INFO] ingestion_layer.kafka_cluster.connection_pool: ✅ Producer closed
+2026-02-16 13:02:36 [INFO] ingestion_layer.kafka_cluster.connection_pool: ✅ Connection pool closed
