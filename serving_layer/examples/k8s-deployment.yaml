@@ -1,0 +1,134 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: data-platform-serving
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: data-platform-serving
+  template:
+    metadata:
+      labels:
+        app: data-platform-serving
+    spec:
+      initContainers:
+      - name: check-redis-secret
+        image: busybox:1.36
+        env:
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: data-platform-redis-secret
+              key: REDIS_PASSWORD
+        command: ["sh", "-c"]
+        args:
+        - >-
+          if [ -z \"$REDIS_PASSWORD\" ]; then echo 'REDIS_PASSWORD not set'; exit 1; else echo 'secret present'; fi
+      containers:
+      - name: serving
+        image: your-registry/data-platform-serving:latest
+        ports:
+        - containerPort: 8000
+        env:
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: data-platform-redis-secret
+              key: REDIS_PASSWORD
+        - name: REDIS_URL
+          value: "redis://:$(REDIS_PASSWORD)@data-platform-redis:6379/0"
+        - name: SAMPLE_PARQUET
+          value: "/data/sample.parquet"
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 15
+          periodSeconds: 20
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: data-platform-serving
+spec:
+  selector:
+    app: data-platform-serving
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8000
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: data-platform-redis-secret
+type: Opaque
+  annotations:
+    provisioning: "Replace this Secret during deployment with a real secret (use SealedSecrets, HashiCorp Vault, or kubectl create secret). Do NOT commit credentials to source control."
+# Example: create via `kubectl create secret generic data-platform-redis-secret --from-literal=REDIS_PASSWORD='s3cr3t'`
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: data-platform-redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: data-platform-redis
+  template:
+    metadata:
+      labels:
+        app: data-platform-redis
+    spec:
+      containers:
+      - name: redis
+        image: redis:7-alpine
+        ports:
+        - containerPort: 6379
+        env:
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: data-platform-redis-secret
+              key: REDIS_PASSWORD
+        # initContainer ensures secret exists before starting Redis
+      initContainers:
+      - name: check-redis-secret
+        image: busybox:1.36
+        env:
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: data-platform-redis-secret
+              key: REDIS_PASSWORD
+        command: ["sh", "-c"]
+        args:
+        - >-
+          if [ -z \"$REDIS_PASSWORD\" ]; then echo 'REDIS_PASSWORD not set'; exit 1; else echo 'secret present'; fi
+        # run redis with password
+        command: ["sh", "-c"]
+        args:
+        - >-
+          redis-server --requirepass "$REDIS_PASSWORD"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: data-platform-redis
+spec:
+  selector:
+    app: data-platform-redis
+  ports:
+  - protocol: TCP
+    port: 6379
+    targetPort: 6379

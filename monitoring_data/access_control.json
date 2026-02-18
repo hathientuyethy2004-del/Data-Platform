@@ -1,0 +1,6 @@
+{
+  "local-test-token": [
+    "serve:query",
+    "serve:read"
+  ]
+}

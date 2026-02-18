@@ -1,0 +1,7 @@
+{
+  "job_id": "end_to_end_count",
+  "status": "success",
+  "started_at": "2026-02-18T00:25:14.163121",
+  "finished_at": "2026-02-18T00:25:14.163159",
+  "result": "{'count': 2}"
+}

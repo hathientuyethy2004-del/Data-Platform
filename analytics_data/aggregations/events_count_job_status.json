@@ -1,0 +1,7 @@
+{
+  "job_id": "events_count_job",
+  "status": "success",
+  "started_at": "2026-02-18T00:06:00.518148",
+  "finished_at": "2026-02-18T00:06:00.518266",
+  "result": "{'error': 'no such table: events'}"
+}

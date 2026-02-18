@@ -1,0 +1,12 @@
+{
+  "cube_name": "test_count",
+  "generated_at": "2026-02-17T23:47:09.860382",
+  "columns": [
+    "cnt"
+  ],
+  "rows": [
+    [
+      2
+    ]
+  ]
+}

@@ -1,0 +1,6 @@
+# Project dependencies
+# Add duckdb for analytics (optional)
+duckdb>=1.0.0
+fastapi>=0.95.0
+uvicorn>=0.22.0
+redis>=4.6.0

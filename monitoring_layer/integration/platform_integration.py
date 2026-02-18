@@ -19,6 +19,7 @@ class MonitoringIntegration:
         self.logs = log_aggregator
         self.traces = tracing_collector
         self.registered_components = {}
+        # Scheduler start moved to central platform bootstrap to avoid side-effects during integration instantiation
 
     def register_component(self, component_name: str,
                           component_type: str = "service") -> bool:
