@@ -1,0 +1,298 @@
+# Operational Metrics Product Configuration
+
+product:
+  name: operational-metrics
+  version: 1.0.0
+  description: "Cross-product operational metrics, SLA monitoring, and cost tracking"
+  tier: platform
+  owner: platform-engineering
+  slack_channel: "#data-platform-ops"
+
+environments:
+  dev:
+    kafka_brokers: "localhost:9092"
+    spark_master: "local[*]"
+    data_path: "/data/operational-metrics"
+    redis_host: "localhost"
+    redis_port: 6379
+    
+  staging:
+    kafka_brokers: "kafka-staging-1:9092,kafka-staging-2:9092"
+    spark_master: "spark://spark-staging:7077"
+    data_path: "/data/operational-metrics"
+    redis_host: "redis-staging"
+    redis_port: 6379
+    
+  prod:
+    kafka_brokers: "kafka-prod-1:9092,kafka-prod-2:9092,kafka-prod-3:9092"
+    spark_master: "spark://spark-prod:7077"
+    data_path: "/data/operational-metrics"
+    redis_host: "redis-prod"
+    redis_port: 6379
+
+# Kafka configuration
+kafka:
+  topics:
+    pipeline_logs:
+      name: "platform.pipeline.logs"
+      partitions: 10
+      replication_factor: 3
+      retention_ms: 604800000  # 7 days
+      
+    alert_incidents:
+      name: "platform.alerts.incidents"
+      partitions: 5
+      replication_factor: 3
+      retention_ms: 2592000000  # 30 days
+      
+    cost_events:
+      name: "platform.cost.events"
+      partitions: 5
+      replication_factor: 3
+      retention_ms: 2592000000  # 30 days
+      
+    infrastructure_metrics:
+      name: "platform.infrastructure.metrics"
+      partitions: 10
+      replication_factor: 2
+      retention_ms: 86400000  # 1 day
+
+  consumer:
+    group_id: "operational-metrics-consumer"
+    auto_offset_reset: "latest"
+    enable_auto_commit: true
+    session_timeout_ms: 30000
+
+# Data configuration
+data:
+  bronze_path: "/data/operational-metrics/bronze"
+  silver_path: "/data/operational-metrics/silver"
+  gold_path: "/data/operational-metrics/gold"
+  
+  partitioning:
+    bronze:
+      by: ["date", "product"]
+    silver:
+      by: ["date", "product"]
+    gold:
+      by: ["date", "product"]
+  
+  retention:
+    bronze_days: 30
+    silver_days: 90
+    gold_days: 365
+
+# SLA Configuration
+sla:
+  data_freshness:
+    target_minutes: 5
+    warning_minutes: 10
+    critical_minutes: 30
+    
+  api_p99_latency:
+    target_ms: 800
+    warning_ms: 1500
+    critical_ms: 3000
+    
+  pipeline_success_rate:
+    target_percent: 99.9
+    warning_percent: 99.0
+    critical_percent: 95.0
+    
+  data_quality_score:
+    target_percent: 99.5
+    warning_percent: 98.0
+    critical_percent: 95.0
+    
+  kafka_consumer_lag:
+    target_seconds: 60
+    warning_seconds: 300
+    critical_seconds: 900
+
+# Alert Configuration
+alerts:
+  enabled: true
+  check_interval_seconds: 60
+  
+  rules:
+    - name: "High CPU Utilization"
+      metric: "spark_cpu_percent"
+      threshold: 85
+      comparison: "gt"
+      severity: "high"
+      notification_channels: ["email", "slack"]
+      
+    - name: "Pipeline Failure Rate"
+      metric: "pipeline_failure_rate"
+      threshold: 1.0
+      comparison: "gt"
+      severity: "critical"
+      notification_channels: ["email", "slack", "pagerduty"]
+      
+    - name: "Data Staleness"
+      metric: "data_freshness_minutes"
+      threshold: 30
+      comparison: "gt"
+      severity: "high"
+      notification_channels: ["email", "slack"]
+      
+    - name: "High Memory Utilization"
+      metric: "spark_memory_percent"
+      threshold: 90
+      comparison: "gt"
+      severity: "high"
+      notification_channels: ["email", "slack"]
+
+# Cost Configuration
+cost:
+  enabled: true
+  
+  pricing:
+    spark_compute_per_hour: 5.0  # Per executor
+    kafka_per_hour: 2.0  # Per broker
+    storage_per_gb_month: 0.023
+    
+  budget_alerts:
+    daily_threshold_dollars: 500
+    weekly_threshold_dollars: 3000
+    monthly_threshold_dollars: 10000
+
+# Health Check Configuration
+health_checks:
+  enabled: true
+  interval_seconds: 300  # 5 minutes
+  
+  checks:
+    - name: "pipeline_health"
+      component: "processing"
+      enabled: true
+      interval: 300
+      
+    - name: "data_freshness"
+      component: "storage"
+      enabled: true
+      interval: 300
+      
+    - name: "api_availability"
+      component: "serving"
+      enabled: true
+      interval: 60  # More frequent
+      
+    - name: "infrastructure_health"
+      component: "infrastructure"
+      enabled: true
+      interval: 300
+      
+    - name: "sla_compliance"
+      component: "monitoring"
+      enabled: true
+      interval: 600
+
+# Spark Configuration
+spark:
+  app_name: "operational-metrics"
+  executor_cores: 4
+  executor_memory: "4g"
+  driver_memory: "2g"
+  shuffle_partitions: 200
+  
+  # Delta Lake specific
+  delta:
+    vacuum_retention_hours: 24
+    optimize_frequency: "daily"  # daily, weekly, never
+    auto_compact: true
+
+# API Configuration
+api:
+  host: "0.0.0.0"
+  port: 8001
+  
+  endpoints:
+    - path: "/dashboard/overview"
+      method: "GET"
+      cache_ttl_seconds: 60
+      
+    - path: "/sla/compliance"
+      method: "GET"
+      cache_ttl_seconds: 300
+      
+    - path: "/cost/breakdown"
+      method: "GET"
+      cache_ttl_seconds: 3600
+      
+    - path: "/alerts/create"
+      method: "POST"
+      
+    - path: "/health/pipeline"
+      method: "GET"
+      cache_ttl_seconds: 60
+
+# Monitoring Configuration
+monitoring:
+  enabled: true
+  
+  metrics_retention_hours: 24
+  
+  dashboards:
+    - name: "Operational Overview"
+      refresh_seconds: 60
+      
+    - name: "SLA Compliance"
+      refresh_seconds: 300
+      
+    - name: "Cost Tracking"
+      refresh_seconds: 3600
+      
+    - name: "Infrastructure Health"
+      refresh_seconds: 300
+
+# Notification Configuration
+notifications:
+  enabled: true
+  
+  channels:
+    email:
+      enabled: true
+      smtp_server: "smtp.company.com"
+      sender: "ops@company.com"
+      recipients:
+        - "platform-team@company.com"
+        - "on-call@company.com"
+        
+    slack:
+      enabled: true
+      webhook_url: "${SLACK_WEBHOOK_URL}"
+      channel: "#data-platform-ops"
+      mention_on_critical: true
+      
+    pagerduty:
+      enabled: true
+      api_key: "${PAGERDUTY_API_KEY}"
+      service_id: "${PAGERDUTY_SERVICE_ID}"
+
+# Logging Configuration
+logging:
+  level: "INFO"
+  format: "json"
+  
+  appenders:
+    - type: "console"
+      enabled: true
+      
+    - type: "file"
+      enabled: true
+      path: "/var/log/operational-metrics/app.log"
+      max_size_mb: 100
+      backup_count: 10
+      
+    - type: "cloudwatch"
+      enabled: false
+      log_group: "/aws/data-platform/operational-metrics"
+      log_stream: "${ENVIRONMENT}"
+
+# Feature Flags
+features:
+  cost_analysis_enabled: true
+  anomaly_detection_enabled: false
+  predictive_alerting_enabled: false
+  auto_remediation_enabled: false

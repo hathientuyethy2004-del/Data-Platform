@@ -1,0 +1,361 @@
+# Compliance Auditing Product Configuration
+
+product:
+  name: compliance-auditing
+  version: 1.0.0
+  description: "GDPR compliance, audit trail management, data retention policies"
+  tier: platform
+  owner: compliance-team
+  slack_channel: "#data-compliance"
+
+environments:
+  dev:
+    kafka_brokers: "localhost:9092"
+    spark_master: "local[*]"
+    data_path: "/data/compliance"
+    
+  staging:
+    kafka_brokers: "kafka-staging-1:9092,kafka-staging-2:9092"
+    spark_master: "spark://spark-staging:7077"
+    data_path: "/data/compliance"
+    
+  prod:
+    kafka_brokers: "kafka-prod-1:9092,kafka-prod-2:9092,kafka-prod-3:9092"
+    spark_master: "spark://spark-prod:7077"
+    data_path: "/data/compliance"
+
+# Kafka Configuration
+kafka:
+  topics:
+    audit_events:
+      name: "platform.audit.events"
+      partitions: 10
+      replication_factor: 3
+      retention_ms: 31536000000  # 1 year (immutable)
+      
+    deletion_requests:
+      name: "platform.gdpr.deletion_requests"
+      partitions: 5
+      replication_factor: 3
+      retention_ms: 7776000000  # 90 days
+      
+    compliance_violations:
+      name: "platform.compliance.violations"
+      partitions: 5
+      replication_factor: 3
+      retention_ms: 31536000000  # 1 year
+      
+    pii_access_log:
+      name: "platform.pii.access"
+      partitions: 10
+      replication_factor: 3
+      retention_ms: 7776000000  # 90 days
+
+  consumer:
+    group_id: "compliance-consumer"
+    auto_offset_reset: "earliest"  # Never miss audit events
+    enable_auto_commit: false  # Manual commit for reliability
+    session_timeout_ms: 30000
+
+# Data Configuration
+data:
+  bronze_path: "/data/compliance/bronze"
+  silver_path: "/data/compliance/silver"
+  gold_path: "/data/compliance/gold"
+  
+  partitioning:
+    bronze:
+      by: ["date", "event_type"]
+    silver:
+      by: ["date", "event_type"]
+    gold:
+      by: ["date"]
+  
+  retention:
+    bronze_days: 365     # Keep raw audits 1 year
+    silver_days: 730     # Keep processed 2 years
+    gold_days: 2555      # Keep reports 7 years (GDPR requirement)
+
+# Compliance Frameworks
+compliance:
+  frameworks:
+    gdpr:
+      enabled: true
+      jurisdiction: "EU"
+      enforcement_agency: "DPA"
+      key_requirements:
+        - data_retention_limits
+        - right_to_be_forgotten
+        - data_minimization
+        - purpose_limitation
+        - access_control
+      audit_frequency: "quarterly"
+      
+    hipaa:
+      enabled: false
+      jurisdiction: "USA"
+      key_requirements:
+        - access_controls
+        - audit_controls
+        - integrity_controls
+      audit_frequency: "annual"
+      
+    pci_dss:
+      enabled: false
+      jurisdiction: "Global"
+      key_requirements:
+        - access_control
+        - audit_logging
+        - encryption
+      audit_frequency: "annual"
+
+# GDPR Configuration
+gdpr:
+  data_subject_rights:
+    - access
+    - rectification
+    - erasure
+    - restrict_processing
+    - data_portability
+    - object
+    
+  retention_periods:
+    customer_data: 365
+    pii: 365
+    sensitive_pii: 2555  # 7 years
+    deletion_logs: 365
+    access_logs: 90
+    
+  maximum_processing_days:
+    access_request: 30
+    deletion_request: 30
+    rectification_request: 30
+    
+  right_to_be_forgotten:
+    enabled: true
+    auto_cascade: true  # Delete from all related datasets
+    preserve_legal_holds: true
+    preserve_audit_logs: true
+
+# Data Classification Configuration
+data_classification:
+  levels:
+    public:
+      retention_days: 30
+      encryption: not_required
+      access_logging: basic
+      
+    internal:
+      retention_days: 90
+      encryption: not_required
+      access_logging: detailed
+      
+    confidential:
+      retention_days: 365
+      encryption: required
+      access_logging: detailed
+      
+    restricted:
+      retention_days: 365
+      encryption: required
+      access_logging: comprehensive
+      approval_required: true
+      
+    pii:
+      retention_days: 365
+      encryption: required
+      access_logging: comprehensive
+      
+    sensitive_pii:
+      retention_days: 2555  # 7 years
+      encryption: required
+      access_logging: comprehensive
+      approval_required: true
+
+# Access Control Configuration
+access_control:
+  role_based:
+    admin:
+      allowed_classifications: ["public", "internal", "confidential", "restricted", "pii", "sensitive_pii"]
+      
+    compliance_officer:
+      allowed_classifications: ["public", "internal", "confidential", "restricted", "pii"]
+      
+    analyst:
+      allowed_classifications: ["public", "internal", "confidential"]
+      
+    researcher:
+      allowed_classifications: ["public", "internal", "pii"]
+      
+    viewer:
+      allowed_classifications: ["public"]
+      
+  requirement:
+    pii_access_requires_justification: true
+    sensitive_pii_requires_approval: true
+    audit_log_all_access: true
+
+# Audit Trail Configuration
+audit_trail:
+  enabled: true
+  immutable: true
+  event_types:
+    - data_access
+    - data_ingestion
+    - data_transformation
+    - data_deletion
+    - data_anonymization
+    - user_access
+    - permission_change
+    - api_call
+    - configuration_change
+    
+  requirements:
+    who: true       # User ID
+    what: true      # Resource accessed
+    when: true      # Timestamp
+    where: true     # Source location
+    why: true       # Purpose/justification
+    result: true    # Success/failure
+
+# Data Retention Configuration
+retention_policies:
+  enforcement:
+    enabled: true
+    check_frequency: "daily"
+    auto_schedule_deletion: true
+    
+  policies:
+    transactional:
+      retention_days: 90
+      grace_period_days: 7
+      notification_days_before: 14
+      
+    analytical:
+      retention_days: 365
+      grace_period_days: 14
+      notification_days_before: 30
+      
+    legal_hold:
+      retention_days: indefinite
+      requires_approval: true
+      
+    audit_logs:
+      retention_days: 2555  # 7 years
+      immutable: true
+
+# Monitoring Configuration
+monitoring:
+  enabled: true
+  
+  health_checks:
+    - name: "audit_trail_integrity"
+      enabled: true
+      interval_seconds: 3600  # Hourly
+      
+    - name: "gdpr_compliance"
+      enabled: true
+      interval_seconds: 86400  # Daily
+      
+    - name: "retention_compliance"
+      enabled: true
+      interval_seconds: 86400  # Daily
+      
+    - name: "pii_access_patterns"
+      enabled: true
+      interval_seconds: 3600  # Hourly
+      
+    - name: "violation_trends"
+      enabled: true
+      interval_seconds: 86400  # Daily
+      
+  alerts:
+    - name: "Unauthorized PII Access"
+      enabled: true
+      severity: "critical"
+      channels: ["slack", "email", "pagerduty"]
+      
+    - name: "Data Retention Violation"
+      enabled: true
+      severity: "high"
+      channels: ["slack", "email"]
+      
+    - name: "Audit Trail Integrity Failure"
+      enabled: true
+      severity: "critical"
+      channels: ["slack", "email", "pagerduty"]
+
+# API Configuration
+api:
+  host: "0.0.0.0"
+  port: 8002
+  
+  endpoints:
+    - path: "/audit-trail"
+      method: "GET"
+      requires_role: "viewer"
+      
+    - path: "/compliance/status"
+      method: "GET"
+      requires_role: "viewer"
+      
+    - path: "/gdpr/access-request"
+      method: "POST"
+      requires_role: "public"  # Data subjects can request
+      
+    - path: "/gdpr/deletion-request"
+      method: "POST"
+      requires_role: "public"
+      
+    - path: "/retention/schedule"
+      method: "GET"
+      requires_role: "admin"
+      
+    - path: "/data-lineage"
+      method: "GET"
+      requires_role: "analyst"
+
+# Notification Configuration
+notifications:
+  enabled: true
+  
+  channels:
+    slack:
+      enabled: true
+      webhook_url: "${SLACK_WEBHOOK_URL}"
+      
+    email:
+      enabled: true
+      smtp_server: "smtp.company.com"
+      sender: "compliance@company.com"
+      recipients:
+        - "compliance-team@company.com"
+        - "legal@company.com"
+        
+    pagerduty:
+      enabled: true
+      api_key: "${PAGERDUTY_API_KEY}"
+
+# Logging Configuration
+logging:
+  level: "INFO"
+  format: "json"
+  immutable_logging: true
+  
+  appenders:
+    - type: "file"
+      path: "/var/log/compliance/audit.log"
+      max_size_mb: 100
+      backup_count: 365  # Year of logs
+      
+    - type: "s3"
+      bucket: "compliance-audit-logs"
+      prefix: "audit-trails/"
+      server_side_encryption: "AES256"
+
+# Feature Flags
+features:
+  gdpr_enforcement_enabled: true
+  automatic_deletion_enabled: false  # Manual approval required
+  anomaly_detection_enabled: false
+  predictive_violations_enabled: false

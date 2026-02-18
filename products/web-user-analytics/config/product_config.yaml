@@ -1,0 +1,196 @@
+# Web User Analytics Product Configuration
+
+product:
+  id: web-user-analytics
+  name: "Web User Analytics"
+  version: "1.0.0"
+  owner: "@team-web"
+  team: "Web Analytics Team"
+  slack_channel: "#web-analytics"
+  
+# SLA Configuration
+sla:
+  uptime_target: 99.9
+  response_time_p99_ms: 800
+  availability_window: "24/7"
+  support_tier: "24/7-oncall"
+
+# Ingestion Configuration
+ingestion:
+  topics:
+    - topic_web_events
+    - topic_page_views
+    - topic_user_sessions
+  consumer_group: "web-analytics-consumer"
+  batch_size: 5000  # Larger batch for web traffic
+  timeout_ms: 30000
+  max_retries: 3
+  
+  # Session Configuration
+  session_timeout_minutes: 30
+  cross_domain_tracking: true
+  bot_detection: true
+  
+  # Kafka credentials
+  kafka:
+    brokers:
+      - "kafka-1:9092"
+      - "kafka-2:9092"
+      - "kafka-3:9092"
+    security_protocol: "SASL_SSL"
+    sasl_mechanism: "PLAIN"
+
+# Processing Configuration
+processing:
+  spark_app_name: "web-user-analytics-processor"
+  execution_mode: "cluster"  # cluster or local
+  
+  jobs:
+    - id: "event_aggregation"
+      schedule: "*/5 * * * *"  # Every 5 minutes (more frequent than mobile)
+      type: "streaming"
+      
+    - id: "session_analysis"
+      schedule: "*/30 * * * *"  # Every 30 minutes
+      type: "batch"
+      
+    - id: "page_metrics"
+      schedule: "0 * * * *"  # Hourly
+      type: "batch"
+      
+    - id: "daily_summary"
+      schedule: "0 2 * * *"  # 2 AM daily
+      type: "batch"
+
+# Storage Configuration (Delta Lake)
+storage:
+  mode: "delta"
+  
+  bronze:
+    path: "/data_lake/bronze/web_events_bronze"
+    format: "delta"
+    partition_by: ["event_date", "event_hour"]  # More granular
+    retention_days: 90
+    
+  silver:
+    path: "/data_lake/silver/web_events_silver"
+    format: "delta"
+    partition_by: ["event_date", "session_id"]
+    retention_days: 365
+    z_order_by: ["user_id", "page_id", "event_type"]
+    
+  gold:
+    path: "/data_lake/gold/web_analytics"
+    format: "delta"
+    partition_by: ["date", "page_id"]
+    retention_days: 2555  # ~7 years
+
+# Serving Configuration
+serving:
+  api:
+    host: "0.0.0.0"
+    port: 8002
+    workers: 4
+    timeout_seconds: 30
+    enable_cors: true
+    
+  cache:
+    enabled: true
+    backend: "redis"
+    ttl_seconds: 1800  # 30 minutes for real-time data
+    
+  rate_limiting:
+    enabled: true
+    requests_per_minute: 2000  # Higher for web analytics
+
+# Monitoring Configuration
+monitoring:
+  metrics:
+    enabled: true
+    prometheus_port: 9091
+    
+  health_checks:
+    enabled: true
+    interval_seconds: 30  # More frequent checks
+    
+  logging:
+    level: "INFO"
+    format: "json"
+    
+  alerts:
+    enabled: true
+    slack_webhook: "${SLACK_WEBHOOK_URL}"
+    critical_channels: ["#web-analytics-incidents"]
+
+# Data Quality Configuration
+data_quality:
+  enabled: true
+  checks:
+    - null_check
+    - duplicate_check
+    - schema_validation
+    - range_check
+    - completeness_check
+    - session_consistency_check
+  
+  rules:
+    - table: "web_events_silver"
+      field: "user_id"
+      type: "not_null"
+      
+    - table: "web_events_silver"
+      field: "event_type"
+      type: "in_list"
+      values: ["page_view", "click", "scroll", "form_submit", "video_play", "custom_event"]
+      
+    - table: "web_events_silver"
+      field: "session_duration"
+      type: "range"
+      min: 0
+      max: 86400  # Max 24 hours per session
+
+# Access Control
+access_control:
+  enabled: true
+  default_role: "viewer"
+  
+  roles:
+    viewer:
+      - read:gold
+      - read:metrics
+      - read:dashboard
+      
+    analyst:
+      - read:gold
+      - read:silver
+      - write:queries
+      - write:dashboards
+      
+    admin:
+      - read:*
+      - write:*
+      - delete:*
+
+# Feature Flags
+features:
+  heatmap_tracking: true
+  session_replay: false  # Optional premium feature
+  ml_attribution: false  # Future feature
+  real_time_alerts: true
+  custom_events: true
+  cross_domain_tracking: true
+
+# Environments
+environments:
+  development:
+    kafka_brokers: ["kafka-dev:9092"]
+    session_timeout_minutes: 15  # Shorter for testing
+    
+  staging:
+    kafka_brokers: ["kafka-staging:9092"]
+    
+  production:
+    kafka_brokers: ["kafka-prod-1:9092", "kafka-prod-2:9092", "kafka-prod-3:9092"]
+    enable_backups: true
+    backup_interval_hours: 6
+    enable_replication: true
