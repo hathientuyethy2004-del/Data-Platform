@@ -1,0 +1,45 @@
+{
+  "version": "1.0",
+  "timestamp": "2026-02-18T03:19:14.655579",
+  "charts": [
+    {
+      "id": "test_chart",
+      "title": "Test Chart",
+      "chart_type": "bar",
+      "x_axis": {
+        "title": "Categories",
+        "data_key": "cat",
+        "scale_type": "categorical",
+        "min_value": null,
+        "max_value": null
+      },
+      "y_axis": {
+        "title": "Values",
+        "data_key": "",
+        "scale_type": "linear",
+        "min_value": null,
+        "max_value": null
+      },
+      "series": [
+        {
+          "name": "val",
+          "data_key": "val",
+          "color": null,
+          "line_width": 2.0,
+          "chart_type": ""
+        }
+      ],
+      "width": 800,
+      "height": 600,
+      "theme": "light",
+      "legend_position": "right",
+      "show_grid": true,
+      "show_legend": true,
+      "show_tooltip": true,
+      "enable_zoom": false,
+      "enable_pan": false,
+      "custom_colors": {},
+      "created_at": "2026-02-18T03:19:14.655238"
+    }
+  ]
+}

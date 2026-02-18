@@ -1,0 +1,23 @@
+{
+  "version": "1.0",
+  "timestamp": "2026-02-18T03:19:14.654378",
+  "reports": [
+    {
+      "name": "test_report",
+      "title": "Test Report",
+      "description": "",
+      "sections": [],
+      "format": "ReportFormat.PDF",
+      "schedule": "ReportSchedule.ONCE",
+      "schedule_time": "",
+      "recipients": [],
+      "created_at": "2026-02-18T03:19:14.654353",
+      "updated_at": "2026-02-18T03:19:14.654359",
+      "last_generated": null,
+      "owner": "",
+      "enabled": true,
+      "tags": []
+    }
+  ],
+  "executions": []
+}

@@ -1,0 +1,40 @@
+{
+  "version": "1.0",
+  "timestamp": "2026-02-18T03:19:14.654900",
+  "assets": [
+    {
+      "id": "dataset_test_asset_1771384754.654842",
+      "name": "test_asset",
+      "asset_type": "dataset",
+      "description": "",
+      "owner": "",
+      "created_at": "2026-02-18T03:19:14.654862",
+      "updated_at": "2026-02-18T03:19:14.654868",
+      "source_system": "",
+      "location": "",
+      "tags": [],
+      "classification": "internal",
+      "owner_email": "",
+      "support_contact": "",
+      "schema": {},
+      "lineage_upstream": [],
+      "lineage_downstream": [],
+      "quality_metrics": {
+        "completeness": 100.0,
+        "accuracy": 100.0,
+        "consistency": 100.0,
+        "timeliness": 100.0,
+        "validity": 100.0,
+        "uniqueness": 100.0,
+        "last_checked": "2026-02-18T03:19:14.654875"
+      },
+      "documentation_url": "",
+      "sla": {},
+      "refresh_frequency": "",
+      "record_count": 0,
+      "size_bytes": 0,
+      "last_modified": ""
+    }
+  ],
+  "lineage": {}
+}

@@ -1,0 +1,21 @@
+{
+  "version": "1.0",
+  "timestamp": "2026-02-18T03:19:14.653797",
+  "dimensions": [
+    {
+      "name": "test_dim",
+      "columns": [
+        {
+          "name": "id",
+          "type": "int"
+        }
+      ],
+      "table_name": "dim_test",
+      "description": "",
+      "scd_type": 1,
+      "grain": ""
+    }
+  ],
+  "facts": [],
+  "marts": {}
+}
