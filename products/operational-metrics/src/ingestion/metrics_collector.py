@@ -7,7 +7,7 @@ Provides cross-product visibility into pipeline health, SLA compliance.
 
 from typing import Dict, Any, List, Optional, Tuple
 from dataclasses import dataclass, asdict
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import json
 import logging
 from enum import Enum
@@ -304,7 +304,7 @@ class MetricsCollector:
             Full report
         """
         return {
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "pipeline_summary": self.get_pipeline_summary(),
             "data_quality_summary": self.get_data_quality_summary(),
             "api_performance_summary": self.get_api_performance_summary(),

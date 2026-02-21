@@ -310,6 +310,124 @@ Week 8:    DevOps & Integration
 
 ---
 
+## 🗂️ Sprint Technical Checklist (Execution-Ready)
+
+> Mục tiêu: biến kế hoạch thành checklist triển khai thực tế, có đầu ra rõ ràng để team bám theo từng sprint.
+
+### Sprint 1 (Tuần 1–2): SHARED Foundation + Quality Gate Baseline
+
+#### A. Architecture & Scope Freeze
+- [ ] Chốt danh sách module dùng chung cần extract từ `examples/`:
+   - [ ] logging/config/dataframe/spark utils
+   - [ ] connectors (Kafka, Delta, DB, API client)
+   - [ ] monitoring/health/alerting primitives
+   - [ ] governance primitives (quality, lineage, access control)
+- [ ] Lập bảng mapping `examples/*` → `shared/core/*` (owner + ETA từng module)
+- [ ] Chốt API contract tối thiểu cho shared modules (input/output/error model)
+
+#### B. Shared Code Extraction
+- [ ] Implement và chuẩn hóa các package trong `shared/core/`:
+   - [ ] `utils/` (logger, config_loader, dataframe_utils, spark_utils)
+   - [ ] `connectors/` (kafka_connector, delta_connector, db_connector, api_client)
+   - [ ] `monitoring/` (health_checker, alerting, sla_tracker)
+   - [ ] `governance/` (quality_checker, lineage_tracker, access_control)
+- [ ] Đảm bảo mọi module có typing tối thiểu và exception handling thống nhất
+- [ ] Thêm examples sử dụng ngắn cho từng nhóm module (README hoặc docstring)
+
+#### C. Platform Layer Hardening
+- [ ] Chuẩn hóa `shared/platform/orchestrator.py`:
+   - [ ] Bổ sung `--workspace-root` CLI arg
+   - [ ] Chuẩn hóa exit code (`0` pass, `>0` fail) cho CI
+   - [ ] Xuất JSON status ổn định để pipeline parse
+- [ ] Chuẩn hóa `shared/platform/api_gateway.py`:
+   - [ ] Rà soát timeout/retry policy cho upstream
+   - [ ] Chuẩn hóa health payload (gateway + service detail)
+   - [ ] Ràng buộc whitelist headers + error mapping nhất quán
+
+#### D. Testing & CI Baseline
+- [ ] Thiết lập quality gate baseline cho toàn repo:
+   - [ ] `pytest` (unit + smoke integration)
+   - [ ] lint (`ruff`/`flake8` tùy stack hiện tại)
+   - [ ] type-check (`mypy` hoặc tương đương, tối thiểu cho shared/platform)
+- [ ] Bổ sung test tối thiểu cho `shared/platform`:
+   - [ ] test `orchestrator status`
+   - [ ] test service registry/health của API gateway
+- [ ] Tạo workflow CI skeleton trong `infrastructure/ci-cd/.github/workflows/`
+
+#### E. Deliverables & Done Criteria (Tuần 1–2)
+- [ ] Deliverables:
+   - [ ] Shared modules chạy được và import được từ products
+   - [ ] 1 workflow CI chạy pass với quality gate tối thiểu
+   - [ ] Báo cáo architecture status từ orchestrator (JSON artifact)
+- [ ] Done criteria:
+   - [ ] Không còn phụ thuộc trực tiếp vào `examples/` trong code mới ở products đang active
+   - [ ] Tất cả module shared quan trọng có test smoke
+   - [ ] CI chạy ổn định trên branch chính
+
+---
+
+### Sprint 2 (Tuần 3–4): Product Convergence (User-Segmentation + Mobile Readiness)
+
+#### A. User-Segmentation Completion (Ưu tiên 1)
+- [ ] Hoàn thiện cấu trúc còn thiếu trong `products/user-segmentation/src/`:
+   - [ ] `serving/` (FastAPI endpoints cơ bản)
+   - [ ] `monitoring/` (health + metrics)
+   - [ ] `tests/` (unit + API smoke)
+- [ ] Chuẩn hóa luồng ingestion → processing → storage tối thiểu có thể chạy E2E
+- [ ] Kết nối shared modules mới thay vì code duplicate
+
+#### B. Mobile Product Implementation Kickoff (Ưu tiên 2)
+- [ ] Chuyển từ template sang implementation cho `mobile-user-analytics`:
+   - [ ] ingestion consumer + schema validation
+   - [ ] processing transformations cơ bản
+   - [ ] storage Bronze/Silver/Gold schemas
+   - [ ] serving endpoint tối thiểu (health + 1 metrics endpoint)
+- [ ] Thiết lập test baseline cho mobile:
+   - [ ] schema validation tests
+   - [ ] ingestion flow smoke test
+   - [ ] API health test
+
+#### C. Cross-Product Standards
+- [ ] Đồng bộ chuẩn cấu hình `config/product_config.yaml` giữa 5 products
+- [ ] Áp dụng cùng logging format, metrics labels, error envelope
+- [ ] Bổ sung checklist deprecation cleanup:
+   - [ ] thay `datetime.utcnow()` bằng datetime timezone-aware
+   - [ ] cập nhật Pydantic config style cho v2/v3-safe
+
+#### D. Integration & Runtime Verification
+- [ ] Dùng orchestrator chạy kiểm tra cho từng product:
+   - [ ] `status`
+   - [ ] `test <product>`
+   - [ ] `demo <product>` (nếu có)
+- [ ] Dùng API gateway xác thực routing tối thiểu cho 3 product chính
+- [ ] Kiểm tra health matrix: product health + gateway health
+
+#### E. Deliverables & Done Criteria (Tuần 3–4)
+- [ ] Deliverables:
+   - [ ] `user-segmentation` đạt architecture_complete=true
+   - [ ] `mobile-user-analytics` có implementation chạy được (không chỉ template)
+   - [ ] Bộ test tối thiểu cho cả 2 product mới/còn thiếu
+- [ ] Done criteria:
+   - [ ] 5/5 products có đủ khung `serving + processing + monitoring + tests`
+   - [ ] CI pass cho các product active
+   - [ ] Gateway health phản ánh đúng trạng thái upstream theo env
+
+---
+
+### Risk Radar (Theo Dõi xuyên suốt 2 sprint)
+- [ ] Rủi ro ownership mơ hồ giữa shared team và product team
+- [ ] Rủi ro drift cấu hình giữa các môi trường dev/staging/prod
+- [ ] Rủi ro technical debt tăng do deprecation chưa xử lý
+- [ ] Rủi ro scope creep (làm thêm ngoài checklist)
+
+### Suggested Ceremonies (Nhẹ nhưng hiệu quả)
+- [ ] Daily 15 phút theo format: blocker / done / next
+- [ ] Mid-sprint checkpoint (ngày 5 hoặc 6)
+- [ ] Sprint review với demo bắt buộc từ orchestrator hoặc API gateway
+- [ ] Retrospective tập trung vào quality gate và flow triển khai
+
+---
+
 ## 🎓 How the New Architecture Works
 
 ### Example: Building Mobile User Analytics

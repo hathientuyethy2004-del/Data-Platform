@@ -1,19 +1,19 @@
 {
-  "run_id": "day15_compare_trend_20260221T152001Z",
-  "run_ts": "2026-02-21T15:20:01.985278+00:00",
+  "run_id": "day15_compare_trend_20260221T162001Z",
+  "run_ts": "2026-02-21T16:20:01.871088+00:00",
   "window_hours": 24,
   "summary": {
-    "total_runs": 5,
-    "compare_pass_runs": 5,
+    "total_runs": 6,
+    "compare_pass_runs": 6,
     "compare_fail_runs": 0,
     "compare_pass_rate_pct": 100.0,
     "scaled_to_50_runs": 0,
-    "blocked_runs": 5,
+    "blocked_runs": 6,
     "status": "PASS"
   },
   "latest_snapshot": {
-    "run_id": "day15_scale_20260221T152001Z",
-    "run_ts": "2026-02-21T15:20:01.881042+00:00",
+    "run_id": "day15_scale_20260221T162001Z",
+    "run_ts": "2026-02-21T16:20:01.758753+00:00",
     "scope": "Day 15 guarded scale-up to 50% after Gate 2 PASS",
     "checks": {
       "gate2_pass_required": {

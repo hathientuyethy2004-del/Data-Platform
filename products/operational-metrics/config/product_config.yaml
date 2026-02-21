@@ -1,6 +1,7 @@
 # Operational Metrics Product Configuration
 
 product:
+  id: operational-metrics
   name: operational-metrics
   version: 1.0.0
   description: "Cross-product operational metrics, SLA monitoring, and cost tracking"
@@ -211,7 +212,6 @@ api:
     - path: "/dashboard/overview"
       method: "GET"
       cache_ttl_seconds: 60
-      
     - path: "/sla/compliance"
       method: "GET"
       cache_ttl_seconds: 300
@@ -226,6 +226,15 @@ api:
     - path: "/health/pipeline"
       method: "GET"
       cache_ttl_seconds: 60
+
+serving:
+  api:
+    host: "0.0.0.0"
+    port: 8001
+    timeout_seconds: 30
+  rate_limiting:
+    enabled: true
+    requests_per_minute: 1000
 
 # Monitoring Configuration
 monitoring:
@@ -296,3 +305,17 @@ features:
   anomaly_detection_enabled: false
   predictive_alerting_enabled: false
   auto_remediation_enabled: false
+
+access_control:
+  enabled: true
+  default_role: viewer
+  roles:
+    viewer:
+      - read:metrics
+      - read:sla
+    analyst:
+      - read:metrics
+      - write:queries
+    admin:
+      - read:*
+      - write:*

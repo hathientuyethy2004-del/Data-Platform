@@ -1,19 +1,19 @@
 {
-  "run_id": "day21_trend_20260221T155001Z",
-  "run_ts": "2026-02-21T15:50:01.295376+00:00",
+  "run_id": "day21_trend_20260221T165002Z",
+  "run_ts": "2026-02-21T16:50:02.154091+00:00",
   "window_hours": 24,
   "summary": {
-    "total_runs": 3,
+    "total_runs": 4,
     "pass_runs": 0,
-    "no_go_runs": 3,
+    "no_go_runs": 4,
     "pass_rate_pct": 0.0,
     "latest_status": "NO_GO",
     "status": "MONITORING",
     "last_transition_to_pass_at": null
   },
   "latest_snapshot": {
-    "run_id": "day21_gate3_20260221T155001Z",
-    "run_ts": "2026-02-21T15:50:01.190267+00:00",
+    "run_id": "day21_gate3_20260221T165002Z",
+    "run_ts": "2026-02-21T16:50:02.033869+00:00",
     "gate": "WEEK3_GATE3",
     "scope": "Day 21 Gate 3 evaluation for Week 4 full cutover approval",
     "checks": {
@@ -29,7 +29,7 @@
       "compare_pass_rate_99_5": {
         "compare_pass_rate_pct": 100.0,
         "required_min_pass_rate_pct": 99.5,
-        "total_runs": 5,
+        "total_runs": 6,
         "status": "PASS"
       }
     },

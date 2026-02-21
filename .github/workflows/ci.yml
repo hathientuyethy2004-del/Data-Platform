@@ -1,0 +1,45 @@
+name: Data Platform CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  baseline-quality:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r examples/requirements.txt pytest pyyaml
+
+      - name: Shared platform tests
+        run: |
+          PYTHONPATH=. pytest -q \
+            shared/tests/test_platform_orchestrator.py \
+            shared/tests/test_platform_api_gateway.py \
+            shared/tests/test_product_config_contract.py
+
+      - name: User segmentation tests
+        run: |
+          cd products/user-segmentation
+          PYTHONPATH=. pytest -q src/tests
+
+      - name: Mobile kickoff tests
+        run: |
+          cd products/mobile-user-analytics
+          PYTHONPATH=. pytest -q src/tests/test_kickoff.py
+
+      - name: Web analytics smoke tests
+        run: |
+          cd products/web-user-analytics
+          PYTHONPATH=. pytest -q src/tests/test_consumer.py

@@ -10,7 +10,7 @@ Test coverage:
 """
 
 import pytest
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from unittest.mock import Mock, patch
 
 from src.ingestion.audit_collector import (
@@ -38,7 +38,7 @@ class TestAuditTrailCollector:
         """Test recording data access event"""
         event = DataAccessEvent(
             event_id="evt_001",
-            timestamp=datetime.utcnow().isoformat(),
+            timestamp=datetime.now(timezone.utc).isoformat(),
             user_id="user_123",
             dataset="customer_data",
             columns_accessed=["email", "name"],
@@ -57,7 +57,7 @@ class TestAuditTrailCollector:
         """Test recording data deletion event"""
         event = DataDeletionEvent(
             event_id="evt_002",
-            timestamp=datetime.utcnow().isoformat(),
+            timestamp=datetime.now(timezone.utc).isoformat(),
             request_id="req_123",
             subject_id="subj_456",
             deletion_reason="gdpr_rtbf",
@@ -74,7 +74,7 @@ class TestAuditTrailCollector:
         """Test recording API call event"""
         event = APIAuditEvent(
             event_id="evt_003",
-            timestamp=datetime.utcnow().isoformat(),
+            timestamp=datetime.now(timezone.utc).isoformat(),
             api_path="/api/v1/users",
             method="GET",
             user_id="user_123",
@@ -110,7 +110,7 @@ class TestGDPRComplianceEngine:
             "dataset_1",
             current_age_days=100,
             classification="pii",
-            last_access_date=datetime.utcnow().isoformat()
+            last_access_date=datetime.now(timezone.utc).isoformat()
         )
         
         assert result["compliant"] is True
@@ -121,7 +121,7 @@ class TestGDPRComplianceEngine:
             "dataset_2",
             current_age_days=400,
             classification="customer_data",
-            last_access_date=(datetime.utcnow() - timedelta(days=400)).isoformat()
+            last_access_date=(datetime.now(timezone.utc) - timedelta(days=400)).isoformat()
         )
         
         assert result["compliant"] is False
@@ -173,7 +173,7 @@ class TestDataRetentionManager:
         result = manager.schedule_deletion(
             "old_dataset",
             "retention_exceeded",
-            (datetime.utcnow() + timedelta(days=7)).isoformat()
+            (datetime.now(timezone.utc) + timedelta(days=7)).isoformat()
         )
         
         assert result["status"] == "scheduled"
@@ -319,7 +319,7 @@ class TestIntegration:
         
         event = DataAccessEvent(
             event_id="evt_001",
-            timestamp=datetime.utcnow().isoformat(),
+            timestamp=datetime.now(timezone.utc).isoformat(),
             user_id="user_123",
             dataset="customer_data",
             columns_accessed=["email"],

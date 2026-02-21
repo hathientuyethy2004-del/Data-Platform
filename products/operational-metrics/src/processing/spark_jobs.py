@@ -9,7 +9,7 @@ Orchestrates:
 
 import logging
 from typing import Dict, Any, List, Optional, Tuple
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pyspark.sql import SparkSession, DataFrame, Window
 from pyspark.sql.functions import (
     col, sum as spark_sum, avg, count, max as spark_max, min as spark_min,
@@ -53,7 +53,7 @@ class OperationalMetricsOrchestrator:
             Pipeline execution stats
         """
         if not date:
-            date = datetime.utcnow().date().isoformat()
+            date = datetime.now(timezone.utc).date().isoformat()
         
         logger.info(f"Starting operational metrics pipeline for {date}")
         
@@ -114,7 +114,7 @@ class OperationalMetricsOrchestrator:
                 .withColumn("success_flag", col("status") == "SUCCESS") \
                 .withColumn("run_date", to_date(col("run_timestamp"))) \
                 .withColumn("run_hour", hour(col("run_timestamp"))) \
-                .withColumn("processed_timestamp", lit(datetime.utcnow().isoformat()))
+                .withColumn("processed_timestamp", lit(datetime.now(timezone.utc).isoformat()))
             
             # Write to Silver
             df_validated.select(
@@ -277,5 +277,5 @@ class OperationalMetricsOrchestrator:
         """Get pipeline statistics"""
         return {
             **self.stats,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }

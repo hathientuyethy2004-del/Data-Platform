@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import subprocess
 from dataclasses import dataclass, asdict
 from datetime import datetime, timezone
@@ -31,7 +32,8 @@ class PlatformOrchestrator:
     """Platform-level orchestrator for product discovery and health checks."""
 
     def __init__(self, workspace_root: Optional[Path] = None):
-        self.workspace_root = workspace_root or Path("/workspaces/Data-Platform")
+        env_workspace = os.getenv("WORKSPACE_ROOT")
+        self.workspace_root = workspace_root or Path(env_workspace or "/workspaces/Data-Platform")
         self.products_root = self.workspace_root / "products"
 
     def discover_products(self) -> List[ProductDescriptor]:
@@ -89,6 +91,9 @@ class PlatformOrchestrator:
                 }
             )
 
+            complete_count = sum(1 for item in product_status if item["architecture_complete"])
+            incomplete_products = [item["name"] for item in product_status if not item["architecture_complete"]]
+
         shared_platform = self.workspace_root / "shared" / "platform"
         shared_tests = self.workspace_root / "shared" / "tests"
         infrastructure = self.workspace_root / "infrastructure"
@@ -97,6 +102,9 @@ class PlatformOrchestrator:
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "workspace_root": str(self.workspace_root),
             "products_total": len(products),
+            "products_complete": complete_count,
+            "products_incomplete": len(products) - complete_count,
+            "incomplete_products": incomplete_products,
             "products": product_status,
             "platform_components": {
                 "shared_platform_exists": shared_platform.exists(),
@@ -120,6 +128,9 @@ class PlatformOrchestrator:
 
         command = ["pytest", "-q", str(test_path)]
         try:
+            run_env = os.environ.copy()
+            existing_pythonpath = run_env.get("PYTHONPATH", "").strip()
+            run_env["PYTHONPATH"] = "." if not existing_pythonpath else f".:{existing_pythonpath}"
             result = subprocess.run(
                 command,
                 cwd=str(product_path),
@@ -127,6 +138,7 @@ class PlatformOrchestrator:
                 capture_output=True,
                 timeout=timeout_seconds,
                 check=False,
+                env=run_env,
             )
             return {
                 "product": product_name,
@@ -155,6 +167,9 @@ class PlatformOrchestrator:
 
         command = ["python", str(demo_script)]
         try:
+            run_env = os.environ.copy()
+            existing_pythonpath = run_env.get("PYTHONPATH", "").strip()
+            run_env["PYTHONPATH"] = "." if not existing_pythonpath else f".:{existing_pythonpath}"
             result = subprocess.run(
                 command,
                 cwd=str(product_path),
@@ -162,6 +177,7 @@ class PlatformOrchestrator:
                 capture_output=True,
                 timeout=timeout_seconds,
                 check=False,
+                env=run_env,
             )
             return {
                 "product": product_name,
@@ -181,15 +197,35 @@ class PlatformOrchestrator:
 
 def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Data Platform - Platform Orchestrator")
+    parser.add_argument(
+        "--workspace-root",
+        default=None,
+        help="Workspace root path (default: WORKSPACE_ROOT env or /workspaces/Data-Platform)",
+    )
     subparsers = parser.add_subparsers(dest="command", required=True)
 
-    subparsers.add_parser("status", help="Show platform architecture status")
+    status_parser = subparsers.add_parser("status", help="Show platform architecture status")
+    status_parser.add_argument(
+        "--strict",
+        action="store_true",
+        help="Return non-zero exit code if any product is architecture_incomplete",
+    )
 
     test_parser = subparsers.add_parser("test", help="Run product tests")
     test_parser.add_argument("product", help="Product name under products/")
+    test_parser.add_argument(
+        "--allow-skip",
+        action="store_true",
+        help="Treat skipped tests as success (exit code 0)",
+    )
 
     demo_parser = subparsers.add_parser("demo", help="Run product demo if available")
     demo_parser.add_argument("product", help="Product name under products/")
+    demo_parser.add_argument(
+        "--allow-skip",
+        action="store_true",
+        help="Treat skipped demo as success (exit code 0)",
+    )
 
     return parser
 
@@ -199,19 +235,34 @@ def main() -> int:
     parser = _build_parser()
     args = parser.parse_args()
 
-    orchestrator = PlatformOrchestrator()
+    orchestrator = PlatformOrchestrator(
+        workspace_root=Path(args.workspace_root) if args.workspace_root else None
+    )
 
     if args.command == "status":
-        print(json.dumps(orchestrator.architecture_status(), indent=2))
+        status = orchestrator.architecture_status()
+        print(json.dumps(status, indent=2))
+        if getattr(args, "strict", False) and status.get("products_incomplete", 0) > 0:
+            return 2
         return 0
 
     if args.command == "test":
-        print(json.dumps(orchestrator.run_product_tests(args.product), indent=2))
-        return 0
+        result = orchestrator.run_product_tests(args.product)
+        print(json.dumps(result, indent=2))
+        if result.get("status") == "success":
+            return 0
+        if result.get("status") == "skipped":
+            return 0 if getattr(args, "allow_skip", False) else 3
+        return 1
 
     if args.command == "demo":
-        print(json.dumps(orchestrator.run_demo_if_available(args.product), indent=2))
-        return 0
+        result = orchestrator.run_demo_if_available(args.product)
+        print(json.dumps(result, indent=2))
+        if result.get("status") == "success":
+            return 0
+        if result.get("status") == "skipped":
+            return 0 if getattr(args, "allow_skip", False) else 3
+        return 1
 
     return 1
 

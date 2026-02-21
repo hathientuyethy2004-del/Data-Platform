@@ -1,19 +1,19 @@
 {
-  "run_id": "day22_24_trend_20260221T145455Z",
-  "run_ts": "2026-02-21T14:54:55.638973+00:00",
+  "run_id": "day22_24_trend_20260221T165501Z",
+  "run_ts": "2026-02-21T16:55:01.387491+00:00",
   "window_hours": 24,
   "summary": {
-    "total_runs": 1,
+    "total_runs": 2,
     "write_load_100_shadow_read_runs": 0,
-    "blocked_runs": 1,
+    "blocked_runs": 2,
     "cutover_applied_rate_pct": 0.0,
     "latest_status": "BLOCKED",
     "status": "MONITORING",
     "last_transition_to_write_load_100_shadow_read_at": null
   },
   "latest_snapshot": {
-    "run_id": "day22_24_cutover_20260221T145455Z",
-    "run_ts": "2026-02-21T14:54:55.508831+00:00",
+    "run_id": "day22_24_cutover_20260221T165501Z",
+    "run_ts": "2026-02-21T16:55:01.236783+00:00",
     "scope": "Day 22-24 guarded batch: cutover 100% write/load + legacy shadow read",
     "checks": {
       "day21_gate3_pass_required": {

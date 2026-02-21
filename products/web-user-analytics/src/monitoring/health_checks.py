@@ -7,7 +7,7 @@ Provides endpoints for health checks and status reporting.
 
 import logging
 from typing import Dict, Any, Optional, List
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from dataclasses import dataclass, asdict
 from enum import Enum
 
@@ -71,7 +71,7 @@ class PipelineHealthMonitor:
             df = self.spark.read.format("delta").load(bronze_path)
             
             # Count recent records
-            cutoff = (datetime.utcnow() - timedelta(hours=hours_back)).isoformat()
+            cutoff = (datetime.now(timezone.utc) - timedelta(hours=hours_back)).isoformat()
             recent_count = df.filter(col("timestamp") >= cutoff).count()
             
             if recent_count == 0:
@@ -87,7 +87,7 @@ class PipelineHealthMonitor:
             return HealthCheckResult(
                 component="bronze_layer",
                 status=status,
-                timestamp=datetime.utcnow(),
+                timestamp=datetime.now(timezone.utc),
                 message=message,
                 details={
                     "recent_records": recent_count,
@@ -100,7 +100,7 @@ class PipelineHealthMonitor:
             return HealthCheckResult(
                 component="bronze_layer",
                 status=HealthStatus.UNKNOWN,
-                timestamp=datetime.utcnow(),
+                timestamp=datetime.now(timezone.utc),
                 message=f"Health check failed: {str(e)}",
                 details={"error": str(e)}
             )
@@ -140,7 +140,7 @@ class PipelineHealthMonitor:
             return HealthCheckResult(
                 component="silver_layer",
                 status=status,
-                timestamp=datetime.utcnow(),
+                timestamp=datetime.now(timezone.utc),
                 message=message,
                 details={
                     "total_records": total_count,
@@ -154,7 +154,7 @@ class PipelineHealthMonitor:
             return HealthCheckResult(
                 component="silver_layer",
                 status=HealthStatus.UNKNOWN,
-                timestamp=datetime.utcnow(),
+                timestamp=datetime.now(timezone.utc),
                 message=f"Health check failed: {str(e)}",
                 details={"error": str(e)}
             )
@@ -184,7 +184,7 @@ class PipelineHealthMonitor:
             return HealthCheckResult(
                 component="gold_layer",
                 status=status,
-                timestamp=datetime.utcnow(),
+                timestamp=datetime.now(timezone.utc),
                 message=message,
                 details={"metric_records": count}
             )
@@ -194,7 +194,7 @@ class PipelineHealthMonitor:
             return HealthCheckResult(
                 component="gold_layer",
                 status=HealthStatus.UNKNOWN,
-                timestamp=datetime.utcnow(),
+                timestamp=datetime.now(timezone.utc),
                 message=f"Health check failed: {str(e)}",
                 details={"error": str(e)}
             )
@@ -222,7 +222,9 @@ class PipelineHealthMonitor:
                 message = "No data in table"
                 age_hours = None
             else:
-                age = datetime.utcnow() - latest_ts
+                if latest_ts.tzinfo is None:
+                    latest_ts = latest_ts.replace(tzinfo=timezone.utc)
+                age = datetime.now(timezone.utc) - latest_ts
                 age_hours = age.total_seconds() / 3600
                 
                 if age_hours > max_age_hours:
@@ -235,7 +237,7 @@ class PipelineHealthMonitor:
             return HealthCheckResult(
                 component="data_freshness",
                 status=status,
-                timestamp=datetime.utcnow(),
+                timestamp=datetime.now(timezone.utc),
                 message=message,
                 details={"age_hours": age_hours, "max_age_hours": max_age_hours}
             )
@@ -245,7 +247,7 @@ class PipelineHealthMonitor:
             return HealthCheckResult(
                 component="data_freshness",
                 status=HealthStatus.UNKNOWN,
-                timestamp=datetime.utcnow(),
+                timestamp=datetime.now(timezone.utc),
                 message=f"Check failed: {str(e)}",
                 details={"error": str(e)}
             )
@@ -344,7 +346,7 @@ class DataQualityMonitor:
         return {
             "total_records": df.count(),
             "duplicate_rate_%": self.check_duplicate_rate(df),
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
 

@@ -1,0 +1,55 @@
+# User Segmentation Product Configuration
+
+product:
+  id: user-segmentation
+  name: "User Segmentation"
+  version: "1.0.0"
+  owner: "@team-ml"
+  team: "User Segmentation Team"
+  slack_channel: "#user-segmentation"
+
+sla:
+  uptime_target: 99.5
+  response_time_p99_ms: 1200
+  availability_window: "24/7"
+  support_tier: "business-hours"
+
+ingestion:
+  sources:
+    - "mobile-user-analytics"
+    - "web-user-analytics"
+
+serving:
+  api:
+    host: "0.0.0.0"
+    port: 8005
+    workers: 2
+    timeout_seconds: 30
+
+monitoring:
+  metrics:
+    enabled: true
+  health_checks:
+    enabled: true
+    interval_seconds: 60
+
+access_control:
+  enabled: true
+  default_role: "viewer"
+  roles:
+    viewer:
+      - read:segments
+    analyst:
+      - read:segments
+      - write:experiments
+    admin:
+      - read:*
+      - write:*
+
+environments:
+  development:
+    data_path: "/data_lake/dev/user-segmentation"
+  staging:
+    data_path: "/data_lake/staging/user-segmentation"
+  production:
+    data_path: "/data_lake/prod/user-segmentation"

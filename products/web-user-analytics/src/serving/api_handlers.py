@@ -9,7 +9,7 @@ from fastapi import FastAPI, HTTPException, Query, Depends, Header
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 from typing import Optional, List, Dict, Any, Annotated
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import logging
 from enum import Enum
 import hashlib
@@ -426,7 +426,7 @@ async def startup_event():
 @app.get("/health")
 async def health_check():
     """Health check endpoint"""
-    return {"status": "healthy", "timestamp": datetime.utcnow().isoformat()}
+    return {"status": "healthy", "timestamp": datetime.now(timezone.utc).isoformat()}
 
 
 @app.get("/pages/{page_id}/metrics", response_model=List[Dict[str, Any]])

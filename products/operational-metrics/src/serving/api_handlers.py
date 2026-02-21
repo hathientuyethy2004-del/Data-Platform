@@ -10,7 +10,7 @@ Provides REST endpoints for:
 
 import logging
 from typing import Dict, Any, List, Optional
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from fastapi import APIRouter, Query, HTTPException
 from pydantic import BaseModel, Field
 import asyncio
@@ -83,7 +83,7 @@ class MetricsStore:
         if metric_type not in self.metrics_history:
             self.metrics_history[metric_type] = []
         
-        metric_data["stored_at"] = datetime.utcnow().isoformat()
+        metric_data["stored_at"] = datetime.now(timezone.utc).isoformat()
         self.metrics_history[metric_type].append(metric_data)
         
         # Keep last 1000 datapoints
@@ -95,7 +95,7 @@ class MetricsStore:
         if metric_type not in self.metrics_history:
             return []
         
-        cutoff = datetime.utcnow() - timedelta(hours=hours)
+        cutoff = datetime.now(timezone.utc) - timedelta(hours=hours)
         return [
             m for m in self.metrics_history[metric_type]
             if datetime.fromisoformat(m.get("stored_at", "")) >= cutoff
@@ -128,7 +128,7 @@ async def get_dashboard_overview(
     ]
     
     dashboard = {
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "products": {},
         "infrastructure": {
             "spark_cluster_nodes": 10,
@@ -145,7 +145,7 @@ async def get_dashboard_overview(
             "pipeline_success_rate": 99.8,
             "data_freshness_minutes": 3.5,
             "api_health": "UP",
-            "last_updated": datetime.utcnow().isoformat(),
+            "last_updated": datetime.now(timezone.utc).isoformat(),
         }
     
     return dashboard
@@ -191,7 +191,7 @@ async def get_sla_compliance(
                 "status": "HEALTHY",
             },
         ],
-        timestamp=datetime.utcnow().isoformat(),
+        timestamp=datetime.now(timezone.utc).isoformat(),
         trend="stable"
     )
 
@@ -249,7 +249,7 @@ async def create_alert(alert_def: AlertDefinition) -> Dict[str, Any]:
     Returns:
         Created alert
     """
-    alert_id = f"alert_{datetime.utcnow().timestamp()}"
+    alert_id = f"alert_{datetime.now(timezone.utc).timestamp()}"
     metrics_store.alerts[alert_id] = alert_def
     
     logger.info(f"Created alert {alert_id}: {alert_def.name}")
@@ -259,7 +259,7 @@ async def create_alert(alert_def: AlertDefinition) -> Dict[str, Any]:
         "name": alert_def.name,
         "metric": alert_def.metric,
         "enabled": alert_def.enabled,
-        "created_at": datetime.utcnow().isoformat(),
+        "created_at": datetime.now(timezone.utc).isoformat(),
     }
 
 
@@ -309,7 +309,7 @@ async def get_pipeline_health(product: str) -> Dict[str, Any]:
     return {
         "product": product,
         "status": "HEALTHY",
-        "last_run": (datetime.utcnow() - timedelta(minutes=5)).isoformat(),
+        "last_run": (datetime.now(timezone.utc) - timedelta(minutes=5)).isoformat(),
         "success_rate_24h": 99.85,
         "avg_duration_sec": 120,
         "records_processed_24h": 50000000,
@@ -351,7 +351,7 @@ async def get_infrastructure_utilization() -> Dict[str, Any]:
         Utilization data
     """
     return {
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "spark": {
             "nodes": 10,
             "executors": 80,
@@ -392,7 +392,7 @@ async def get_operational_summary() -> Dict[str, Any]:
         Summary data
     """
     return {
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "products_online": 5,
         "pipelines_running": 12,
         "sla_status": "HEALTHY",

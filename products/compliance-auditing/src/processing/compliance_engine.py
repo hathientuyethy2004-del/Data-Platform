@@ -9,7 +9,7 @@ Handles:
 """
 
 from typing import Dict, Any, List, Optional, Tuple
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from dataclasses import dataclass
 from enum import Enum
 import logging
@@ -109,7 +109,7 @@ class GDPRComplianceEngine:
                 "severity": ViolationSeverity.HIGH.value,
                 "days_overdue": current_age_days - retention_limit,
                 "action": "schedule_for_deletion",
-                "detected_at": datetime.utcnow().isoformat(),
+                "detected_at": datetime.now(timezone.utc).isoformat(),
             }
             self.violations.append(violation)
             result["violation"] = violation
@@ -131,7 +131,7 @@ class GDPRComplianceEngine:
         Returns:
             Request status
         """
-        request_id = f"rtbf_{subject_id}_{datetime.utcnow().timestamp()}"
+        request_id = f"rtbf_{subject_id}_{datetime.now(timezone.utc).timestamp()}"
         
         request_record = {
             "request_id": request_id,
@@ -139,7 +139,7 @@ class GDPRComplianceEngine:
             "datasets": datasets,
             "reason": reason,
             "status": "pending",
-            "requested_at": datetime.utcnow().isoformat(),
+            "requested_at": datetime.now(timezone.utc).isoformat(),
             "datasets_processed": [],
         }
         
@@ -150,7 +150,7 @@ class GDPRComplianceEngine:
         return {
             "request_id": request_id,
             "status": "pending",
-            "estimated_completion": (datetime.utcnow() + timedelta(hours=24)).isoformat(),
+            "estimated_completion": (datetime.now(timezone.utc) + timedelta(hours=24)).isoformat(),
             "datasets_to_process": datasets,
         }
     
@@ -187,7 +187,7 @@ class GDPRComplianceEngine:
                 "allowed_purposes": allowed_purposes,
                 "severity": ViolationSeverity.CRITICAL.value,
                 "action": "block_access",
-                "detected_at": datetime.utcnow().isoformat(),
+                "detected_at": datetime.now(timezone.utc).isoformat(),
             }
             self.violations.append(violation)
             result["violation"] = violation
@@ -230,7 +230,7 @@ class GDPRComplianceEngine:
                 "unnecessary_fields": list(unnecessary_fields),
                 "severity": severity,
                 "action": "review_and_remediate",
-                "detected_at": datetime.utcnow().isoformat(),
+                "detected_at": datetime.now(timezone.utc).isoformat(),
             }
             self.violations.append(violation)
             result["violation"] = violation
@@ -248,9 +248,9 @@ class GDPRComplianceEngine:
             Audit report
         """
         audit_results = {
-            "audit_id": f"audit_{datetime.utcnow().timestamp()}",
+            "audit_id": f"audit_{datetime.now(timezone.utc).timestamp()}",
             "framework": "GDPR",
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "datasets_checked": len(datasets),
             "checks": {},
             "violations_found": 0,
@@ -264,7 +264,7 @@ class GDPRComplianceEngine:
                 dataset["name"],
                 dataset.get("age_days", 0),
                 dataset.get("classification", "internal"),
-                dataset.get("last_access", datetime.utcnow().isoformat())
+                dataset.get("last_access", datetime.now(timezone.utc).isoformat())
             )
             retention_checks.append(check)
         
@@ -310,13 +310,13 @@ class DataRetentionManager:
             Deletion schedule
         """
         deletion_record = {
-            "deletion_id": f"del_{dataset}_{datetime.utcnow().timestamp()}",
+            "deletion_id": f"del_{dataset}_{datetime.now(timezone.utc).timestamp()}",
             "dataset": dataset,
             "reason": reason,
             "scheduled_date": scheduled_date,
             "preserve_logs": preserve_logs,
             "status": "scheduled",
-            "created_at": datetime.utcnow().isoformat(),
+            "created_at": datetime.now(timezone.utc).isoformat(),
         }
         
         self.scheduled_deletions.append(deletion_record)
@@ -342,7 +342,7 @@ class DataRetentionManager:
         
         # Execute deletion (would actually delete in production)
         deletion["status"] = "completed"
-        deletion["completed_at"] = datetime.utcnow().isoformat()
+        deletion["completed_at"] = datetime.now(timezone.utc).isoformat()
         
         logger.info(f"Executed deletion: {deletion_id}")
         
@@ -350,7 +350,7 @@ class DataRetentionManager:
             "deletion_id": deletion_id,
             "status": "completed",
             "records_deleted": 1000000,  # Would be actual count
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
     
     def get_retention_policy(self, data_type: str) -> Dict[str, Any]:
@@ -368,7 +368,7 @@ class DataRetentionManager:
         return {
             "data_type": data_type,
             "retention_days": retention_days,
-            "deletion_date": (datetime.utcnow() + timedelta(days=retention_days)).isoformat(),
+            "deletion_date": (datetime.now(timezone.utc) + timedelta(days=retention_days)).isoformat(),
             "framework": "GDPR",
         }
 
@@ -411,7 +411,7 @@ class AccessControlValidator:
         
         # Log access attempt
         self.access_log.append({
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "user_id": user_id,
             "dataset": dataset,
             "classification": data_classification,
@@ -457,7 +457,7 @@ class ComplianceReportGenerator:
         """
         return {
             "report_type": "GDPR_Compliance",
-            "generated_at": datetime.utcnow().isoformat(),
+            "generated_at": datetime.now(timezone.utc).isoformat(),
             "audit_summary": {
                 "framework": "GDPR",
                 "datasets_audited": audit_results.get("datasets_checked", 0),
@@ -476,7 +476,7 @@ class ComplianceReportGenerator:
                 "Implement automated compliance checks",
                 "Enhance access logging and monitoring",
             ],
-            "next_audit_date": (datetime.utcnow() + timedelta(days=90)).isoformat(),
+            "next_audit_date": (datetime.now(timezone.utc) + timedelta(days=90)).isoformat(),
         }
     
     def generate_data_lineage_report(self, dataset: str) -> Dict[str, Any]:
@@ -491,7 +491,7 @@ class ComplianceReportGenerator:
         """
         return {
             "dataset": dataset,
-            "generated_at": datetime.utcnow().isoformat(),
+            "generated_at": datetime.now(timezone.utc).isoformat(),
             "data_flows": [
                 {
                     "source": "kafka_topic",

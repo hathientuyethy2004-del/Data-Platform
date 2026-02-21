@@ -1,5 +1,5 @@
 {
-  "run_ts": "2026-02-21T16:00:01Z",
+  "run_ts": "2026-02-21T17:00:01Z",
   "window_minutes": 60,
   "window_seconds": 3600,
   "status": "PASS",
@@ -14,31 +14,31 @@
       "status": "PASS",
       "log_file": "documentation/migration/reports/DAY15_COMPARE_CRON.log",
       "exists": true,
-      "age_seconds": 2399
+      "age_seconds": 2400
     },
     "day27_validation_hourly": {
       "status": "PASS",
       "log_file": "documentation/migration/reports/DAY27_VALIDATION_CRON.log",
       "exists": true,
-      "age_seconds": 960
+      "age_seconds": 3000
     },
     "day28_freeze_hourly": {
       "status": "PASS",
       "log_file": "documentation/migration/reports/DAY28_FREEZE_CRON.log",
       "exists": true,
-      "age_seconds": 1201
+      "age_seconds": 2879
     },
     "day29_decommission_hourly": {
       "status": "PASS",
       "log_file": "documentation/migration/reports/DAY29_DECOMMISSION_CRON.log",
       "exists": true,
-      "age_seconds": 1200
+      "age_seconds": 2820
     },
     "day30_closure_hourly": {
       "status": "PASS",
       "log_file": "documentation/migration/reports/DAY30_CLOSURE_CRON.log",
       "exists": true,
-      "age_seconds": 1536
+      "age_seconds": 2760
     }
   }
 }

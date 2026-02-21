@@ -1,18 +1,18 @@
 {
-  "run_id": "day16_trend_20260221T152501Z",
-  "run_ts": "2026-02-21T15:25:01.120269+00:00",
+  "run_id": "day16_trend_20260221T162502Z",
+  "run_ts": "2026-02-21T16:25:02.049290+00:00",
   "window_hours": 24,
   "summary": {
-    "total_runs": 6,
+    "total_runs": 7,
     "ready_runs": 0,
-    "hold_runs": 6,
+    "hold_runs": 7,
     "ready_rate_pct": 0.0,
     "latest_status": "HOLD",
     "status": "MONITORING"
   },
   "latest_snapshot": {
-    "run_id": "day16_observation_20260221T152501Z",
-    "run_ts": "2026-02-21T15:25:01.061776+00:00",
+    "run_id": "day16_observation_20260221T162501Z",
+    "run_ts": "2026-02-21T16:25:01.953757+00:00",
     "scope": "Day 16 observation readiness for Day 17 controlled read-switch",
     "checks": {
       "day15_scaled_to_50": {
@@ -22,11 +22,11 @@
       },
       "day15_compare_trend_stable": {
         "trend_status": "PASS",
-        "total_runs": 5,
+        "total_runs": 6,
         "compare_pass_rate_pct": 100.0,
         "required_min_runs": 6,
         "required_min_pass_rate_pct": 99.0,
-        "status": "FAIL"
+        "status": "PASS"
       },
       "cron_health_recent": {
         "overall_status": "PASS",
@@ -39,8 +39,7 @@
       "status": "HOLD",
       "ready_for_day17_read_switch": false,
       "blockers": [
-        "day15_scaled_to_50",
-        "day15_compare_trend_stable"
+        "day15_scaled_to_50"
       ],
       "decision": "Continue stabilization and observation before Day 17"
     },

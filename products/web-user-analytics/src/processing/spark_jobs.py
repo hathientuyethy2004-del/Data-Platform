@@ -7,7 +7,7 @@ Handles scheduled batch processing of events through the data pipeline.
 
 from pyspark.sql import SparkSession, DataFrame
 from pyspark.sql.functions import col, to_timestamp, to_date, hour
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import logging
 from typing import Dict, Any, Optional, List
 from pathlib import Path
@@ -85,7 +85,7 @@ class SparkJobOrchestrator:
         """
         logger.info(f"Starting Bronze to Silver job for {date_str or 'latest'}")
         
-        stats = {"start_time": datetime.utcnow()}
+        stats = {"start_time": datetime.now(timezone.utc)}
         
         try:
             # Read Bronze events
@@ -134,7 +134,7 @@ class SparkJobOrchestrator:
             stats["error"] = str(e)
         
         finally:
-            stats["end_time"] = datetime.utcnow()
+            stats["end_time"] = datetime.now(timezone.utc)
         
         return stats
     
@@ -155,7 +155,7 @@ class SparkJobOrchestrator:
         """
         logger.info(f"Starting Silver to Gold job for {date_str or 'all'}")
         
-        stats = {"start_time": datetime.utcnow()}
+        stats = {"start_time": datetime.now(timezone.utc)}
         
         try:
             # Read Silver data
@@ -211,7 +211,7 @@ class SparkJobOrchestrator:
             stats["error"] = str(e)
         
         finally:
-            stats["end_time"] = datetime.utcnow()
+            stats["end_time"] = datetime.now(timezone.utc)
         
         return stats
     
@@ -235,7 +235,7 @@ class SparkJobOrchestrator:
         logger.info("Starting full analytics pipeline")
         
         all_stats = {
-            "start_time": datetime.utcnow(),
+            "start_time": datetime.now(timezone.utc),
             "pipeline_stages": {}
         }
         
@@ -258,7 +258,7 @@ class SparkJobOrchestrator:
             return all_stats
         
         all_stats["status"] = "success"
-        all_stats["end_time"] = datetime.utcnow()
+        all_stats["end_time"] = datetime.now(timezone.utc)
         
         return all_stats
     
@@ -294,7 +294,7 @@ class SparkJobOrchestrator:
         """Get current pipeline statistics"""
         return {
             "spark_version": self.spark.version,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
 
@@ -322,7 +322,7 @@ if __name__ == "__main__":
         
         # Use current date if not specified
         date_str = os.getenv("PROCESS_DATE", 
-                            (datetime.utcnow() - timedelta(days=1)).strftime("%Y-%m-%d"))
+                            (datetime.now(timezone.utc) - timedelta(days=1)).strftime("%Y-%m-%d"))
         
         stats = orchestrator.run_full_pipeline(bronze_path, silver_path, gold_path, date_str)
         

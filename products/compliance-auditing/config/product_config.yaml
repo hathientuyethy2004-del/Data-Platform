@@ -1,12 +1,19 @@
 # Compliance Auditing Product Configuration
 
 product:
+  id: compliance-auditing
   name: compliance-auditing
   version: 1.0.0
   description: "GDPR compliance, audit trail management, data retention policies"
   tier: platform
   owner: compliance-team
   slack_channel: "#data-compliance"
+
+sla:
+  uptime_target: 99.9
+  response_time_p99_ms: 1000
+  availability_window: "24/7"
+  support_tier: "24/7-oncall"
 
 environments:
   dev:
@@ -314,6 +321,15 @@ api:
     - path: "/data-lineage"
       method: "GET"
       requires_role: "analyst"
+
+serving:
+  api:
+    host: "0.0.0.0"
+    port: 8002
+    timeout_seconds: 30
+  rate_limiting:
+    enabled: true
+    requests_per_minute: 800
 
 # Notification Configuration
 notifications:

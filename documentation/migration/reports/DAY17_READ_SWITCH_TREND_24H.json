@@ -1,19 +1,19 @@
 {
-  "run_id": "day17_trend_20260221T153001Z",
-  "run_ts": "2026-02-21T15:30:01.406998+00:00",
+  "run_id": "day17_trend_20260221T163001Z",
+  "run_ts": "2026-02-21T16:30:01.339847+00:00",
   "window_hours": 24,
   "summary": {
-    "total_runs": 3,
+    "total_runs": 4,
     "read_switched_10_runs": 0,
-    "blocked_runs": 3,
+    "blocked_runs": 4,
     "read_switched_rate_pct": 0.0,
     "latest_status": "BLOCKED",
     "status": "MONITORING",
     "last_transition_to_read_switched_10_at": null
   },
   "latest_snapshot": {
-    "run_id": "day17_read_switch_20260221T153001Z",
-    "run_ts": "2026-02-21T15:30:01.292216+00:00",
+    "run_id": "day17_read_switch_20260221T163001Z",
+    "run_ts": "2026-02-21T16:30:01.228813+00:00",
     "scope": "Day 17 guarded read switch 10% to OSS",
     "checks": {
       "day16_ready_required": {

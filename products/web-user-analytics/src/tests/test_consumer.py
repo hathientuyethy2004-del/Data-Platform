@@ -6,7 +6,7 @@ Run with: pytest tests/ -v
 """
 
 import pytest
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from unittest.mock import Mock, patch, MagicMock
 import json
 
@@ -32,7 +32,7 @@ class TestEventSchemas:
             "user_id": "user_456",
             "session_id": "sess_789",
             "event_type": "page_view",
-            "timestamp": datetime.utcnow(),
+            "timestamp": datetime.now(timezone.utc),
             "page_url": "https://example.com/page1",
             "page_path": "/page1",
             "page_title": "Page 1",
@@ -56,7 +56,7 @@ class TestEventSchemas:
             "user_id": "user_456",
             "session_id": "sess_789",
             "event_type": "page_view",
-            "timestamp": datetime.utcnow(),
+            "timestamp": datetime.now(timezone.utc),
             "page_url": "https://example.com",
             "page_path": "/",
             "page_title": "Home",
@@ -105,7 +105,7 @@ class TestEventValidation:
             "user_id": "user_456",
             "session_id": "sess_789",
             "event_type": "page_view",
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "page_url": "https://example.com",
             "browser": "Chrome",
             "os": "Windows",
@@ -125,7 +125,7 @@ class TestEventValidation:
             # Missing user_id
             "session_id": "sess_789",
             "event_type": "page_view",
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
         
         is_valid, error = EventValidator.validate_event(event_data)
@@ -139,7 +139,7 @@ class TestEventValidation:
             "user_id": "user_456",
             "session_id": "sess_789",
             "event_type": "page_view",
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "page_url": "not-a-valid-url",
             "browser": "Chrome",
             "os": "Windows",
@@ -236,7 +236,7 @@ class TestSessionTracking:
         session = manager.create_session("sess_123", "user_456")
         
         # Simulate old last activity
-        session.last_activity_time = datetime.utcnow() - timedelta(minutes=2)
+        session.last_activity_time = datetime.now(timezone.utc) - timedelta(minutes=2)
         
         timed_out = manager.get_timed_out_sessions()
         
@@ -286,7 +286,7 @@ class TestDataQualityChecker:
             "user_id": "user_456",
             "session_id": "sess_789",
             "event_type": "page_view",
-            "timestamp": datetime.utcnow(),
+            "timestamp": datetime.now(timezone.utc),
             "browser": "Chrome",
             "os": "Windows",
             "country": "US",
@@ -324,7 +324,7 @@ class TestIntegration:
             "user_id": "user_456",
             "session_id": "sess_789",
             "event_type": "page_view",
-            "timestamp": datetime.utcnow(),
+            "timestamp": datetime.now(timezone.utc),
             "page_url": "https://example.com/page1",
             "page_path": "/page1",
             "page_title": "Page 1",

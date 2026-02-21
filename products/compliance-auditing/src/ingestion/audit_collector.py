@@ -11,9 +11,9 @@ Collects audit logs from:
 
 from typing import Dict, Any, List, Optional
 from dataclasses import dataclass, asdict
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 import json
 import logging
 
@@ -73,7 +73,8 @@ class AuditEvent(BaseModel):
     session_id: Optional[str] = None
     metadata: Dict[str, Any] = Field(default_factory=dict)
     
-    @validator('event_type')
+    @field_validator('event_type')
+    @classmethod
     def validate_event_type(cls, v):
         if v not in [e.value for e in AuditEventType]:
             raise ValueError(f"Invalid event type: {v}")
@@ -245,7 +246,7 @@ class AuditTrailCollector:
         audit_event = {
             "event_id": event_id,
             "event_type": AuditEventType.DATA_TRANSFORMATION.value,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "job_name": job_name,
             "source_dataset": source_dataset,
             "target_dataset": target_dataset,
@@ -307,7 +308,7 @@ class AuditTrailCollector:
         Returns:
             List of audit events
         """
-        cutoff = datetime.utcnow() - timedelta(hours=hours)
+        cutoff = datetime.now(timezone.utc) - timedelta(hours=hours)
         
         results = []
         for event in self.event_buffer:
@@ -378,7 +379,7 @@ class ComplianceChecker:
         }.get(classification, 365)
         
         last_access_dt = datetime.fromisoformat(last_access)
-        age_days = (datetime.utcnow() - last_access_dt).days
+        age_days = (datetime.now(timezone.utc) - last_access_dt).days
         
         compliance = age_days <= retention_days
         
@@ -450,7 +451,7 @@ class ComplianceChecker:
             Compliance report
         """
         results = {
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "checks_run": len(self.RULES),
             "violations": [],
             "warnings": [],

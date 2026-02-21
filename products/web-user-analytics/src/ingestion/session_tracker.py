@@ -5,7 +5,7 @@ Manages session lifecycle, session timeout, and session state tracking.
 Handles session reconstruction and session boundary detection.
 """
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Dict, Optional, Tuple, Any, List
 from dataclasses import dataclass, field
 from enum import Enum
@@ -64,11 +64,11 @@ class Session:
             if page_url:
                 self.page_views.append(page_url)
         
-        self.last_activity_time = datetime.utcnow()
+        self.last_activity_time = datetime.now(timezone.utc)
     
     def get_duration_seconds(self) -> int:
         """Get session duration in seconds"""
-        end = self.end_time if self.end_time else datetime.utcnow()
+        end = self.end_time if self.end_time else datetime.now(timezone.utc)
         return int((end - self.start_time).total_seconds())
     
     def get_page_view_count(self) -> int:
@@ -144,7 +144,7 @@ class SessionManager:
         Returns:
             Created Session object
         """
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         session = Session(
             session_id=session_id,
             user_id=user_id,
@@ -186,16 +186,16 @@ class SessionManager:
             return None
         
         # Check for timeout
-        time_since_last = (datetime.utcnow() - session.last_activity_time).total_seconds()
+        time_since_last = (datetime.now(timezone.utc) - session.last_activity_time).total_seconds()
         if time_since_last > self.session_timeout:
             session.status = SessionStatus.TIMED_OUT
             return session
         
         # Check for max duration
-        duration = (datetime.utcnow() - session.start_time).total_seconds()
+        duration = (datetime.now(timezone.utc) - session.start_time).total_seconds()
         if duration > self.MAX_SESSION_DURATION:
             session.status = SessionStatus.ENDED
-            session.end_time = datetime.utcnow()
+            session.end_time = datetime.now(timezone.utc)
             return session
         
         # Add event to session
@@ -216,13 +216,13 @@ class SessionManager:
         session = self.sessions.get(session_id)
         if session:
             session.status = SessionStatus.ENDED
-            session.end_time = datetime.utcnow()
+            session.end_time = datetime.now(timezone.utc)
         
         return session
     
     def get_timed_out_sessions(self) -> List[Session]:
         """Get all sessions that have timed out"""
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         timed_out = []
         
         for session in self.sessions.values():
@@ -258,7 +258,7 @@ class SessionManager:
         Returns:
             Number of sessions cleared
         """
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         cutoff = now - timedelta(hours=older_than_hours)
         
         sessions_to_remove = [

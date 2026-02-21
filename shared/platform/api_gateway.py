@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import json
 import os
+import time
 import urllib.error
 import urllib.request
 from dataclasses import asdict, dataclass
@@ -34,6 +35,8 @@ class APIGateway:
 
     def __init__(self):
         self.environment = self._load_environment()
+        self.request_timeout_seconds = float(os.getenv("PLATFORM_GATEWAY_TIMEOUT_SECONDS", "10"))
+        self.max_retries = int(os.getenv("PLATFORM_GATEWAY_MAX_RETRIES", "1"))
         self.services = self._load_services()
 
     def _load_environment(self) -> str:
@@ -116,15 +119,24 @@ class APIGateway:
 
     def _request(self, method: str, url: str, headers: Dict[str, str], body: bytes | None) -> tuple[int, bytes, str]:
         req = urllib.request.Request(url=url, method=method, data=body, headers=headers)
-        try:
-            with urllib.request.urlopen(req, timeout=10) as resp:
-                content_type = resp.headers.get("Content-Type", "application/json")
-                return resp.status, resp.read(), content_type
-        except urllib.error.HTTPError as exc:
-            content_type = exc.headers.get("Content-Type", "application/json") if exc.headers else "application/json"
-            return exc.code, exc.read(), content_type
-        except urllib.error.URLError as exc:
-            raise HTTPException(status_code=502, detail=f"Upstream unavailable: {exc.reason}")
+        last_error: urllib.error.URLError | None = None
+        for attempt in range(self.max_retries + 1):
+            try:
+                with urllib.request.urlopen(req, timeout=self.request_timeout_seconds) as resp:
+                    content_type = resp.headers.get("Content-Type", "application/json")
+                    return resp.status, resp.read(), content_type
+            except urllib.error.HTTPError as exc:
+                content_type = exc.headers.get("Content-Type", "application/json") if exc.headers else "application/json"
+                return exc.code, exc.read(), content_type
+            except urllib.error.URLError as exc:
+                last_error = exc
+                if attempt < self.max_retries:
+                    time.sleep(0.1 * (attempt + 1))
+                    continue
+                break
+
+        reason = getattr(last_error, "reason", "unknown error") if last_error else "unknown error"
+        raise HTTPException(status_code=502, detail=f"Upstream unavailable after retries: {reason}")
 
     def service_health(self, service_name: str) -> Dict[str, Any]:
         service = self.services.get(service_name)
@@ -162,12 +174,19 @@ class APIGateway:
 
     def gateway_health(self) -> Dict[str, Any]:
         details = [self.service_health(name) for name in self.services]
-        all_healthy = all(item.get("healthy", False) for item in details if item.get("status") != "disabled")
+        enabled_services = [item for item in details if item.get("status") != "disabled"]
+        healthy_count = sum(1 for item in enabled_services if item.get("healthy", False))
+        all_healthy = all(item.get("healthy", False) for item in enabled_services) if enabled_services else True
         return {
             "gateway": "platform-api-gateway",
             "environment": self.environment,
             "status": "healthy" if all_healthy else "degraded",
             "timestamp": datetime.now(timezone.utc).isoformat(),
+            "summary": {
+                "services_total": len(details),
+                "services_enabled": len(enabled_services),
+                "services_healthy": healthy_count,
+            },
             "services": details,
         }
 
@@ -224,15 +243,15 @@ async def proxy(service_name: str, path: str, request: Request) -> Response:
     if not service or not service.enabled:
         raise HTTPException(status_code=404, detail=f"Unknown or disabled service: {service_name}")
 
-    query_params = dict(request.query_params)
-    query_string = f"?{urlencode(query_params)}" if query_params else ""
+    query_items = list(request.query_params.multi_items())
+    query_string = f"?{urlencode(query_items, doseq=True)}" if query_items else ""
     upstream_url = f"{service.base_url}/{path}{query_string}"
 
     body = await request.body()
     filtered_headers = {
         key: value
         for key, value in request.headers.items()
-        if key.lower() in {"content-type", "accept", "authorization", "x-api-key"}
+        if key.lower() in {"content-type", "accept", "authorization", "x-api-key", "x-request-id"}
     }
 
     status, payload, content_type = api_gateway._request(

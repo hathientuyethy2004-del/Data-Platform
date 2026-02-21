@@ -1,19 +1,19 @@
 {
-  "run_id": "day28_trend_20260221T154000Z",
-  "run_ts": "2026-02-21T15:40:00.869073+00:00",
+  "run_id": "day28_trend_20260221T161202Z",
+  "run_ts": "2026-02-21T16:12:02.051489+00:00",
   "window_hours": 24,
   "summary": {
-    "total_runs": 3,
+    "total_runs": 4,
     "freeze_locked_report_finalized_runs": 0,
-    "blocked_runs": 3,
+    "blocked_runs": 4,
     "finalized_rate_pct": 0.0,
     "latest_status": "BLOCKED",
     "status": "MONITORING",
     "last_transition_to_freeze_locked_report_finalized_at": null
   },
   "latest_snapshot": {
-    "run_id": "day28_freeze_20260221T154000Z",
-    "run_ts": "2026-02-21T15:40:00.735756+00:00",
+    "run_id": "day28_freeze_20260221T161201Z",
+    "run_ts": "2026-02-21T16:12:01.933053+00:00",
     "scope": "Day 28 guarded freeze: 24h freeze observation + post-cutover report closure",
     "checks": {
       "day27_validated_required": {

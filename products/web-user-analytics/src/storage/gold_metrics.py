@@ -13,7 +13,7 @@ from pyspark.sql.functions import (
     datediff, unix_timestamp, cast
 )
 from pyspark.sql.types import DoubleType, LongType, IntegerType
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Dict, List, Any
 
 
@@ -82,7 +82,7 @@ class GoldPageMetricsCalculator:
             lit(0.0)
         ).withColumn(
             "aggregated_at",
-            lit(datetime.utcnow()).cast("timestamp")
+            lit(datetime.now(timezone.utc)).cast("timestamp")
         )
         
         return metrics_df.select(
@@ -115,7 +115,7 @@ class GoldPageMetricsCalculator:
         ).withColumn(
             "event_hour", lit(-1)  # Daily aggregate
         ).withColumn(
-            "aggregated_at", lit(datetime.utcnow()).cast("timestamp")
+            "aggregated_at", lit(datetime.now(timezone.utc)).cast("timestamp")
         )
 
 
@@ -194,7 +194,7 @@ class GoldFunnelMetricsCalculator:
                 )
             ).withColumn(
                 "aggregated_at",
-                lit(datetime.utcnow()).cast("timestamp")
+                lit(datetime.now(timezone.utc)).cast("timestamp")
             )
             
             results.append(agg_df)
@@ -224,7 +224,7 @@ class GoldSessionMetricsCalculator:
             "is_bot", "is_bounce", "traffic_source", "traffic_medium",
             "campaign_name"
         ).withColumn(
-            "aggregated_at", lit(datetime.utcnow()).cast("timestamp")
+            "aggregated_at", lit(datetime.now(timezone.utc)).cast("timestamp")
         ).withColumn(
             "pages_visited", col("unique_pages")
         )
@@ -271,7 +271,7 @@ class GoldUserJourneyCalculator:
             spark_round(col("total_page_views") / col("total_sessions"), 2)
         ).withColumn(
             "aggregated_at",
-            lit(datetime.utcnow()).cast("timestamp")
+            lit(datetime.now(timezone.utc)).cast("timestamp")
         )
         
         return user_metrics
@@ -316,7 +316,7 @@ class GoldConversionCalculator:
             ).withColumn(
                 "conversion_type", lit("page_view")
             ).withColumn(
-                "aggregated_at", lit(datetime.utcnow()).cast("timestamp")
+                "aggregated_at", lit(datetime.now(timezone.utc)).cast("timestamp")
             )
             results.append(page_conv)
         

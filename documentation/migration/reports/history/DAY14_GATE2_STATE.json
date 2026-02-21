@@ -2,6 +2,6 @@
   "last_gate_status": "NO_GO",
   "gate2_passed_timestamp": null,
   "last_transition_at": null,
-  "last_seen_run_id": "day14_gate2_20260221T151501Z",
-  "updated_at": "2026-02-21T15:15:01.792410+00:00"
+  "last_seen_run_id": "day14_gate2_20260221T161501Z",
+  "updated_at": "2026-02-21T16:15:01.602328+00:00"
 }

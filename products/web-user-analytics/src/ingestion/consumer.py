@@ -8,7 +8,7 @@ Integrates schema validation, bot detection, and session tracking.
 import json
 import logging
 from typing import Dict, Any, Optional, Callable, List
-from datetime import datetime
+from datetime import datetime, timezone
 from kafka import KafkaConsumer, KafkaProducer, TopicPartition
 from kafka.errors import KafkaError
 import geoip2.database
@@ -241,9 +241,9 @@ class WebAnalyticsConsumer:
             user_id=enriched_event.get("user_id"),
             session_id=enriched_event.get("session_id"),
             event_type=enriched_event.get("event_type"),
-            timestamp=datetime.fromisoformat(str(enriched_event.get("timestamp", datetime.utcnow().isoformat()))),
+            timestamp=datetime.fromisoformat(str(enriched_event.get("timestamp", datetime.now(timezone.utc).isoformat()))),
             raw_data=enriched_event,
-            ingested_at=datetime.utcnow(),
+            ingested_at=datetime.now(timezone.utc),
         )
         
         # Update session

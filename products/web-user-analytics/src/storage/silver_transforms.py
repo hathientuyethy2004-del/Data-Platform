@@ -13,7 +13,7 @@ from pyspark.sql.functions import (
     collect_list, first, last, lit, datediff
 )
 from pyspark.sql.types import DoubleType
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 
 class BronzeToSilverTransformer:
@@ -233,7 +233,7 @@ class SilverAggregator:
             md5(col("page_path"))
         ).withColumn(
             "aggregated_at",
-            lit(datetime.utcnow()).cast("timestamp")
+            lit(datetime.now(timezone.utc)).cast("timestamp")
         ).withColumn(
             "bot_percentage",
             lit(0.0)
@@ -264,7 +264,7 @@ class SilverAggregator:
         
         conv_df = conv_df.withColumn(
             "aggregated_at",
-            lit(datetime.utcnow()).cast("timestamp")
+            lit(datetime.now(timezone.utc)).cast("timestamp")
         )
         
         return conv_df
@@ -307,5 +307,5 @@ class SilverValidator:
             "invalid_records": total_records - valid_records,
             "bot_records": bot_records,
             "data_quality_%": (valid_records / total_records * 100) if total_records > 0 else 0,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }

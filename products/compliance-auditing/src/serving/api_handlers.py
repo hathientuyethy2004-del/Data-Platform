@@ -11,7 +11,7 @@ Provides REST endpoints for:
 
 import logging
 from typing import Dict, Any, List, Optional
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from fastapi import APIRouter, Query, HTTPException
 from pydantic import BaseModel, Field
 
@@ -66,7 +66,7 @@ async def get_audit_trail(
     Returns:
         Audit trail
     """
-    end_date = datetime.utcnow()
+    end_date = datetime.now(timezone.utc)
     start_date = end_date - timedelta(days=days)
     
     return AuditTrailResponse(
@@ -79,7 +79,7 @@ async def get_audit_trail(
         events=[
             {
                 "event_id": "evt_001",
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "user_id": "user_123",
                 "resource": "customer_users",
                 "action": "read",
@@ -144,8 +144,8 @@ async def get_violations(
             "dataset": "old_logs",
             "severity": "high",
             "status": "open",
-            "detected_at": (datetime.utcnow() - timedelta(days=5)).isoformat(),
-            "remediation_deadline": (datetime.utcnow() + timedelta(days=10)).isoformat(),
+            "detected_at": (datetime.now(timezone.utc) - timedelta(days=5)).isoformat(),
+            "remediation_deadline": (datetime.now(timezone.utc) + timedelta(days=10)).isoformat(),
         },
         {
             "violation_id": "v_002",
@@ -153,8 +153,8 @@ async def get_violations(
             "dataset": "customer_profiles",
             "severity": "critical",
             "status": "acknowledged",
-            "detected_at": (datetime.utcnow() - timedelta(days=2)).isoformat(),
-            "remediated_at": (datetime.utcnow() - timedelta(days=1)).isoformat(),
+            "detected_at": (datetime.now(timezone.utc) - timedelta(days=2)).isoformat(),
+            "remediated_at": (datetime.now(timezone.utc) - timedelta(days=1)).isoformat(),
         }
     ]
     
@@ -178,7 +178,7 @@ async def create_access_request(request_data: Dict[str, Any]) -> GDPRRequestResp
     Returns:
         Created request
     """
-    request_id = f"req_{datetime.utcnow().timestamp()}"
+    request_id = f"req_{datetime.now(timezone.utc).timestamp()}"
     
     return GDPRRequestResponse(
         request_id=request_id,
@@ -200,7 +200,7 @@ async def create_deletion_request(request_data: Dict[str, Any]) -> GDPRRequestRe
     Returns:
         Created request
     """
-    request_id = f"rtbf_{datetime.utcnow().timestamp()}"
+    request_id = f"rtbf_{datetime.now(timezone.utc).timestamp()}"
     
     logger.info(f"Created deletion request: {request_id}")
     
@@ -273,7 +273,7 @@ async def get_retention_schedule(
             "dataset": "old_analytics_2022",
             "age_days": 400,
             "retention_limit_days": 365,
-            "scheduled_deletion_date": (datetime.utcnow() + timedelta(days=7)).isoformat(),
+            "scheduled_deletion_date": (datetime.now(timezone.utc) + timedelta(days=7)).isoformat(),
             "status": "pending",
             "reason": "retention_policy_exceeded",
         },
@@ -282,7 +282,7 @@ async def get_retention_schedule(
             "dataset": "test_data",
             "age_days": 30,
             "retention_limit_days": 30,
-            "scheduled_deletion_date": datetime.utcnow().isoformat(),
+            "scheduled_deletion_date": datetime.now(timezone.utc).isoformat(),
             "status": "deleting",
             "reason": "temporary_test_data",
         },
@@ -353,7 +353,7 @@ async def acknowledge_violation(violation_id: str) -> Dict[str, Any]:
     return {
         "violation_id": violation_id,
         "status": "acknowledged",
-        "acknowledged_at": datetime.utcnow().isoformat(),
+        "acknowledged_at": datetime.now(timezone.utc).isoformat(),
         "message": "Violation acknowledged. Remediation in progress.",
     }
 
@@ -373,7 +373,7 @@ async def remediate_violation(violation_id: str, remediation_plan: Dict[str, Any
     return {
         "violation_id": violation_id,
         "status": "remediated",
-        "remediated_at": datetime.utcnow().isoformat(),
+        "remediated_at": datetime.now(timezone.utc).isoformat(),
         "remediation_plan": remediation_plan,
         "message": "Violation remediated and verified.",
     }
@@ -398,7 +398,7 @@ async def get_pii_access_log(
     """
     return [
         {
-            "timestamp": (datetime.utcnow() - timedelta(hours=i)).isoformat(),
+            "timestamp": (datetime.now(timezone.utc) - timedelta(hours=i)).isoformat(),
             "user_id": "analyst_001",
             "dataset": "customer_profiles",
             "pii_fields": ["email", "phone"],
@@ -419,7 +419,7 @@ async def get_compliance_summary() -> Dict[str, Any]:
         Compliance summary
     """
     return {
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "frameworks": {
             "gdpr": {
                 "status": "COMPLIANT",
@@ -443,5 +443,5 @@ async def get_compliance_summary() -> Dict[str, Any]:
         "audit_events_24h": 5432,
         "data_deletions_pending": 2,
         "retention_violations": 3,
-        "next_audit_date": (datetime.utcnow() + timedelta(days=90)).isoformat(),
+        "next_audit_date": (datetime.now(timezone.utc) + timedelta(days=90)).isoformat(),
     }

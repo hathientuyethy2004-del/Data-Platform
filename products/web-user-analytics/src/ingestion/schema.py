@@ -5,10 +5,10 @@ Defines Pydantic schemas for event validation and serialization.
 Supports 6 event types: page_view, click, scroll, form_submit, video_play, custom_event
 """
 
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional, Dict, Any, List
 from enum import Enum
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, validator, ConfigDict
 
 
 class EventType(str, Enum):
@@ -37,7 +37,7 @@ class BaseEvent(BaseModel):
     user_id: str = Field(..., description="User identifier")
     session_id: str = Field(..., description="Session identifier")
     event_type: EventType = Field(..., description="Type of event")
-    timestamp: datetime = Field(default_factory=datetime.utcnow, description="Event timestamp")
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc), description="Event timestamp")
     
     # Device info
     device_type: DeviceType = Field(default=DeviceType.UNKNOWN, description="Device type")
@@ -67,8 +67,7 @@ class BaseEvent(BaseModel):
     # Additional metadata
     properties: Dict[str, Any] = Field(default_factory=dict, description="Custom properties")
     
-    class Config:
-        use_enum_values = True
+    model_config = ConfigDict(use_enum_values=True)
 
 
 class PageViewEvent(BaseEvent):
@@ -178,8 +177,7 @@ class BronzeEvent(BaseModel):
     raw_data: Dict[str, Any]  # Raw JSON
     ingested_at: datetime
     
-    class Config:
-        use_enum_values = True
+    model_config = ConfigDict(use_enum_values=True)
 
 
 class SilverPageView(BaseModel):
