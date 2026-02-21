@@ -58,6 +58,87 @@ shared/                    ← Shared infrastructure
 
 ---
 
+## 🌐 Platform API Gateway Configuration
+
+The platform gateway at `shared/platform/api_gateway.py` now supports service URL configuration by environment.
+
+### Environment Selection
+
+Set active environment:
+
+```bash
+export PLATFORM_ENV=dev      # dev | staging | prod
+```
+
+### Override Options (priority order)
+
+1. **Global override (all environments)**
+
+```bash
+export PLATFORM_PRODUCT_SERVICES_JSON='[
+    {"name": "web-user-analytics", "base_url": "http://localhost:8002"},
+    {"name": "operational-metrics", "base_url": "http://localhost:8003"}
+]'
+```
+
+2. **Environment map override**
+
+```bash
+export PLATFORM_PRODUCT_SERVICES_BY_ENV_JSON='{
+    "dev": [
+        {"name": "web-user-analytics", "base_url": "http://localhost:8002"}
+    ],
+    "staging": [
+        {"name": "web-user-analytics", "base_url": "http://staging-web:9100"}
+    ],
+    "prod": [
+        {"name": "web-user-analytics", "base_url": "http://prod-web:9200"}
+    ]
+}'
+```
+
+3. **Environment-specific override**
+
+```bash
+export PLATFORM_ENV=staging
+export PLATFORM_PRODUCT_SERVICES_STAGING_JSON='[
+    {"name": "web-user-analytics", "base_url": "http://staging-web:9100"},
+    {"name": "operational-metrics", "base_url": "http://staging-ops:9101"}
+]'
+```
+
+### Run Gateway
+
+```bash
+PYTHONPATH=. uvicorn shared.platform.api_gateway:app --host 0.0.0.0 --port 8000
+```
+
+### Runtime Inspection
+
+- `GET /health` → gateway + per-service health (includes active environment)
+- `GET /services` → resolved service registry for current environment
+- `GET /environment` → active env and supported override variables
+
+### DevOps Quick Preset (`.env.gateway`)
+
+```bash
+cd /workspaces/Data-Platform
+source .env.gateway
+
+# Choose one environment preset
+gateway_env_dev
+# gateway_env_staging
+# gateway_env_prod
+
+# Optional: verify active vars
+gateway_show_env
+
+# Run gateway
+gateway_run
+```
+
+---
+
 ## 📚 Key Documentation
 
 Read in this order:
