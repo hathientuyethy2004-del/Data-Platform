@@ -1,0 +1,35 @@
+# Python bytecode and cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Python tooling cache
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.pyre/
+.hypothesis/
+.tox/
+.nox/
+.coverage
+.coverage.*
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Runtime artifacts and local data caches
+serving_data/cache/
+examples/serving_data/cache/
+analytics_data/
+monitoring_data/
+
+# Logs and temp files
+*.log
+*.tmp
+*.swp
