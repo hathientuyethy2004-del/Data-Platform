@@ -50,8 +50,8 @@ class BotDetector:
             if page_load < 10:  # Suspiciously fast
                 return True
         
-        # Bots often don't have JavaScript enabled indicators
-        if "viewport_width" not in properties or properties.get("viewport_width") == 0:
+        # Bots often provide explicit impossible viewport values
+        if "viewport_width" in properties and properties.get("viewport_width") == 0:
             return True
         
         return False
@@ -67,6 +67,36 @@ class EventValidator:
     ])
     
     @staticmethod
+    def validate_core_event(event_data: Dict[str, Any]) -> Tuple[bool, Optional[str]]:
+        """
+        Validate core event envelope fields only.
+
+        Args:
+            event_data: Raw event dictionary
+
+        Returns:
+            Tuple of (is_valid: bool, error_message: str or None)
+        """
+        required_fields = ["event_id", "user_id", "session_id", "event_type", "timestamp"]
+        for field in required_fields:
+            if field not in event_data:
+                return False, f"Missing required field: {field}"
+
+        valid_types = [e.value for e in EventType]
+        if event_data["event_type"] not in valid_types:
+            return False, f"Invalid event_type: {event_data['event_type']}"
+
+        try:
+            if isinstance(event_data["timestamp"], str):
+                datetime.fromisoformat(event_data["timestamp"])
+            elif not isinstance(event_data["timestamp"], datetime):
+                return False, "timestamp must be ISO string or datetime"
+        except ValueError:
+            return False, f"Invalid timestamp format: {event_data['timestamp']}"
+
+        return True, None
+
+    @staticmethod
     def validate_event(event_data: Dict[str, Any]) -> Tuple[bool, Optional[str]]:
         """
         Validate event data for completeness and validity.
@@ -77,25 +107,9 @@ class EventValidator:
         Returns:
             Tuple of (is_valid: bool, error_message: str or None)
         """
-        # Check required fields
-        required_fields = ["event_id", "user_id", "session_id", "event_type", "timestamp"]
-        for field in required_fields:
-            if field not in event_data:
-                return False, f"Missing required field: {field}"
-        
-        # Validate event type
-        valid_types = [e.value for e in EventType]
-        if event_data["event_type"] not in valid_types:
-            return False, f"Invalid event_type: {event_data['event_type']}"
-        
-        # Validate timestamp
-        try:
-            if isinstance(event_data["timestamp"], str):
-                datetime.fromisoformat(event_data["timestamp"])
-            elif not isinstance(event_data["timestamp"], datetime):
-                return False, "timestamp must be ISO string or datetime"
-        except ValueError:
-            return False, f"Invalid timestamp format: {event_data['timestamp']}"
+        is_valid, error = EventValidator.validate_core_event(event_data)
+        if not is_valid:
+            return False, error
         
         # Validate event-specific fields
         event_type = event_data["event_type"]
@@ -307,8 +321,8 @@ class DataQualityChecker:
             if key in event_data:
                 quality["warnings"].append(f"Potential PII field detected: {key}")
         
-        # Validate schema
-        is_valid, error = EventValidator.validate_event(event_data)
+        # Validate core schema envelope; strict event-specific checks run in pipeline validation
+        is_valid, error = EventValidator.validate_core_event(event_data)
         if not is_valid:
             quality["is_valid"] = False
             quality["errors"].append(error)

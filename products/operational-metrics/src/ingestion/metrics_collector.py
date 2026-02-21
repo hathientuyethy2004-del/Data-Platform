@@ -11,9 +11,16 @@ from datetime import datetime, timedelta
 import json
 import logging
 from enum import Enum
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 
 logger = logging.getLogger(__name__)
+
+
+def _to_dict(model: BaseModel) -> Dict[str, Any]:
+    """Convert Pydantic model to dictionary (v1/v2 compatible)."""
+    if hasattr(model, "model_dump"):
+        return model.model_dump()
+    return model.dict()
 
 
 class MetricType(str, Enum):
@@ -39,8 +46,9 @@ class PipelineHealthMetric(BaseModel):
     error_message: Optional[str] = None
     retry_count: int = 0
     
-    @validator('status')
-    def validate_status(cls, v):
+    @field_validator("status")
+    @classmethod
+    def validate_status(cls, v: str) -> str:
         allowed = ["SUCCESS", "FAILED", "RUNNING"]
         if v not in allowed:
             raise ValueError(f"Status must be one of {allowed}")
@@ -59,8 +67,9 @@ class DataQualityMetric(BaseModel):
     schema_violations: int
     quality_score: float = Field(ge=0, le=100)
     
-    @validator('layer')
-    def validate_layer(cls, v):
+    @field_validator("layer")
+    @classmethod
+    def validate_layer(cls, v: str) -> str:
         if v not in ["bronze", "silver", "gold"]:
             raise ValueError("Layer must be bronze, silver, or gold")
         return v
@@ -117,7 +126,7 @@ class MetricsCollector:
         Args:
             metric: Pipeline health metric
         """
-        self.metrics_buffer[MetricType.PIPELINE_HEALTH.value].append(asdict(metric))
+        self.metrics_buffer[MetricType.PIPELINE_HEALTH.value].append(_to_dict(metric))
         logger.info(f"Added pipeline metric for {metric.product}/{metric.job_name}")
     
     def add_data_quality_metric(self, metric: DataQualityMetric) -> None:
@@ -127,7 +136,7 @@ class MetricsCollector:
         Args:
             metric: Data quality metric
         """
-        self.metrics_buffer[MetricType.DATA_QUALITY.value].append(asdict(metric))
+        self.metrics_buffer[MetricType.DATA_QUALITY.value].append(_to_dict(metric))
         logger.info(f"Added DQ metric for {metric.product}/{metric.table_name}")
     
     def add_api_performance_metric(self, metric: APIPerformanceMetric) -> None:
@@ -137,7 +146,7 @@ class MetricsCollector:
         Args:
             metric: API performance metric
         """
-        self.metrics_buffer[MetricType.API_PERFORMANCE.value].append(asdict(metric))
+        self.metrics_buffer[MetricType.API_PERFORMANCE.value].append(_to_dict(metric))
     
     def add_infrastructure_metric(self, metric: InfrastructureMetric) -> None:
         """
@@ -146,7 +155,7 @@ class MetricsCollector:
         Args:
             metric: Infrastructure metric
         """
-        self.metrics_buffer[MetricType.INFRASTRUCTURE.value].append(asdict(metric))
+        self.metrics_buffer[MetricType.INFRASTRUCTURE.value].append(_to_dict(metric))
     
     def get_pipeline_summary(self, product: Optional[str] = None,
                             hours: int = 24) -> Dict[str, Any]:

@@ -10,7 +10,7 @@ Monitors:
 
 import logging
 from typing import Dict, Any, List, Optional
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from dataclasses import dataclass, asdict
 import json
 
@@ -80,7 +80,7 @@ class OperationalMetricsHealthMonitor:
             component="processing",
             status=status,
             message=f"Pipeline success rate: {metrics['success_rate_24h']:.2f}%",
-            last_checked=datetime.utcnow().isoformat(),
+            last_checked=datetime.now(timezone.utc).isoformat(),
             metrics=metrics
         )
         
@@ -114,7 +114,7 @@ class OperationalMetricsHealthMonitor:
             component="storage",
             status=status,
             message=f"Max data age: {max_freshness:.1f} minutes",
-            last_checked=datetime.utcnow().isoformat(),
+            last_checked=datetime.now(timezone.utc).isoformat(),
             metrics=freshness_by_product
         )
         
@@ -148,7 +148,7 @@ class OperationalMetricsHealthMonitor:
             component="serving",
             status=status,
             message=f"API availability: {metrics['availability_percent']:.2f}%",
-            last_checked=datetime.utcnow().isoformat(),
+            last_checked=datetime.now(timezone.utc).isoformat(),
             metrics=metrics
         )
         
@@ -182,7 +182,7 @@ class OperationalMetricsHealthMonitor:
             component="infrastructure",
             status=status,
             message=f"CPU utilization: {metrics['spark_cluster_cpu']}%",
-            last_checked=datetime.utcnow().isoformat(),
+            last_checked=datetime.now(timezone.utc).isoformat(),
             metrics=metrics
         )
         
@@ -219,7 +219,7 @@ class OperationalMetricsHealthMonitor:
             component="monitoring",
             status=status,
             message=f"SLA compliance: {compliance_metrics['compliant_checks']}/{compliance_metrics['total_checks']} checks passing",
-            last_checked=datetime.utcnow().isoformat(),
+            last_checked=datetime.now(timezone.utc).isoformat(),
             metrics=compliance_metrics
         )
         
@@ -252,7 +252,7 @@ class OperationalMetricsHealthMonitor:
         
         # Store history
         self.health_history.append({
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "overall_status": overall_status,
             "checks": {k: asdict(v) for k, v in checks.items()}
         })
@@ -283,7 +283,7 @@ class OperationalMetricsHealthMonitor:
             overall_status = "HEALTHY"
         
         return {
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "overall_status": overall_status,
             "summary": {
                 "healthy_checks": len([c for c in checks.values() if c.status == "HEALTHY"]),
@@ -311,10 +311,14 @@ class OperationalMetricsHealthMonitor:
         Returns:
             Trend analysis
         """
-        recent_history = [
-            h for h in self.health_history
-            if datetime.fromisoformat(h["timestamp"]) > datetime.utcnow() - timedelta(hours=hours)
-        ]
+        cutoff = datetime.now(timezone.utc) - timedelta(hours=hours)
+        recent_history = []
+        for h in self.health_history:
+            ts = datetime.fromisoformat(h["timestamp"])
+            if ts.tzinfo is None:
+                ts = ts.replace(tzinfo=timezone.utc)
+            if ts > cutoff:
+                recent_history.append(h)
         
         if not recent_history:
             return {"trend": "insufficient_data"}

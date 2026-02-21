@@ -5,7 +5,7 @@ Aggregates operational metrics across all data products.
 Calculates SLA metrics, system health, and operational performance.
 """
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Dict, Any, List, Optional
 from dataclasses import dataclass
 from pyspark.sql import SparkSession, DataFrame
@@ -101,7 +101,7 @@ class OperationalMetricsCalculator:
         """
         metrics = {
             "product": product,
-            "calculated_at": datetime.utcnow().isoformat(),
+            "calculated_at": datetime.now(timezone.utc).isoformat(),
             "date_range_days": date_range_days,
         }
         
@@ -139,7 +139,7 @@ class OperationalMetricsCalculator:
         """
         metrics = {
             "product": product,
-            "calculated_at": datetime.utcnow().isoformat(),
+            "calculated_at": datetime.now(timezone.utc).isoformat(),
         }
         
         try:
@@ -182,7 +182,7 @@ class OperationalMetricsCalculator:
         """
         return {
             "product": product,
-            "calculated_at": datetime.utcnow().isoformat(),
+            "calculated_at": datetime.now(timezone.utc).isoformat(),
             "avg_response_time_ms": 450,
             "p50_response_time_ms": 300,
             "p99_response_time_ms": 1200,
@@ -205,7 +205,7 @@ class OperationalMetricsCalculator:
             Infrastructure metrics
         """
         return {
-            "calculated_at": datetime.utcnow().isoformat(),
+            "calculated_at": datetime.now(timezone.utc).isoformat(),
             "spark_cluster_nodes": 10,
             "spark_executors": 80,
             "cpu_utilization_percent": 65,
@@ -240,15 +240,27 @@ class SLAMonitor:
         
         sla = self.sla_defs[metric_name]
         
-        # Determine status
-        if actual_value <= sla.threshold_critical:
-            status = "CRITICAL"
-        elif actual_value <= sla.threshold_warning:
-            status = "WARNING"
-        elif actual_value <= sla.target_value:
-            status = "HEALTHY"
+        # Determine status based on metric direction:
+        # - higher_is_better: thresholds are descending (warning > critical)
+        # - lower_is_better: thresholds are ascending (warning < critical)
+        higher_is_better = sla.threshold_warning > sla.threshold_critical
+
+        if higher_is_better:
+            if actual_value >= sla.threshold_warning:
+                status = "HEALTHY"
+            elif actual_value >= sla.threshold_critical:
+                status = "WARNING"
+            else:
+                status = "CRITICAL"
         else:
-            status = "UNHEALTHY"
+            if actual_value <= sla.target_value:
+                status = "HEALTHY"
+            elif actual_value <= sla.threshold_warning:
+                status = "WARNING"
+            elif actual_value <= sla.threshold_critical:
+                status = "CRITICAL"
+            else:
+                status = "UNHEALTHY"
         
         return {
             "metric": metric_name,
@@ -285,7 +297,7 @@ class SLAMonitor:
             overall = "HEALTHY"
         
         return {
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "overall_status": overall,
             "sla_checks": results,
         }
@@ -311,7 +323,7 @@ class OperationalDashboard:
             Dashboard data
         """
         dashboard = {
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "products": {},
             "infrastructure": self.calculator.calculate_infrastructure_metrics(),
             "sla_summary": {},
