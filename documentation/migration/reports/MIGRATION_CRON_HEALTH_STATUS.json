@@ -1,0 +1,44 @@
+{
+  "run_ts": "2026-02-21T16:00:01Z",
+  "window_minutes": 60,
+  "window_seconds": 3600,
+  "status": "PASS",
+  "checks": {
+    "day14_gate2_hourly": {
+      "status": "PASS",
+      "log_file": "documentation/migration/reports/DAY14_GATE2_CRON.log",
+      "exists": true,
+      "age_seconds": 2700
+    },
+    "day15_compare_hourly": {
+      "status": "PASS",
+      "log_file": "documentation/migration/reports/DAY15_COMPARE_CRON.log",
+      "exists": true,
+      "age_seconds": 2399
+    },
+    "day27_validation_hourly": {
+      "status": "PASS",
+      "log_file": "documentation/migration/reports/DAY27_VALIDATION_CRON.log",
+      "exists": true,
+      "age_seconds": 960
+    },
+    "day28_freeze_hourly": {
+      "status": "PASS",
+      "log_file": "documentation/migration/reports/DAY28_FREEZE_CRON.log",
+      "exists": true,
+      "age_seconds": 1201
+    },
+    "day29_decommission_hourly": {
+      "status": "PASS",
+      "log_file": "documentation/migration/reports/DAY29_DECOMMISSION_CRON.log",
+      "exists": true,
+      "age_seconds": 1200
+    },
+    "day30_closure_hourly": {
+      "status": "PASS",
+      "log_file": "documentation/migration/reports/DAY30_CLOSURE_CRON.log",
+      "exists": true,
+      "age_seconds": 1536
+    }
+  }
+}

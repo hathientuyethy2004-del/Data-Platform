@@ -1,0 +1,35 @@
+{
+  "run_id": "day21_gate3_20260221T144850Z",
+  "run_ts": "2026-02-21T14:48:50.851696+00:00",
+  "gate": "WEEK3_GATE3",
+  "scope": "Day 21 Gate 3 evaluation for Week 4 full cutover approval",
+  "checks": {
+    "traffic_80_stable_72h": {
+      "day20_status": "BLOCKED",
+      "day20_applied": false,
+      "effective_total_percent": 50,
+      "required_hours": 72,
+      "observed_hours": 0.06,
+      "remaining_hours": 71.94,
+      "status": "FAIL"
+    },
+    "compare_pass_rate_99_5": {
+      "compare_pass_rate_pct": 100.0,
+      "required_min_pass_rate_pct": 99.5,
+      "total_runs": 4,
+      "status": "PASS"
+    }
+  },
+  "summary": {
+    "status": "NO_GO",
+    "approve_full_cutover_week4": false,
+    "blockers": [
+      "traffic_80_stable_72h"
+    ],
+    "decision": "Gate 3 not met; continue stabilization at 80%"
+  },
+  "inputs": {
+    "day20_traffic_report": "documentation/migration/reports/DAY20_TRAFFIC_REPORT.json",
+    "day15_compare_trend": "documentation/migration/reports/DAY15_COMPARE_TREND_24H.json"
+  }
+}

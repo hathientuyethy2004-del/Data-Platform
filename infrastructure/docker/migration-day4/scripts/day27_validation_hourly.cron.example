@@ -1,0 +1,7 @@
+# Run Day27 validation snapshot every hour on minute 10 (UTC)
+# Install: crontab infrastructure/docker/migration-day4/scripts/day27_validation_hourly.cron.example
+
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+10 * * * * cd /workspaces/Data-Platform && bash infrastructure/docker/migration-day4/scripts/run_day27_validation_hourly.sh >> documentation/migration/reports/DAY27_VALIDATION_CRON.log 2>&1

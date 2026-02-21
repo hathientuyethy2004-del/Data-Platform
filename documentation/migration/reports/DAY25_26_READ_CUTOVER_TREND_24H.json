@@ -1,0 +1,98 @@
+{
+  "run_id": "day25_26_trend_20260221T160501Z",
+  "run_ts": "2026-02-21T16:05:01.607588+00:00",
+  "window_hours": 24,
+  "summary": {
+    "total_runs": 3,
+    "read_path_100_legacy_draining_runs": 0,
+    "blocked_runs": 3,
+    "read_cutover_applied_rate_pct": 0.0,
+    "latest_status": "BLOCKED",
+    "status": "MONITORING",
+    "last_transition_to_read_path_100_legacy_draining_at": null
+  },
+  "latest_snapshot": {
+    "run_id": "day25_26_read_cutover_20260221T160501Z",
+    "run_ts": "2026-02-21T16:05:01.465029+00:00",
+    "scope": "Day 25-26 guarded read-path cutover 100% + phased legacy decommission",
+    "checks": {
+      "day22_24_cutover_required": {
+        "day22_24_status": "BLOCKED",
+        "status": "FAIL"
+      },
+      "day21_gate3_pass_required": {
+        "day21_status": "NO_GO",
+        "status": "FAIL"
+      },
+      "target_read_switch_is_100": {
+        "target_percent": 100,
+        "status": "PASS"
+      },
+      "stepwise_read_increase_safe": {
+        "previous_percent": 50,
+        "target_percent": 100,
+        "delta_percent": 50,
+        "status": "PASS"
+      },
+      "legacy_jobs_disabled": {
+        "status": "FAIL"
+      },
+      "legacy_routes_disabled": {
+        "status": "FAIL"
+      },
+      "legacy_configs_archived": {
+        "status": "FAIL"
+      }
+    },
+    "read_cutover": {
+      "requested_read_switch_percent": 100,
+      "previous_read_switch_percent": 50,
+      "applied": false,
+      "effective_read_switch_percent": 50,
+      "legacy_jobs_disabled": false,
+      "legacy_routes_disabled": false,
+      "legacy_configs_archived": false,
+      "status": "BLOCKED",
+      "blockers": [
+        "day22_24_cutover_required",
+        "day21_gate3_pass_required",
+        "legacy_jobs_disabled",
+        "legacy_routes_disabled",
+        "legacy_configs_archived"
+      ]
+    },
+    "monitoring": {
+      "metrics": {
+        "p95_latency_ms": 460,
+        "p99_latency_ms": 1100,
+        "error_rate_pct": 0.85
+      },
+      "checks": {
+        "p95_latency_under_500ms": {
+          "status": "PASS"
+        },
+        "p99_latency_under_1200ms": {
+          "status": "PASS"
+        },
+        "error_rate_under_1pct": {
+          "status": "PASS"
+        }
+      },
+      "overall_status": "PASS"
+    },
+    "summary": {
+      "status": "BLOCKED",
+      "ready_for_day27": false,
+      "decision": "Day 25-26 cutover remains blocked until Day 22-24 and legacy-drain prerequisites pass"
+    },
+    "inputs": {
+      "day22_24_cutover_report": "documentation/migration/reports/DAY22_24_CUTOVER_REPORT.json",
+      "day21_gate3_report": "documentation/migration/reports/DAY21_GATE3_REPORT.json",
+      "day25_26_env": "infrastructure/docker/migration-day4/.env.day25_26.read100.example"
+    }
+  },
+  "notes": [
+    "Tracks Day 25-26 read-cutover progression in last 24h.",
+    "last_transition_to_read_path_100_legacy_draining_at shows first timestamp of latest BLOCKED -> READ_PATH_100_LEGACY_DRAINING transition."
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "run_id": "day22_24_cutover_20260221T145455Z",
+  "run_ts": "2026-02-21T14:54:55.508831+00:00",
+  "scope": "Day 22-24 guarded batch: cutover 100% write/load + legacy shadow read",
+  "checks": {
+    "day21_gate3_pass_required": {
+      "day21_status": "NO_GO",
+      "status": "FAIL"
+    },
+    "day20_traffic_80_baseline_required": {
+      "day20_effective_total_percent": 50,
+      "status": "FAIL"
+    },
+    "target_write_load_is_100": {
+      "target_percent": 100,
+      "status": "PASS"
+    },
+    "stepwise_increase_safe": {
+      "previous_percent": 80,
+      "target_percent": 100,
+      "delta_percent": 20,
+      "status": "PASS"
+    },
+    "shadow_read_enabled": {
+      "shadow_read_legacy_enabled": true,
+      "status": "PASS"
+    },
+    "shadow_read_window_2_3_days": {
+      "shadow_read_window_days": 3,
+      "status": "PASS"
+    }
+  },
+  "cutover": {
+    "requested_write_load_percent": 100,
+    "previous_write_load_percent": 80,
+    "applied": false,
+    "effective_write_load_percent": 80,
+    "shadow_read_legacy_enabled": true,
+    "shadow_read_window_days": 3,
+    "status": "BLOCKED",
+    "blockers": [
+      "day21_gate3_pass_required",
+      "day20_traffic_80_baseline_required"
+    ]
+  },
+  "monitoring": {
+    "metrics": {
+      "p95_latency_ms": 500,
+      "p99_latency_ms": 1160,
+      "error_rate_pct": 0.9
+    },
+    "checks": {
+      "p95_latency_under_550ms": {
+        "status": "PASS"
+      },
+      "p99_latency_under_1300ms": {
+        "status": "PASS"
+      },
+      "error_rate_under_1pct": {
+        "status": "PASS"
+      }
+    },
+    "overall_status": "PASS"
+  },
+  "summary": {
+    "status": "BLOCKED",
+    "ready_for_day25": false,
+    "decision": "Day 22-24 cutover remains blocked until Week 4 prerequisites pass"
+  },
+  "inputs": {
+    "day21_gate3_report": "documentation/migration/reports/DAY21_GATE3_REPORT.json",
+    "day20_traffic_report": "documentation/migration/reports/DAY20_TRAFFIC_REPORT.json",
+    "day22_24_env": "infrastructure/docker/migration-day4/.env.day22_24.cutover100.example"
+  }
+}

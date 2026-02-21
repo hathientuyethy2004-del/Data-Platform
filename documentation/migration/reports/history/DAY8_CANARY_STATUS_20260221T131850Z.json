@@ -1,0 +1,55 @@
+{
+  "run_id": "day8_canary_20260221T131850Z",
+  "run_ts": "2026-02-21T13:18:50.610439+00:00",
+  "scope": "Day 8 canary setup and initial monitoring snapshot",
+  "config": {
+    "oss_canary_write_percent": 10,
+    "oss_canary_mode": "shadow_write",
+    "oss_canary_hash_key": "event_id",
+    "read_from_oss_serving": false,
+    "dual_run_enabled": true,
+    "dual_run_compare_enabled": true
+  },
+  "checks": {
+    "canary_write_percent_is_10": {
+      "expected": 10,
+      "actual": 10,
+      "status": "PASS"
+    },
+    "read_path_stays_legacy": {
+      "read_from_oss_serving": false,
+      "status": "PASS"
+    },
+    "dual_run_compare_enabled": {
+      "dual_run_enabled": true,
+      "dual_run_compare_enabled": true,
+      "status": "PASS"
+    },
+    "canary_distribution_sanity": {
+      "target_percent": 10,
+      "actual_percent": 11.0,
+      "status": "PASS"
+    }
+  },
+  "canary_simulation": {
+    "sample_size": 1000,
+    "canary_records": 110,
+    "legacy_records": 890,
+    "actual_percent": 11.0,
+    "within_tolerance": true
+  },
+  "monitoring_snapshot": {
+    "smoke_overall_status": "PASS",
+    "baseline_overall_status": "PASS",
+    "baseline_critical_issues": 0,
+    "gate1_status": "FAIL",
+    "gate1_remaining_hours": 22.73,
+    "quality_status": "PASS",
+    "slo_status": "MONITORING"
+  },
+  "summary": {
+    "status": "PASS",
+    "day8_canary_ready": true,
+    "next_step": "Continue Day 9 live SLO/quality tracking over sustained window."
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "run_id": "day14_watcher_20260221T151501Z",
+  "run_ts": "2026-02-21T15:15:01.793275+00:00",
+  "statuses": {
+    "canary_20_stable_48h": false,
+    "no_sev1_sev2": true,
+    "approve_scale_week3": false
+  },
+  "checklist_updated": false,
+  "message": "No checklist changes needed",
+  "transition": {
+    "previous_status": "NO_GO",
+    "current_status": "NO_GO",
+    "transition_logged": false,
+    "transition_type": "none",
+    "gate2_passed_timestamp": null,
+    "state_file": "documentation/migration/reports/history/DAY14_GATE2_STATE.json",
+    "transition_log_file": "documentation/migration/reports/history/DAY14_GATE2_TRANSITIONS.jsonl"
+  }
+}

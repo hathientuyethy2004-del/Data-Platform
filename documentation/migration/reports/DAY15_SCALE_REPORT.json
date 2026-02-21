@@ -1,0 +1,50 @@
+{
+  "run_id": "day15_scale_20260221T152001Z",
+  "run_ts": "2026-02-21T15:20:01.881042+00:00",
+  "scope": "Day 15 guarded scale-up to 50% after Gate 2 PASS",
+  "checks": {
+    "gate2_pass_required": {
+      "day14_status": "NO_GO",
+      "approve_scale_week3": false,
+      "status": "FAIL"
+    },
+    "target_percent_is_50": {
+      "target_percent": 50,
+      "status": "PASS"
+    },
+    "stepwise_increase_safe": {
+      "previous_percent": 20,
+      "target_percent": 50,
+      "delta_percent": 30,
+      "status": "PASS"
+    },
+    "dual_run_compare_hourly_enabled": {
+      "configured": true,
+      "status": "PASS"
+    },
+    "read_path_remains_legacy": {
+      "read_from_oss_serving": false,
+      "status": "PASS"
+    }
+  },
+  "rollout": {
+    "requested_percent": 50,
+    "previous_percent": 20,
+    "applied": false,
+    "effective_percent": 20,
+    "status": "BLOCKED",
+    "blockers": [
+      "gate2_pass_required"
+    ]
+  },
+  "summary": {
+    "status": "BLOCKED",
+    "ready_for_day16_observation": false,
+    "decision": "Scale-up blocked until Gate 2 and config checks pass"
+  },
+  "inputs": {
+    "day14_gate2_report": "documentation/migration/reports/DAY14_GATE2_REPORT.json",
+    "day10_rollout_report": "documentation/migration/reports/DAY10_ROLLOUT_REPORT.json",
+    "day15_env": "infrastructure/docker/migration-day4/.env.day15.scale50.example"
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "run_id": "day14_gate2_20260221T141501Z",
+  "run_ts": "2026-02-21T14:15:01.586537+00:00",
+  "gate": "WEEK2_GATE2",
+  "scope": "Day 14 Gate 2 evaluation for Week 3 scale readiness",
+  "checks": {
+    "canary_20_stable_48h": {
+      "rollout_applied": true,
+      "effective_percent": 20,
+      "required_hours": 48,
+      "observed_hours": 0.78,
+      "remaining_hours": 47.22,
+      "estimated_gate2_at_utc": "2026-02-23T13:28:22.895819+00:00",
+      "status": "FAIL"
+    },
+    "no_sev1_sev2": {
+      "lookback_hours": 48,
+      "sev1_sev2_count": 0,
+      "status": "PASS"
+    },
+    "chaos_integrity_passed": {
+      "day13_status": "PASS",
+      "integrity_passed": true,
+      "status": "PASS"
+    }
+  },
+  "summary": {
+    "status": "NO_GO",
+    "approve_scale_week3": false,
+    "blockers": [
+      "canary_20_stable_48h"
+    ],
+    "decision": "Gate 2 not met; continue stabilization at 20%"
+  },
+  "inputs": {
+    "day10_rollout_report": "documentation/migration/reports/DAY10_ROLLOUT_REPORT.json",
+    "day13_chaos_report": "documentation/migration/reports/DAY13_CHAOS_REPORT.json",
+    "incident_log": "documentation/migration/reports/DAY14_INCIDENT_LOG.json"
+  },
+  "next_actions": [
+    "If NO_GO: keep 20% canary and continue stability observation until 48h requirement is met.",
+    "If PASS: proceed to Week 3 Day 15-16 scale plan."
+  ],
+  "audit": {
+    "gate2_passed_timestamp": null,
+    "status_transition": {
+      "previous": "NO_GO",
+      "current": "NO_GO",
+      "type": "none",
+      "logged": false
+    }
+  }
+}

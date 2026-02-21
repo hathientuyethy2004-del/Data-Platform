@@ -1,0 +1,482 @@
+[
+  {
+    "ts": "2026-02-21T12:35:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T12:36:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T12:37:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T12:38:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T12:39:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T12:40:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T12:41:00+00:00",
+    "p95_latency_ms": 360.0,
+    "p99_latency_ms": 760.0,
+    "error_rate_pct": 0.52,
+    "queue_depth": 185,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T12:42:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T12:43:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T12:44:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T12:45:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T12:46:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T12:47:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T12:48:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T12:49:00+00:00",
+    "p95_latency_ms": 360.0,
+    "p99_latency_ms": 760.0,
+    "error_rate_pct": 0.52,
+    "queue_depth": 185,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T12:50:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T12:51:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T12:52:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T12:53:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T12:54:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T12:55:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T12:56:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T12:57:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T12:58:00+00:00",
+    "p95_latency_ms": 360.0,
+    "p99_latency_ms": 760.0,
+    "error_rate_pct": 0.52,
+    "queue_depth": 185,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T12:59:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T13:00:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T13:01:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T13:02:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T13:03:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T13:04:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T13:05:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T13:06:00+00:00",
+    "p95_latency_ms": 540.0,
+    "p99_latency_ms": 1320.0,
+    "error_rate_pct": 1.4,
+    "queue_depth": 340,
+    "incident_confirmed": true
+  },
+  {
+    "ts": "2026-02-21T13:07:00+00:00",
+    "p95_latency_ms": 540.0,
+    "p99_latency_ms": 1320.0,
+    "error_rate_pct": 1.4,
+    "queue_depth": 340,
+    "incident_confirmed": true
+  },
+  {
+    "ts": "2026-02-21T13:08:00+00:00",
+    "p95_latency_ms": 540.0,
+    "p99_latency_ms": 1320.0,
+    "error_rate_pct": 1.4,
+    "queue_depth": 340,
+    "incident_confirmed": true
+  },
+  {
+    "ts": "2026-02-21T13:09:00+00:00",
+    "p95_latency_ms": 540.0,
+    "p99_latency_ms": 1320.0,
+    "error_rate_pct": 1.4,
+    "queue_depth": 340,
+    "incident_confirmed": true
+  },
+  {
+    "ts": "2026-02-21T13:10:00+00:00",
+    "p95_latency_ms": 540.0,
+    "p99_latency_ms": 1320.0,
+    "error_rate_pct": 1.4,
+    "queue_depth": 340,
+    "incident_confirmed": true
+  },
+  {
+    "ts": "2026-02-21T13:11:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T13:12:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T13:13:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T13:14:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T13:15:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T13:16:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T13:17:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T13:18:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T13:19:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T13:20:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T13:21:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T13:22:00+00:00",
+    "p95_latency_ms": 360.0,
+    "p99_latency_ms": 760.0,
+    "error_rate_pct": 0.52,
+    "queue_depth": 185,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T13:23:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T13:24:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T13:25:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T13:26:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T13:27:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T13:28:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T13:29:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T13:30:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T13:31:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T13:32:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T13:33:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  },
+  {
+    "ts": "2026-02-21T13:34:00+00:00",
+    "p95_latency_ms": 220.0,
+    "p99_latency_ms": 520.0,
+    "error_rate_pct": 0.22,
+    "queue_depth": 110,
+    "incident_confirmed": false
+  }
+]

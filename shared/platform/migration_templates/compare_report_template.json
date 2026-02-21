@@ -1,0 +1,18 @@
+{
+  "run_id": "<run_id>",
+  "run_ts": "<iso_utc_timestamp>",
+  "scope": {
+    "products": ["web-user-analytics", "operational-metrics"],
+    "tables": ["<table_1>", "<table_2>"],
+    "date_range": "<yyyy-mm-dd..yyyy-mm-dd>"
+  },
+  "summary": {
+    "overall_status": "PASS",
+    "critical_issues": 0,
+    "high_issues": 0,
+    "medium_issues": 0,
+    "low_issues": 0
+  },
+  "table_results": [],
+  "issues": []
+}

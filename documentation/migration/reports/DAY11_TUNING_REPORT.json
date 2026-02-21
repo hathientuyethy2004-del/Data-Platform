@@ -1,0 +1,56 @@
+{
+  "run_id": "day11_tuning_20260221T133151Z",
+  "run_ts": "2026-02-21T13:31:51.449280+00:00",
+  "scope": "Day 11 bottleneck analysis + alert threshold tuning",
+  "inputs": {
+    "day10_rollout_report": "documentation/migration/reports/DAY10_ROLLOUT_REPORT.json"
+  },
+  "baseline": {
+    "metrics": {
+      "p95_latency_ms": 220.0,
+      "p99_latency_ms": 500.0,
+      "error_rate_pct": 0.25,
+      "max_queue_depth": 95
+    },
+    "guardrails": {
+      "p95_limit_ms": 500.0,
+      "p99_limit_ms": 1200.0,
+      "error_rate_limit_pct": 1.0,
+      "queue_depth_limit": 300
+    },
+    "utilization_ratio": {
+      "p95": 0.44,
+      "p99": 0.417,
+      "error_rate": 0.25,
+      "queue_depth": 0.317
+    }
+  },
+  "bottleneck_analysis": {
+    "detected_items": [],
+    "actions": {
+      "partitioning": "Increase partitions only if queue depth trend > 70% for sustained window.",
+      "batch_size": "Tune batch size incrementally by +10% with p95/p99 verification.",
+      "retry_policy": "Use exponential backoff and cap retries to prevent retry storms.",
+      "timeouts": "Set client timeout above p99 + safety margin; avoid too-aggressive timeout.",
+      "connection_pool": "Increase pool size when concurrency rises and queue depth persists."
+    }
+  },
+  "alert_tuning": {
+    "policy_version": "day11-v1",
+    "tuned_thresholds": {
+      "latency_p95_warning_ms": 300,
+      "latency_p99_critical_ms": 700,
+      "error_rate_warning_pct": 0.625,
+      "queue_depth_warning": 171,
+      "min_consecutive_breaches": 3,
+      "evaluation_window_minutes": 10,
+      "cooldown_minutes": 15
+    },
+    "goal": "Reduce false positives while preserving safety guardrails"
+  },
+  "summary": {
+    "status": "TUNED",
+    "bottleneck_items_count": 0,
+    "decision": "Day 11 tuning ready for rollout"
+  }
+}

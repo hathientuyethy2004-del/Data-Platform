@@ -1,0 +1,39 @@
+{
+  "run_id": "day30_closure_20260221T153237Z",
+  "run_ts": "2026-02-21T15:32:37.273066+00:00",
+  "scope": "Day 30 guarded closure: technical sign-off + lessons learned + optimization phase kickoff",
+  "checks": {
+    "day29_decommission_required": {
+      "day29_status": "BLOCKED",
+      "status": "FAIL"
+    },
+    "technical_acceptance_signed": {
+      "status": "FAIL"
+    },
+    "lessons_learned_published": {
+      "status": "FAIL"
+    },
+    "optimization_phase_kickoff": {
+      "status": "FAIL"
+    }
+  },
+  "closure": {
+    "applied": false,
+    "status": "BLOCKED",
+    "blockers": [
+      "day29_decommission_required",
+      "technical_acceptance_signed",
+      "lessons_learned_published",
+      "optimization_phase_kickoff"
+    ]
+  },
+  "summary": {
+    "status": "BLOCKED",
+    "migration_closed": false,
+    "decision": "Day 30 closure blocked; complete pending closure items before formal sign-off"
+  },
+  "inputs": {
+    "day29_report": "documentation/migration/reports/DAY29_DECOMMISSION_REPORT.json",
+    "day30_env": "infrastructure/docker/migration-day4/.env.day30.closure.example"
+  }
+}

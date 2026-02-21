@@ -1,0 +1,48 @@
+{
+  "run_id": "day9_readiness_20260221T132109Z",
+  "run_ts": "2026-02-21T13:21:09.827298+00:00",
+  "scope": "Day 9 stability and Day 10 canary increase readiness",
+  "checks": {
+    "day8_canary_setup_ready": {
+      "value": true,
+      "status": "PASS"
+    },
+    "trend_has_minimum_runs": {
+      "required": 6,
+      "actual": 1,
+      "status": "FAIL"
+    },
+    "trend_has_no_fail_runs": {
+      "fail_runs": 0,
+      "status": "PASS"
+    },
+    "trend_pass_rate_threshold": {
+      "required_pct": 99.0,
+      "actual_pct": 100.0,
+      "status": "PASS"
+    },
+    "gate1_week1_passed": {
+      "gate_status": "FAIL",
+      "status": "FAIL",
+      "remaining_hours_to_gate": 22.73,
+      "estimated_pass_at_utc": "2026-02-22T11:57:55.067741+00:00"
+    }
+  },
+  "summary": {
+    "status": "NO_GO",
+    "ready_for_day10_canary_20": false,
+    "blockers": [
+      "trend_has_minimum_runs",
+      "gate1_week1_passed"
+    ]
+  },
+  "inputs": {
+    "day8_status": "documentation/migration/reports/DAY8_CANARY_STATUS.json",
+    "day8_trend": "documentation/migration/reports/DAY8_CANARY_TREND_24H.json",
+    "day7_gate": "documentation/migration/reports/DAY7_GATE1_REPORT.json"
+  },
+  "next_actions": [
+    "If NO_GO: keep canary at 10%, continue hourly trend monitoring, and resolve blockers.",
+    "If GO: prepare Day 10 rollout plan to increase canary to 20% with guardrails."
+  ]
+}

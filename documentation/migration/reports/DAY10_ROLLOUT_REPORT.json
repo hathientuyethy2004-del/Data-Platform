@@ -1,0 +1,68 @@
+{
+  "run_id": "day10_rollout_20260221T132822Z",
+  "run_ts": "2026-02-21T13:28:22.895819+00:00",
+  "scope": "Day 10 guarded canary increase + load/backpressure test",
+  "checks": {
+    "day9_go_required": {
+      "day9_status": "GO",
+      "status": "PASS"
+    },
+    "target_canary_is_20": {
+      "target_percent": 20,
+      "status": "PASS"
+    },
+    "read_path_remains_legacy": {
+      "read_from_oss_serving": "false",
+      "status": "PASS"
+    },
+    "load_backpressure_test": {
+      "status": "PASS"
+    }
+  },
+  "rollout": {
+    "requested_percent": 20,
+    "previous_percent": 10,
+    "applied": true,
+    "effective_percent": 20,
+    "status": "ROLLED_OUT",
+    "blockers": []
+  },
+  "load_backpressure": {
+    "traffic": {
+      "baseline_rps": 1200,
+      "peak_rps": 1400,
+      "canary_target_percent": 20
+    },
+    "metrics": {
+      "p95_latency_ms": 220,
+      "p99_latency_ms": 500,
+      "error_rate_pct": 0.25,
+      "max_queue_depth": 95
+    },
+    "checks": {
+      "p95_latency_under_500ms": {
+        "status": "PASS"
+      },
+      "p99_latency_under_1200ms": {
+        "status": "PASS"
+      },
+      "error_rate_under_1pct": {
+        "status": "PASS"
+      },
+      "queue_depth_under_300": {
+        "status": "PASS"
+      }
+    },
+    "overall_status": "PASS"
+  },
+  "summary": {
+    "status": "ROLLED_OUT",
+    "ready_for_next_phase": true,
+    "decision": "Canary increased to 20% with guardrails"
+  },
+  "inputs": {
+    "day9_report": "documentation/migration/reports/DAY9_STABILITY_REPORT.json",
+    "day8_status": "documentation/migration/reports/DAY8_CANARY_STATUS.json",
+    "day10_env": "infrastructure/docker/migration-day4/.env.day10.canary20.example"
+  }
+}

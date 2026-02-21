@@ -1,0 +1,7 @@
+# Run Day 15 scale+compare snapshot every hour on minute 20 (UTC)
+# Install: crontab infrastructure/docker/migration-day4/scripts/day15_compare_hourly.cron.example
+
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+20 * * * * cd /workspaces/Data-Platform && bash infrastructure/docker/migration-day4/scripts/run_day15_compare_hourly.sh >> documentation/migration/reports/DAY15_COMPARE_CRON.log 2>&1

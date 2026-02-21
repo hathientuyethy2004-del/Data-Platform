@@ -1,0 +1,7 @@
+# Run Day30 closure snapshot every hour on minute 14 (UTC)
+# Install: crontab infrastructure/docker/migration-day4/scripts/day30_closure_hourly.cron.example
+
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+14 * * * * cd /workspaces/Data-Platform && bash infrastructure/docker/migration-day4/scripts/run_day30_closure_hourly.sh >> documentation/migration/reports/DAY30_CLOSURE_CRON.log 2>&1

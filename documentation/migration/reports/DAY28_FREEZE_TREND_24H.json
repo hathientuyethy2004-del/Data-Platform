@@ -1,0 +1,72 @@
+{
+  "run_id": "day28_trend_20260221T154000Z",
+  "run_ts": "2026-02-21T15:40:00.869073+00:00",
+  "window_hours": 24,
+  "summary": {
+    "total_runs": 3,
+    "freeze_locked_report_finalized_runs": 0,
+    "blocked_runs": 3,
+    "finalized_rate_pct": 0.0,
+    "latest_status": "BLOCKED",
+    "status": "MONITORING",
+    "last_transition_to_freeze_locked_report_finalized_at": null
+  },
+  "latest_snapshot": {
+    "run_id": "day28_freeze_20260221T154000Z",
+    "run_ts": "2026-02-21T15:40:00.735756+00:00",
+    "scope": "Day 28 guarded freeze: 24h freeze observation + post-cutover report closure",
+    "checks": {
+      "day27_validated_required": {
+        "day27_status": "BLOCKED",
+        "status": "FAIL"
+      },
+      "freeze_window_enabled": {
+        "enabled": false,
+        "status": "FAIL"
+      },
+      "freeze_observed_24h": {
+        "observed_hours": 0.0,
+        "required_hours": 24,
+        "status": "FAIL"
+      },
+      "no_critical_changes": {
+        "critical_changes_detected": false,
+        "status": "PASS"
+      },
+      "slo_stable_24h": {
+        "status": "FAIL"
+      },
+      "no_sev1_sev2_24h": {
+        "status": "FAIL"
+      },
+      "post_cutover_report_ready": {
+        "status": "FAIL"
+      }
+    },
+    "freeze": {
+      "applied": false,
+      "status": "BLOCKED",
+      "blockers": [
+        "day27_validated_required",
+        "freeze_window_enabled",
+        "freeze_observed_24h",
+        "slo_stable_24h",
+        "no_sev1_sev2_24h",
+        "post_cutover_report_ready"
+      ]
+    },
+    "summary": {
+      "status": "BLOCKED",
+      "ready_for_day29": false,
+      "decision": "Day 28 freeze blocked; keep freeze and resolve stability/report gaps"
+    },
+    "inputs": {
+      "day27_report": "documentation/migration/reports/DAY27_VALIDATION_REPORT.json",
+      "day28_env": "infrastructure/docker/migration-day4/.env.day28.freeze.example"
+    }
+  },
+  "notes": [
+    "Tracks Day 28 freeze progression in last 24h.",
+    "last_transition_to_freeze_locked_report_finalized_at shows first timestamp of latest BLOCKED -> FREEZE_LOCKED_REPORT_FINALIZED transition."
+  ]
+}

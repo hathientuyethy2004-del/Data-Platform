@@ -1,0 +1,7 @@
+# Run Day22-24 cutover snapshot every hour on minute 55 (UTC)
+# Install: crontab infrastructure/docker/migration-day4/scripts/day22_24_cutover_hourly.cron.example
+
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+55 * * * * cd /workspaces/Data-Platform && bash infrastructure/docker/migration-day4/scripts/run_day22_24_cutover_hourly.sh >> documentation/migration/reports/DAY22_24_CUTOVER_CRON.log 2>&1

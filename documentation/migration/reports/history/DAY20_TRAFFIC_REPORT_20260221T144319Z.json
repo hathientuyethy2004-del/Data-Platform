@@ -1,0 +1,74 @@
+{
+  "run_id": "day20_traffic_20260221T144319Z",
+  "run_ts": "2026-02-21T14:43:19.277376+00:00",
+  "scope": "Day 20 guarded total traffic increase to 80%",
+  "checks": {
+    "day19_read_switch_50_required": {
+      "day19_status": "BLOCKED",
+      "status": "FAIL"
+    },
+    "day15_write_scale_50_required": {
+      "day15_effective_percent": 20,
+      "status": "FAIL"
+    },
+    "target_total_traffic_is_80": {
+      "target_percent": 80,
+      "status": "PASS"
+    },
+    "stepwise_traffic_increase_safe": {
+      "previous_percent": 50,
+      "target_percent": 80,
+      "delta_percent": 30,
+      "status": "PASS"
+    },
+    "permission_audit_passed": {
+      "status": "PASS"
+    },
+    "secret_rotation_checked": {
+      "status": "PASS"
+    },
+    "rate_limiting_audit_passed": {
+      "status": "PASS"
+    }
+  },
+  "traffic": {
+    "requested_total_percent": 80,
+    "previous_total_percent": 50,
+    "applied": false,
+    "effective_total_percent": 50,
+    "status": "BLOCKED",
+    "blockers": [
+      "day19_read_switch_50_required",
+      "day15_write_scale_50_required"
+    ]
+  },
+  "monitoring": {
+    "metrics": {
+      "p95_latency_ms": 460,
+      "p99_latency_ms": 1080,
+      "error_rate_pct": 0.86
+    },
+    "checks": {
+      "p95_latency_under_500ms": {
+        "status": "PASS"
+      },
+      "p99_latency_under_1200ms": {
+        "status": "PASS"
+      },
+      "error_rate_under_1pct": {
+        "status": "PASS"
+      }
+    },
+    "overall_status": "PASS"
+  },
+  "summary": {
+    "status": "BLOCKED",
+    "ready_for_day21": false,
+    "decision": "Traffic increase remains blocked until Day 19 and audit prerequisites pass"
+  },
+  "inputs": {
+    "day19_report": "documentation/migration/reports/DAY19_READ_SWITCH_REPORT.json",
+    "day15_scale_report": "documentation/migration/reports/DAY15_SCALE_REPORT.json",
+    "day20_env": "infrastructure/docker/migration-day4/.env.day20.traffic80.example"
+  }
+}

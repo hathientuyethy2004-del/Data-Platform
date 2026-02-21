@@ -1,0 +1,101 @@
+{
+  "panel_id": "migration_cron_health_quick_panel",
+  "title": "Migration Cron Health",
+  "description": "Key mapping for BI dashboard to read migration cron health status JSON.",
+  "source": {
+    "file": "documentation/migration/reports/MIGRATION_CRON_HEALTH_STATUS.json",
+    "format": "json",
+    "refresh_hint_seconds": 1800
+  },
+  "flat_row_source": {
+    "file": "documentation/migration/reports/MIGRATION_CRON_HEALTH_PANEL_ROW.json",
+    "format": "json_single_row",
+    "description": "Pre-flattened row for BI tools that do not support JSONPath mapping."
+  },
+  "summary_mapping": {
+    "last_run_utc": "$.run_ts",
+    "overall_status": "$.status",
+    "window_minutes": "$.window_minutes"
+  },
+  "check_mapping": {
+    "day14_status": "$.checks.day14_gate2_hourly.status",
+    "day14_age_seconds": "$.checks.day14_gate2_hourly.age_seconds",
+    "day14_log_exists": "$.checks.day14_gate2_hourly.exists",
+    "day15_status": "$.checks.day15_compare_hourly.status",
+    "day15_age_seconds": "$.checks.day15_compare_hourly.age_seconds",
+    "day15_log_exists": "$.checks.day15_compare_hourly.exists",
+    "day27_status": "$.checks.day27_validation_hourly.status",
+    "day27_age_seconds": "$.checks.day27_validation_hourly.age_seconds",
+    "day27_log_exists": "$.checks.day27_validation_hourly.exists",
+    "day28_status": "$.checks.day28_freeze_hourly.status",
+    "day28_age_seconds": "$.checks.day28_freeze_hourly.age_seconds",
+    "day28_log_exists": "$.checks.day28_freeze_hourly.exists",
+    "day29_status": "$.checks.day29_decommission_hourly.status",
+    "day29_age_seconds": "$.checks.day29_decommission_hourly.age_seconds",
+    "day29_log_exists": "$.checks.day29_decommission_hourly.exists",
+    "day30_status": "$.checks.day30_closure_hourly.status",
+    "day30_age_seconds": "$.checks.day30_closure_hourly.age_seconds",
+    "day30_log_exists": "$.checks.day30_closure_hourly.exists"
+  },
+  "visual_rules": {
+    "overall_status": {
+      "PASS": "green",
+      "FAIL": "red"
+    },
+    "check_status": {
+      "PASS": "green",
+      "FAIL": "red"
+    }
+  },
+  "suggested_widgets": [
+    {
+      "name": "Overall Status",
+      "type": "single_value",
+      "field": "overall_status"
+    },
+    {
+      "name": "Last Run UTC",
+      "type": "single_value",
+      "field": "last_run_utc"
+    },
+    {
+      "name": "Day14 Cron Age (s)",
+      "type": "single_value",
+      "field": "day14_age_seconds"
+    },
+    {
+      "name": "Day15 Cron Age (s)",
+      "type": "single_value",
+      "field": "day15_age_seconds"
+    },
+    {
+      "name": "Day30 Cron Age (s)",
+      "type": "single_value",
+      "field": "day30_age_seconds"
+    },
+    {
+      "name": "Check Status Table",
+      "type": "table",
+      "fields": [
+        "day14_status",
+        "day14_age_seconds",
+        "day14_log_exists",
+        "day15_status",
+        "day15_age_seconds",
+        "day15_log_exists",
+        "day27_status",
+        "day27_age_seconds",
+        "day27_log_exists",
+        "day28_status",
+        "day28_age_seconds",
+        "day28_log_exists",
+        "day29_status",
+        "day29_age_seconds",
+        "day29_log_exists",
+        "day30_status",
+        "day30_age_seconds",
+        "day30_log_exists"
+      ]
+    }
+  ]
+}

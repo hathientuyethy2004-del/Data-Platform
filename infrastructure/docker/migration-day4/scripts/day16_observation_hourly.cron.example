@@ -1,0 +1,7 @@
+# Run Day 16 observation snapshot every hour on minute 25 (UTC)
+# Install: crontab infrastructure/docker/migration-day4/scripts/day16_observation_hourly.cron.example
+
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+25 * * * * cd /workspaces/Data-Platform && bash infrastructure/docker/migration-day4/scripts/run_day16_observation_hourly.sh >> documentation/migration/reports/DAY16_OBSERVATION_CRON.log 2>&1

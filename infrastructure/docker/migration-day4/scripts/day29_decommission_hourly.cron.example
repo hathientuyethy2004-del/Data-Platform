@@ -1,0 +1,7 @@
+# Run Day29 decommission snapshot every hour on minute 13 (UTC)
+# Install: crontab infrastructure/docker/migration-day4/scripts/day29_decommission_hourly.cron.example
+
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+13 * * * * cd /workspaces/Data-Platform && bash infrastructure/docker/migration-day4/scripts/run_day29_decommission_hourly.sh >> documentation/migration/reports/DAY29_DECOMMISSION_CRON.log 2>&1

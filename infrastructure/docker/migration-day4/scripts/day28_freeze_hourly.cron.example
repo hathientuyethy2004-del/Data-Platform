@@ -1,0 +1,7 @@
+# Run Day28 freeze snapshot every hour on minute 12 (UTC)
+# Install: crontab infrastructure/docker/migration-day4/scripts/day28_freeze_hourly.cron.example
+
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+12 * * * * cd /workspaces/Data-Platform && bash infrastructure/docker/migration-day4/scripts/run_day28_freeze_hourly.sh >> documentation/migration/reports/DAY28_FREEZE_CRON.log 2>&1

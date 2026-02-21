@@ -1,0 +1,83 @@
+{
+  "run_id": "day19_trend_20260221T154001Z",
+  "run_ts": "2026-02-21T15:40:01.899085+00:00",
+  "window_hours": 24,
+  "summary": {
+    "total_runs": 3,
+    "read_switched_50_runs": 0,
+    "blocked_runs": 3,
+    "read_switched_rate_pct": 0.0,
+    "latest_status": "BLOCKED",
+    "status": "MONITORING",
+    "last_transition_to_read_switched_50_at": null
+  },
+  "latest_snapshot": {
+    "run_id": "day19_read_switch_20260221T154001Z",
+    "run_ts": "2026-02-21T15:40:01.745233+00:00",
+    "scope": "Day 19 guarded read switch increase to 50%",
+    "checks": {
+      "day18_read_switch_30_required": {
+        "day18_status": "BLOCKED",
+        "status": "FAIL"
+      },
+      "day15_write_scale_50_required": {
+        "day15_effective_percent": 20,
+        "status": "FAIL"
+      },
+      "target_read_switch_is_50": {
+        "target_percent": 50,
+        "status": "PASS"
+      },
+      "stepwise_read_increase_safe": {
+        "previous_percent": 30,
+        "target_percent": 50,
+        "delta_percent": 20,
+        "status": "PASS"
+      }
+    },
+    "read_switch": {
+      "requested_percent": 50,
+      "previous_percent": 30,
+      "applied": false,
+      "effective_percent": 30,
+      "status": "BLOCKED",
+      "blockers": [
+        "day18_read_switch_30_required",
+        "day15_write_scale_50_required"
+      ]
+    },
+    "monitoring": {
+      "metrics": {
+        "p95_latency_ms": 430,
+        "p99_latency_ms": 1060,
+        "error_rate_pct": 0.75
+      },
+      "checks": {
+        "p95_latency_under_500ms": {
+          "status": "PASS"
+        },
+        "p99_latency_under_1200ms": {
+          "status": "PASS"
+        },
+        "error_rate_under_1pct": {
+          "status": "PASS"
+        }
+      },
+      "overall_status": "PASS"
+    },
+    "summary": {
+      "status": "BLOCKED",
+      "ready_for_day20": false,
+      "decision": "Read switch increase remains blocked until Day 18 and write-scale prerequisites pass"
+    },
+    "inputs": {
+      "day18_report": "documentation/migration/reports/DAY18_READ_SWITCH_REPORT.json",
+      "day15_scale_report": "documentation/migration/reports/DAY15_SCALE_REPORT.json",
+      "day19_env": "infrastructure/docker/migration-day4/.env.day19.read50.example"
+    }
+  },
+  "notes": [
+    "Tracks Day 19 read-switch progression in last 24h.",
+    "last_transition_to_read_switched_50_at shows first timestamp of latest BLOCKED -> READ_SWITCHED_50 transition."
+  ]
+}

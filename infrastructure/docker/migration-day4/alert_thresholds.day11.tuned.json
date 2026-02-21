@@ -1,0 +1,9 @@
+{
+  "latency_p95_warning_ms": 300,
+  "latency_p99_critical_ms": 700,
+  "error_rate_warning_pct": 0.625,
+  "queue_depth_warning": 171,
+  "min_consecutive_breaches": 3,
+  "evaluation_window_minutes": 10,
+  "cooldown_minutes": 15
+}

@@ -1,0 +1,7 @@
+# Run Day 17 read-switch snapshot every hour on minute 30 (UTC)
+# Install: crontab infrastructure/docker/migration-day4/scripts/day17_read_switch_hourly.cron.example
+
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+30 * * * * cd /workspaces/Data-Platform && bash infrastructure/docker/migration-day4/scripts/run_day17_read_switch_hourly.sh >> documentation/migration/reports/DAY17_READ_SWITCH_CRON.log 2>&1

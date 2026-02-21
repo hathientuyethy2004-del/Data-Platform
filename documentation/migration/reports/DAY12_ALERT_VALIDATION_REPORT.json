@@ -1,0 +1,84 @@
+{
+  "run_id": "day12_validation_20260221T133448Z",
+  "run_ts": "2026-02-21T13:34:48.954550+00:00",
+  "scope": "Day 12 post-tuning false-positive validation",
+  "inputs": {
+    "day11_report": "documentation/migration/reports/DAY11_TUNING_REPORT.json",
+    "tuned_thresholds": "infrastructure/docker/migration-day4/alert_thresholds.day11.tuned.json"
+  },
+  "sample": {
+    "observation_count": 60,
+    "incident_points": 5
+  },
+  "comparison": {
+    "before_policy": {
+      "policy": {
+        "latency_p95_warning_ms": 500.0,
+        "latency_p99_critical_ms": 1200.0,
+        "error_rate_warning_pct": 1.0,
+        "queue_depth_warning": 300
+      },
+      "evaluation": {
+        "total_alerts": 5,
+        "false_positive_alerts": 0,
+        "true_positive_alerts": 5,
+        "false_negative_incident_windows": 0,
+        "false_positive_rate_pct": 0.0,
+        "alerts": [
+          {
+            "ts": "2026-02-21T13:06:00+00:00",
+            "incident_confirmed": true
+          },
+          {
+            "ts": "2026-02-21T13:07:00+00:00",
+            "incident_confirmed": true
+          },
+          {
+            "ts": "2026-02-21T13:08:00+00:00",
+            "incident_confirmed": true
+          },
+          {
+            "ts": "2026-02-21T13:09:00+00:00",
+            "incident_confirmed": true
+          },
+          {
+            "ts": "2026-02-21T13:10:00+00:00",
+            "incident_confirmed": true
+          }
+        ]
+      }
+    },
+    "after_policy": {
+      "policy": {
+        "latency_p95_warning_ms": 300,
+        "latency_p99_critical_ms": 700,
+        "error_rate_warning_pct": 0.625,
+        "queue_depth_warning": 171,
+        "min_consecutive_breaches": 3,
+        "evaluation_window_minutes": 10,
+        "cooldown_minutes": 15
+      },
+      "evaluation": {
+        "total_alerts": 1,
+        "false_positive_alerts": 0,
+        "true_positive_alerts": 1,
+        "false_negative_incident_windows": 0,
+        "false_positive_rate_pct": 0.0,
+        "alerts": [
+          {
+            "ts": "2026-02-21T13:08:00+00:00",
+            "incident_confirmed": true
+          }
+        ]
+      }
+    },
+    "false_positive_rate_reduction_pct_points": 0.0,
+    "alert_volume_reduction_count": 4,
+    "alert_volume_reduction_pct": 80.0
+  },
+  "summary": {
+    "status": "VALIDATED",
+    "false_positive_improved": false,
+    "decision": "Alert tuning validated for Day 12 handoff"
+  }
+}

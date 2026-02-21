@@ -1,0 +1,16 @@
+{
+  "day": 6,
+  "date": "2026-02-21",
+  "suite": "shared/tests/test_migration_compare_utils.py",
+  "command": "PYTHONPATH=. pytest -q shared/tests/test_migration_compare_utils.py",
+  "result": {
+    "status": "PASS",
+    "tests_passed": 4,
+    "tests_failed": 0,
+    "duration_seconds": 0.01
+  },
+  "notes": [
+    "Validated mismatch normalization regression coverage for schema, timezone, rounding, and null semantics.",
+    "Day 6 acceptance criteria test evidence captured."
+  ]
+}

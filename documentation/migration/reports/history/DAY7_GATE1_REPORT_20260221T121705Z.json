@@ -1,0 +1,43 @@
+{
+  "run_id": "day7_gate1_20260221T121705Z",
+  "run_ts": "2026-02-21T12:17:05.824480+00:00",
+  "gate": "WEEK1_GATE1",
+  "summary": {
+    "status": "FAIL",
+    "allow_move_to_week2": false,
+    "reason": "One or more Gate 1 checks failed"
+  },
+  "checks": {
+    "dual_run_staging_stable_24h": {
+      "required_hours": 24,
+      "observed_hours": 0.32,
+      "status": "FAIL",
+      "evidence": {
+        "baseline_run_ts": "2026-02-21T11:57:55.067741+00:00",
+        "smoke_status": "PASS",
+        "baseline_status": "PASS",
+        "day6_regression_status": "PASS"
+      }
+    },
+    "no_critical_mismatch": {
+      "critical_issues": 0,
+      "critical_issue_in_details": false,
+      "status": "PASS"
+    },
+    "prerequisite_smoke_and_regression": {
+      "smoke_status": "PASS",
+      "day6_regression_status": "PASS",
+      "status": "PASS"
+    }
+  },
+  "inputs": {
+    "baseline_report": "documentation/migration/reports/BASELINE_COMPARE_REPORT_DAY5.json",
+    "smoke_report": "documentation/migration/reports/DAY5_SMOKE_RESULT.json",
+    "day6_regression_report": "documentation/migration/reports/DAY6_REGRESSION_RESULT.json"
+  },
+  "next_actions": [
+    "Continue dual-run monitoring until stability window reaches >= 24h if not yet met.",
+    "Keep compare report checks running on schedule (hourly recommended).",
+    "Approve transition to Week 2 only when Gate 1 status is PASS."
+  ]
+}

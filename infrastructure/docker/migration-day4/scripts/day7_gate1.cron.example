@@ -1,0 +1,7 @@
+# Run Day 7 Gate 1 evaluation every hour on minute 5 (UTC)
+# Install: crontab infrastructure/docker/migration-day4/scripts/day7_gate1.cron.example
+
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+5 * * * * cd /workspaces/Data-Platform && bash infrastructure/docker/migration-day4/scripts/run_day7_gate_hourly.sh >> documentation/migration/reports/DAY7_GATE1_CRON.log 2>&1

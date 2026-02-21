@@ -1,0 +1,29 @@
+{
+  "run_id": "day5_smoke_20260221T115755Z",
+  "run_ts": "2026-02-21T11:57:55.067741+00:00",
+  "flags": {
+    "use_oss_ingestion": false,
+    "use_oss_quality": false,
+    "use_oss_serving": false,
+    "read_from_oss_serving": false,
+    "dual_run_enabled": true,
+    "dual_run_compare_enabled": true
+  },
+  "checks": {
+    "dual_run_enabled": true,
+    "read_from_oss_serving_is_false": true,
+    "quality_is_valid": true,
+    "query_executed": true
+  },
+  "quality": {
+    "is_valid": true,
+    "score": 99.0,
+    "errors": []
+  },
+  "query": {
+    "columns": [],
+    "rows": [],
+    "took_ms": 0.0
+  },
+  "overall_status": "PASS"
+}

@@ -1,0 +1,7 @@
+# Run Day 8 canary setup + trend aggregation every hour on minute 10 (UTC)
+# Install: crontab infrastructure/docker/migration-day4/scripts/day8_canary_hourly.cron.example
+
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+10 * * * * cd /workspaces/Data-Platform && bash infrastructure/docker/migration-day4/scripts/run_day8_canary_hourly.sh >> documentation/migration/reports/DAY8_CANARY_CRON.log 2>&1

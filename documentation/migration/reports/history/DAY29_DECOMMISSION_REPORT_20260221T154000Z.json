@@ -1,0 +1,59 @@
+{
+  "run_id": "day29_decommission_20260221T154000Z",
+  "run_ts": "2026-02-21T15:40:00.950234+00:00",
+  "scope": "Day 29 guarded decommission: remove legacy runtime + finalize backup/runbook/rollback snapshot",
+  "checks": {
+    "day28_freeze_required": {
+      "day28_status": "BLOCKED",
+      "status": "FAIL"
+    },
+    "legacy_cron_removed": {
+      "status": "FAIL"
+    },
+    "legacy_jobs_disabled": {
+      "status": "FAIL"
+    },
+    "legacy_routes_disabled": {
+      "status": "FAIL"
+    },
+    "legacy_configs_archived": {
+      "status": "FAIL"
+    },
+    "backup_config_done": {
+      "status": "FAIL"
+    },
+    "runbook_finalized": {
+      "status": "FAIL"
+    },
+    "rollback_snapshot_created": {
+      "status": "FAIL"
+    },
+    "decommission_dry_run_pass": {
+      "status": "FAIL"
+    }
+  },
+  "decommission": {
+    "applied": false,
+    "status": "BLOCKED",
+    "blockers": [
+      "day28_freeze_required",
+      "legacy_cron_removed",
+      "legacy_jobs_disabled",
+      "legacy_routes_disabled",
+      "legacy_configs_archived",
+      "backup_config_done",
+      "runbook_finalized",
+      "rollback_snapshot_created",
+      "decommission_dry_run_pass"
+    ]
+  },
+  "summary": {
+    "status": "BLOCKED",
+    "ready_for_day30": false,
+    "decision": "Day 29 decommission blocked; keep legacy fallback controls until all checks pass"
+  },
+  "inputs": {
+    "day28_report": "documentation/migration/reports/DAY28_FREEZE_REPORT.json",
+    "day29_env": "infrastructure/docker/migration-day4/.env.day29.decommission.example"
+  }
+}

@@ -1,0 +1,7 @@
+# Run Day 21 Gate 3 snapshot every hour on minute 50 (UTC)
+# Install: crontab infrastructure/docker/migration-day4/scripts/day21_gate3_hourly.cron.example
+
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+50 * * * * cd /workspaces/Data-Platform && bash infrastructure/docker/migration-day4/scripts/run_day21_gate3_hourly.sh >> documentation/migration/reports/DAY21_GATE3_CRON.log 2>&1

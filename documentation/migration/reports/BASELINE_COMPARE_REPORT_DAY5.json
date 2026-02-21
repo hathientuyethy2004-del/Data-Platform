@@ -1,0 +1,54 @@
+{
+  "run_id": "day5_smoke_20260221T115755Z",
+  "run_ts": "2026-02-21T11:57:55.067741+00:00",
+  "scope": {
+    "products": [
+      "web-user-analytics",
+      "operational-metrics"
+    ],
+    "tables": [
+      "web_analytics_bronze",
+      "web_analytics_silver",
+      "web_analytics_gold_daily",
+      "operational_metrics_kpi_daily"
+    ],
+    "date_range": "2026-02-21"
+  },
+  "summary": {
+    "overall_status": "PASS",
+    "critical_issues": 0,
+    "high_issues": 0,
+    "medium_issues": 0,
+    "low_issues": 0
+  },
+  "table_results": [
+    {
+      "table": "web_analytics_silver",
+      "status": "PASS",
+      "checks": {
+        "schema": {
+          "status": "PASS"
+        },
+        "row_count": {
+          "legacy": 1,
+          "oss": 1,
+          "diff_pct": 0.0,
+          "status": "PASS"
+        },
+        "pk_mismatch": {
+          "mismatch_pct": 0.0,
+          "status": "PASS"
+        },
+        "null_diff": {
+          "diff_pct": 0.0,
+          "status": "PASS"
+        },
+        "duplicate_diff": {
+          "diff_pct": 0.0,
+          "status": "PASS"
+        }
+      }
+    }
+  ],
+  "issues": []
+}

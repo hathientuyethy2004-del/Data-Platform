@@ -1,0 +1,59 @@
+{
+  "run_id": "day17_read_switch_20260221T143001Z",
+  "run_ts": "2026-02-21T14:30:01.128307+00:00",
+  "scope": "Day 17 guarded read switch 10% to OSS",
+  "checks": {
+    "day16_ready_required": {
+      "day16_status": "HOLD",
+      "status": "FAIL"
+    },
+    "day15_write_scale_50_required": {
+      "day15_effective_percent": 20,
+      "status": "FAIL"
+    },
+    "target_read_switch_is_10": {
+      "target_percent": 10,
+      "status": "PASS"
+    }
+  },
+  "read_switch": {
+    "requested_percent": 10,
+    "previous_percent": 0,
+    "applied": false,
+    "effective_percent": 0,
+    "status": "BLOCKED",
+    "blockers": [
+      "day16_ready_required",
+      "day15_write_scale_50_required"
+    ]
+  },
+  "monitoring": {
+    "metrics": {
+      "p95_latency_ms": 270,
+      "p99_latency_ms": 690,
+      "error_rate_pct": 0.3
+    },
+    "checks": {
+      "p95_latency_under_500ms": {
+        "status": "PASS"
+      },
+      "p99_latency_under_1200ms": {
+        "status": "PASS"
+      },
+      "error_rate_under_1pct": {
+        "status": "PASS"
+      }
+    },
+    "overall_status": "PASS"
+  },
+  "summary": {
+    "status": "BLOCKED",
+    "ready_for_day18": false,
+    "decision": "Read switch remains blocked until Day 16 readiness and write-scale prerequisites pass"
+  },
+  "inputs": {
+    "day16_report": "documentation/migration/reports/DAY16_OBSERVATION_REPORT.json",
+    "day15_scale_report": "documentation/migration/reports/DAY15_SCALE_REPORT.json",
+    "day17_env": "infrastructure/docker/migration-day4/.env.day17.read10.example"
+  }
+}

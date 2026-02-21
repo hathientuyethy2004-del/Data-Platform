@@ -1,0 +1,44 @@
+{
+  "run_id": "day13_chaos_20260221T133650Z",
+  "run_ts": "2026-02-21T13:36:50.913102+00:00",
+  "scope": "Day 13 chaos validation for retry/idempotency/recovery/data integrity",
+  "scenarios": [
+    {
+      "name": "service_restart",
+      "restart_duration_seconds": 18,
+      "service_recovered": true,
+      "recovery_time_seconds": 42,
+      "status": "PASS"
+    },
+    {
+      "name": "network_blip",
+      "disconnect_seconds": 9,
+      "retry_attempts": 3,
+      "recovered_via_retry": true,
+      "dropped_events": 0,
+      "status": "PASS"
+    },
+    {
+      "name": "idempotency",
+      "injected_duplicates": 3,
+      "duplicates_filtered": 3,
+      "idempotent_ok": true,
+      "status": "PASS"
+    }
+  ],
+  "integrity": {
+    "name": "data_integrity",
+    "expected_records": 1200,
+    "written_records": 1200,
+    "missing_records": 0,
+    "checksum_match": true,
+    "status": "PASS"
+  },
+  "summary": {
+    "status": "PASS",
+    "scenarios_passed": 3,
+    "scenarios_total": 3,
+    "integrity_passed": true,
+    "decision": "Day 13 chaos checks passed; ready for Gate 2 stability tracking"
+  }
+}

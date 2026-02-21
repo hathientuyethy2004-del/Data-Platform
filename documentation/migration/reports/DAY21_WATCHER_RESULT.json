@@ -1,0 +1,11 @@
+{
+  "run_id": "day21_watcher_20260221T155001Z",
+  "run_ts": "2026-02-21T15:50:01.234236+00:00",
+  "statuses": {
+    "traffic_80_stable_72h": false,
+    "compare_pass_rate_99_5": true,
+    "approve_full_cutover_week4": false
+  },
+  "checklist_updated": false,
+  "message": "No checklist changes needed"
+}
