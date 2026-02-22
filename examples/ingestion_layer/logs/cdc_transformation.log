@@ -1,2 +1,0 @@
-nohup: ignoring input
-python: can't open file '/workspaces/Data-Platform/ingestion_layer/jobs/streaming/cdc_transformation.py': [Errno 2] No such file or directory
