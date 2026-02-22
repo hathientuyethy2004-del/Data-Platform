@@ -71,6 +71,8 @@ class PlatformOrchestrator:
         products = self.discover_products()
 
         product_status = []
+        complete_count = 0
+        incomplete_products: List[str] = []
         for product in products:
             architecture_complete = (
                 product.has_src
@@ -91,8 +93,8 @@ class PlatformOrchestrator:
                 }
             )
 
-            complete_count = sum(1 for item in product_status if item["architecture_complete"])
-            incomplete_products = [item["name"] for item in product_status if not item["architecture_complete"]]
+        complete_count = sum(1 for item in product_status if item["architecture_complete"])
+        incomplete_products = [item["name"] for item in product_status if not item["architecture_complete"]]
 
         shared_platform = self.workspace_root / "shared" / "platform"
         shared_tests = self.workspace_root / "shared" / "tests"
@@ -153,6 +155,12 @@ class PlatformOrchestrator:
                 "status": "failed",
                 "reason": f"Timed out after {timeout_seconds}s",
             }
+        except FileNotFoundError as error:
+            return {
+                "product": product_name,
+                "status": "failed",
+                "reason": f"Command not available: {error}",
+            }
 
     def run_demo_if_available(self, product_name: str, timeout_seconds: int = 300) -> Dict[str, Any]:
         """Run demo script for product when available."""
@@ -191,6 +199,12 @@ class PlatformOrchestrator:
                 "product": product_name,
                 "status": "failed",
                 "reason": f"Timed out after {timeout_seconds}s",
+            }
+        except FileNotFoundError as error:
+            return {
+                "product": product_name,
+                "status": "failed",
+                "reason": f"Command not available: {error}",
             }
 
 

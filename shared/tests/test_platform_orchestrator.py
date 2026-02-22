@@ -47,3 +47,53 @@ def test_run_product_tests_injects_pythonpath_for_src_imports(tmp_path, monkeypa
 
     assert result["status"] == "success"
     assert captured_env.get("PYTHONPATH") == ".:custom_path"
+
+
+def test_architecture_status_handles_empty_products_directory(tmp_path):
+    workspace = tmp_path / "workspace"
+    (workspace / "products").mkdir(parents=True)
+
+    orchestrator = PlatformOrchestrator(workspace_root=workspace)
+    status = orchestrator.architecture_status()
+
+    assert status["products_total"] == 0
+    assert status["products_complete"] == 0
+    assert status["products_incomplete"] == 0
+    assert status["incomplete_products"] == []
+
+
+def test_run_product_tests_handles_missing_pytest_binary(tmp_path, monkeypatch):
+    workspace = tmp_path / "workspace"
+    product_tests = workspace / "products" / "demo-product" / "src" / "tests"
+    product_tests.mkdir(parents=True)
+
+    orchestrator = PlatformOrchestrator(workspace_root=workspace)
+
+    def raise_file_not_found(*_args, **_kwargs):
+        raise FileNotFoundError("pytest")
+
+    monkeypatch.setattr("shared.platform.orchestrator.subprocess.run", raise_file_not_found)
+
+    result = orchestrator.run_product_tests("demo-product")
+
+    assert result["status"] == "failed"
+    assert "Command not available" in result["reason"]
+
+
+def test_run_demo_handles_missing_python_binary(tmp_path, monkeypatch):
+    workspace = tmp_path / "workspace"
+    product_dir = workspace / "products" / "demo-product"
+    product_dir.mkdir(parents=True)
+    (product_dir / "demo_run.py").write_text("print('demo')\n")
+
+    orchestrator = PlatformOrchestrator(workspace_root=workspace)
+
+    def raise_file_not_found(*_args, **_kwargs):
+        raise FileNotFoundError("python")
+
+    monkeypatch.setattr("shared.platform.orchestrator.subprocess.run", raise_file_not_found)
+
+    result = orchestrator.run_demo_if_available("demo-product")
+
+    assert result["status"] == "failed"
+    assert "Command not available" in result["reason"]

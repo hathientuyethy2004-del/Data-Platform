@@ -207,6 +207,45 @@ Use one unified command before opening/approving PRs:
 
 This script runs shared tests first, then product tests in the stable repo order used by CI.
 
+### One-command Docker Bootstrap (UI + API + runtime smoke)
+
+Run everything from scratch (build images, start stack, and verify core `/api/v1` endpoints):
+
+```bash
+chmod +x scripts/docker_bootstrap_full.sh
+./scripts/docker_bootstrap_full.sh
+```
+
+Port/profile customization (avoid conflicts with 8000/8080):
+
+```bash
+cp infrastructure/docker/platform/.env.example .env.docker
+source .env.docker
+
+# example custom ports
+export API_PORT=18000
+export FRONTEND_PORT=18080
+
+# dev profile (api-dev + frontend-dev)
+export DOCKER_PROFILE=dev
+./scripts/docker_bootstrap_full.sh
+```
+
+Access after bootstrap:
+
+- Frontend (prod default): `http://localhost:8080`
+- API (prod default): `http://localhost:8000`
+
+Stop stack:
+
+```bash
+chmod +x scripts/docker_teardown.sh
+./scripts/docker_teardown.sh
+
+# optional: remove volumes too (useful for CI cleanup)
+REMOVE_VOLUMES=1 ./scripts/docker_teardown.sh
+```
+
 ### For Developers
 ```bash
 # 1. Check product structure

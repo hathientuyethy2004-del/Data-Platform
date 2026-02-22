@@ -1,13 +1,12 @@
 from __future__ import annotations
 
-from pathlib import Path
 from typing import Any
 
 from ...orchestrator import PlatformOrchestrator
 
 
 def _orchestrator() -> PlatformOrchestrator:
-    return PlatformOrchestrator(workspace_root=Path('/workspaces/Data-Platform'))
+    return PlatformOrchestrator()
 
 
 def get_platform_status() -> dict[str, Any]:
