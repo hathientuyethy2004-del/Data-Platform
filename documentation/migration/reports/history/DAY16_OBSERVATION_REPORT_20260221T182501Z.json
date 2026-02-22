@@ -1,0 +1,39 @@
+{
+  "run_id": "day16_observation_20260221T182501Z",
+  "run_ts": "2026-02-21T18:25:01.222611+00:00",
+  "scope": "Day 16 observation readiness for Day 17 controlled read-switch",
+  "checks": {
+    "day15_scaled_to_50": {
+      "day15_status": "BLOCKED",
+      "effective_percent": 20,
+      "status": "FAIL"
+    },
+    "day15_compare_trend_stable": {
+      "trend_status": "PASS",
+      "total_runs": 8,
+      "compare_pass_rate_pct": 100.0,
+      "required_min_runs": 6,
+      "required_min_pass_rate_pct": 99.0,
+      "status": "PASS"
+    },
+    "cron_health_recent": {
+      "overall_status": "PASS",
+      "day14_status": "PASS",
+      "day15_status": "PASS",
+      "status": "PASS"
+    }
+  },
+  "summary": {
+    "status": "HOLD",
+    "ready_for_day17_read_switch": false,
+    "blockers": [
+      "day15_scaled_to_50"
+    ],
+    "decision": "Continue stabilization and observation before Day 17"
+  },
+  "inputs": {
+    "day15_scale_report": "documentation/migration/reports/DAY15_SCALE_REPORT.json",
+    "day15_compare_trend": "documentation/migration/reports/DAY15_COMPARE_TREND_24H.json",
+    "cron_health_report": "documentation/migration/reports/MIGRATION_CRON_HEALTH_STATUS.json"
+  }
+}

@@ -1,5 +1,7 @@
 # 🏢 Data Platform - Product-Oriented Architecture V2
 
+[![Data Platform CI](https://github.com/hathientuyethy2004-del/Data-Platform/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/hathientuyethy2004-del/Data-Platform/actions/workflows/ci.yml)
+
 **Status**: 🟢 50% IMPLEMENTATION COMPLETE - 3/5 Products Production-Ready  
 **Date**: February 18, 2026  
 **Completed**: web-analytics (8.5K LOC), ops-metrics (2.9K LOC), compliance-auditing (2.8K LOC)
@@ -182,9 +184,28 @@ Read in this order:
 - Next actions by role
 - **Time to read**: 15 minutes
 
+### 5. **[documentation/UI_SPEC_REACT_FASTAPI.md](documentation/UI_SPEC_REACT_FASTAPI.md)**
+**The "UI + API Contract"** - Detailed frontend/backend spec for operations console
+
+- Screen-by-screen UI specification
+- Component contract and UX states
+- FastAPI endpoint matrix + envelope/error model
+- React frontend structure and TypeScript contracts
+- **Time to read**: 25-35 minutes
+
 ---
 
 ## 🚀 Quick Start (5 Minutes)
+
+### Pre-merge Test Gate (Team Standard)
+
+Use one unified command before opening/approving PRs:
+
+```bash
+./pre_merge_tests.sh
+```
+
+This script runs shared tests first, then product tests in the stable repo order used by CI.
 
 ### For Developers
 ```bash

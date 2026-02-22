@@ -1,19 +1,19 @@
 {
-  "run_id": "day25_26_trend_20260221T160501Z",
-  "run_ts": "2026-02-21T16:05:01.607588+00:00",
+  "run_id": "day25_26_trend_20260221T180501Z",
+  "run_ts": "2026-02-21T18:05:01.897624+00:00",
   "window_hours": 24,
   "summary": {
-    "total_runs": 3,
+    "total_runs": 5,
     "read_path_100_legacy_draining_runs": 0,
-    "blocked_runs": 3,
+    "blocked_runs": 5,
     "read_cutover_applied_rate_pct": 0.0,
     "latest_status": "BLOCKED",
     "status": "MONITORING",
     "last_transition_to_read_path_100_legacy_draining_at": null
   },
   "latest_snapshot": {
-    "run_id": "day25_26_read_cutover_20260221T160501Z",
-    "run_ts": "2026-02-21T16:05:01.465029+00:00",
+    "run_id": "day25_26_read_cutover_20260221T180501Z",
+    "run_ts": "2026-02-21T18:05:01.779231+00:00",
     "scope": "Day 25-26 guarded read-path cutover 100% + phased legacy decommission",
     "checks": {
       "day22_24_cutover_required": {

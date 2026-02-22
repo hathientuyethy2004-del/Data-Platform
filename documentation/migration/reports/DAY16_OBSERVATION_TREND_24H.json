@@ -1,18 +1,18 @@
 {
-  "run_id": "day16_trend_20260221T162502Z",
-  "run_ts": "2026-02-21T16:25:02.049290+00:00",
+  "run_id": "day16_trend_20260221T182501Z",
+  "run_ts": "2026-02-21T18:25:01.283523+00:00",
   "window_hours": 24,
   "summary": {
-    "total_runs": 7,
+    "total_runs": 9,
     "ready_runs": 0,
-    "hold_runs": 7,
+    "hold_runs": 9,
     "ready_rate_pct": 0.0,
     "latest_status": "HOLD",
     "status": "MONITORING"
   },
   "latest_snapshot": {
-    "run_id": "day16_observation_20260221T162501Z",
-    "run_ts": "2026-02-21T16:25:01.953757+00:00",
+    "run_id": "day16_observation_20260221T182501Z",
+    "run_ts": "2026-02-21T18:25:01.222611+00:00",
     "scope": "Day 16 observation readiness for Day 17 controlled read-switch",
     "checks": {
       "day15_scaled_to_50": {
@@ -22,7 +22,7 @@
       },
       "day15_compare_trend_stable": {
         "trend_status": "PASS",
-        "total_runs": 6,
+        "total_runs": 8,
         "compare_pass_rate_pct": 100.0,
         "required_min_runs": 6,
         "required_min_pass_rate_pct": 99.0,

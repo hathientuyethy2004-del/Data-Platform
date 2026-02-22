@@ -22,24 +22,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r examples/requirements.txt pytest pyyaml
 
-      - name: Shared platform tests
+      - name: Pre-merge regression suite
         run: |
-          PYTHONPATH=. pytest -q \
-            shared/tests/test_platform_orchestrator.py \
-            shared/tests/test_platform_api_gateway.py \
-            shared/tests/test_product_config_contract.py
-
-      - name: User segmentation tests
-        run: |
-          cd products/user-segmentation
-          PYTHONPATH=. pytest -q src/tests
-
-      - name: Mobile kickoff tests
-        run: |
-          cd products/mobile-user-analytics
-          PYTHONPATH=. pytest -q src/tests/test_kickoff.py
-
-      - name: Web analytics smoke tests
-        run: |
-          cd products/web-user-analytics
-          PYTHONPATH=. pytest -q src/tests/test_consumer.py
+          chmod +x ./pre_merge_tests.sh
+          ./pre_merge_tests.sh

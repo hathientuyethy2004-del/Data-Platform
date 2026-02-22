@@ -1,0 +1,25 @@
+export const API_BASE = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8000/api/v1'
+
+export const endpoints = {
+  authLogin: `${API_BASE}/auth/login`,
+  authSession: `${API_BASE}/auth/session`,
+  authLogout: `${API_BASE}/auth/logout`,
+  dashboardSummary: `${API_BASE}/dashboard/summary`,
+  products: `${API_BASE}/products`,
+  productDetail: (productId: string) => `${API_BASE}/products/${productId}`,
+  productTestsRun: (productId: string) => `${API_BASE}/products/${productId}/tests/run`,
+  productDemosRun: (productId: string) => `${API_BASE}/products/${productId}/demos/run`,
+  datalakeDatasets: `${API_BASE}/datalake/datasets`,
+  datalakeDatasetDetail: (datasetId: string) => `${API_BASE}/datalake/datasets/${datasetId}`,
+  datalakeDatasetQuality: (datasetId: string) => `${API_BASE}/datalake/datasets/${datasetId}/quality`,
+  governanceAccessLogs: `${API_BASE}/governance/access-logs`,
+  governanceLineage: `${API_BASE}/governance/lineage`,
+  governancePolicies: `${API_BASE}/governance/policies`,
+  governanceIncidents: `${API_BASE}/governance/incidents`,
+  platformStatus: `${API_BASE}/platform/status`,
+  platformServices: `${API_BASE}/platform/services`,
+  platformExecutions: `${API_BASE}/platform/executions`,
+  platformActionRun: (action: string) => `${API_BASE}/platform/actions/${action}`,
+  meProfile: `${API_BASE}/me/profile`,
+  mePreferences: `${API_BASE}/me/preferences`,
+}

@@ -1,0 +1,53 @@
+{
+  "run_id": "day27_validation_20260221T171001Z",
+  "run_ts": "2026-02-21T17:10:01.800604+00:00",
+  "scope": "Day 27 guarded validation: regression + performance + SLO/audit checks",
+  "checks": {
+    "day25_26_read_cutover_required": {
+      "day25_26_status": "BLOCKED",
+      "status": "FAIL"
+    },
+    "full_regression_suite_passed": {
+      "status": "FAIL"
+    },
+    "performance_suite_passed": {
+      "status": "FAIL"
+    },
+    "performance_guardrails": {
+      "p95_ms": 0.0,
+      "p99_ms": 0.0,
+      "error_rate_pct": 0.0,
+      "status": "PASS"
+    },
+    "slo_dashboard_passed": {
+      "status": "FAIL"
+    },
+    "alerts_verified": {
+      "status": "FAIL"
+    },
+    "audit_logs_verified": {
+      "status": "FAIL"
+    }
+  },
+  "validation": {
+    "applied": false,
+    "status": "BLOCKED",
+    "blockers": [
+      "day25_26_read_cutover_required",
+      "full_regression_suite_passed",
+      "performance_suite_passed",
+      "slo_dashboard_passed",
+      "alerts_verified",
+      "audit_logs_verified"
+    ]
+  },
+  "summary": {
+    "status": "BLOCKED",
+    "ready_for_day28": false,
+    "decision": "Day 27 validations blocked; resolve regression/performance/SLO-audit gaps first"
+  },
+  "inputs": {
+    "day25_26_report": "documentation/migration/reports/DAY25_26_READ_CUTOVER_REPORT.json",
+    "day27_env": "infrastructure/docker/migration-day4/.env.day27.validation.example"
+  }
+}
